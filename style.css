@@ -17,11 +17,19 @@ header {
   justify-content: center;
 }
 
+i {
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 header h1 {
   font-size: 1.8rem;
   display: flex;
   align-items: center;
   gap: 10px;
+  justify-content: center;
 }
 
 .container {
