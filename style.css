@@ -42,6 +42,29 @@ header h1 {
   animation: fadeIn 1s ease-out;
 }
 
+.tnea-link {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  cursor: pointer;
+}
+
+.tnea-link:hover {
+  background-color: #2196f3;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
+.tnea-link h1 {
+  margin-left: 1rem;
+}
+
+.grey_con:hover {
+  background-color: #2a2a2a;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
 label {
   font-weight: 600;
   display: flex;
@@ -141,6 +164,16 @@ tbody tr:hover td {
   background-color: #db6918;
   transition: background-color 0.3s;
 }
+
+#cutoff:focus {
+  outline: none;
+  border-color: #2196f3;
+}
+
+input.invalid {
+  border-color: red;
+}
+
 
 /* Animations */
 @keyframes fadeIn {
