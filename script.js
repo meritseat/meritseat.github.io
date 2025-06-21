@@ -164,7 +164,7 @@ window.onload = () => {
     const tneaContainer = document.querySelector(".tnea-link");
     if (tneaContainer) {
       tneaContainer.addEventListener("click", function () {
-        window.location.href = "TNEA.html";
+        window.location.href = "TNEA-College-Nanban";
       });
     }
   });
