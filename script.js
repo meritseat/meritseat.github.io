@@ -3,10 +3,23 @@ let branchMap = {};
 let collegeMap = {};
 let cutoffData = [];
 
+let cutoffMargin = 1.0;
+let avgcutOffMargin = 0.5;
+let sliceLength = 50
 
+
+// Helper to assign color based on possibility level
+function getPossibilityColor(level) {
+  switch (level.toUpperCase()) {
+    case "LOW": return "red";
+    case "MEDIUM": return "goldenrod";
+    case "HIGH": return "green";
+    default: return "black";
+  }
+}
 
 function loadCSVAndPopulateBranches() {
-  Papa.parse("data/2024_tnea_cutoff_data.csv", {
+  Papa.parse("data/cleansed/2024_tnea_cutoff_data.csv", {
     download: true,
     header: true,
     complete: function(results) {
@@ -58,7 +71,7 @@ function loadBranchListFromCSV() {
 }
 
 function loadCollegeListFromCSV() {
-  Papa.parse("data/college_code_list.csv", {
+  Papa.parse("data/college_list_w_district.csv", {
     download: true,
     header: true,
     complete: function(results) {
@@ -66,9 +79,10 @@ function loadCollegeListFromCSV() {
 
       results.data.forEach(row => {
         const colCode = row.collegeCode?.trim();
-        const colName = row.college?.trim();
+        const colName = row.collegeName?.trim();
+        const districtName = row.districtName?.trim();
         if (colCode && colName && !collegeMap[colCode]) {
-          collegeMap[colCode] = colName;
+          collegeMap[colCode]  =  {'colName': colName,'districtName':  districtName};
           const option = document.createElement("option");
           option.value = colCode;
           option.textContent = `[${colCode}] ${colName}`;
@@ -79,11 +93,39 @@ function loadCollegeListFromCSV() {
   });
 }
 
+function loadDistrictListFromCSV() {
+  Papa.parse("data/district_list.csv", {
+    download: true,
+    header: true,
+    complete: function(results) {
+      const districtListDropdown = document.getElementById("city");
+
+      results.data.forEach(row => {
+        const districtNames = row.districtName?.trim();
+          const option = document.createElement("option");
+          option.value = districtNames;
+          option.textContent = districtNames;
+          districtListDropdown.appendChild(option);
+        }
+      ) ;
+    }
+  });
+}
+
 
 function findColleges() {
-  const cutoff = parseFloat(document.getElementById("cutoff").value);
+  const rawCutoffInput = document.getElementById("cutoff").value;
+  const rawCutoff = parseFloat(rawCutoffInput);
+
+  // Check if the entered cutoff is a valid number
+  if (isNaN(rawCutoffInput) || isNaN(rawCutoff)) {
+    alert("Please enter a valid cutoff mark.");
+    return;
+  }
+
+  const cutoff = Math.min(rawCutoff + cutoffMargin, 200) || 0;
   const category = document.getElementById("category").value;
-  // const city = document.getElementById("city").value.toLowerCase();
+  const city = document.getElementById("city").value.toLowerCase();
   const branch = document.getElementById("branch").value;
   const collegeCode = document.getElementById("collegeCode").value;
 
@@ -92,24 +134,33 @@ function findColleges() {
     return;
   }
 
+console.log("cutoffData: ", cutoffData);
+
 const filtered = cutoffData
   .map(row => {
-    const rawValue = ((row[category]?.replace(/\*/g, "0")) ?? "0").trim();
+    const rawValue = row[category]?.trim();
     const mark = parseFloat(rawValue);
     return { ...row, mark }; // attach the mark
   })
   .filter(row => {
-    const matchCutoff = !isNaN(row.mark) && cutoff >= row.mark;
-    // const matchCity = !city || row.College.toLowerCase().includes(city);
+    if (!collegeMap[row.CollegeCode]) {
+      console.warn("Missing college info for code:", row);
+    }
+    //console.log("mappedData: ", row);
+    //const matchCutoff = cutoff >= row.mark;
+    const matchCutoff = isNaN(row.mark) || row.mark === 0 || cutoff >= row.mark;
+    const matchCity = !city || ( collegeMap[row.CollegeCode] && collegeMap[row.CollegeCode].districtName && collegeMap[row.CollegeCode].districtName.toLowerCase() === city);
     const matchBranch = !branch || row.BranchCode === branch;
     const matchCollegeCode = !collegeCode || row.CollegeCode === collegeCode;
-    return matchCutoff && matchBranch && matchCollegeCode ; // && matchCity;
+    return matchCutoff && matchBranch && matchCollegeCode  && matchCity;
   });
+
+  console.log("filtered records : ", filtered);
 
   // Sort by cutoff descending for selected category
   filtered.sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark));
 
-  const results = filtered.slice(0, 20);
+  const results = filtered.slice(0, sliceLength);
   const resultsContainer = document.getElementById("results");
   resultsContainer.innerHTML = "";
 
@@ -126,24 +177,53 @@ const thead = document.createElement("thead");
 thead.innerHTML = `
   <tr>
     <th>College Code</th>
+    <th>City</th>
     <th>College Name</th>
     <th>Branch Code</th>
     <th>Branch Name</th>
     <th>Cutoff</th>
+    <th>Possibility</th>
   </tr>`;
 table.appendChild(thead);
 
 const tbody = document.createElement("tbody");
 
+let possibilityLevel = "LOW"
+
+let displayCutOff = 0
+
 results.forEach(row => {
+  
+
+  if( rawCutoff === 200){
+     possibilityLevel = "HIGH";
+  }
+  else if(row[category] > rawCutoff+avgcutOffMargin){
+      possibilityLevel = "LOW";
+  }
+  else if(rawCutoff+avgcutOffMargin >= row[category]  &&   row[category] > rawCutoff){
+     possibilityLevel = "MEDIUM";
+  }
+  else{
+     possibilityLevel = "HIGH";
+  }
+
+  const possibilityColor = getPossibilityColor(possibilityLevel);
+
+
+  if(isNaN(row[category]) || row[category] == 0.0) { displayCutOff = "Seat Not Filled" } else { displayCutOff = row[category]}
+
+
   const tr = document.createElement("tr");
 
   tr.innerHTML = `
     <td>${row.CollegeCode}</td>
+    <td>${collegeMap[row.CollegeCode]['districtName']}</td>
     <td>${row.College}</td>
     <td>${row.BranchCode}</td>
     <td>${row.Branch}</td>
-    <td>${(row[category]?.replace(/\*/g, "0") || "0") }</td>
+    <td>${displayCutOff}</td>
+    <td><span style="color:${possibilityColor}; font-weight:bold;">${possibilityLevel}</span></td>
   `;
   tbody.appendChild(tr);
 });
@@ -157,6 +237,7 @@ window.onload = () => {
   loadCSVAndPopulateBranches();
   loadBranchListFromCSV();
   loadCollegeListFromCSV();
+  loadDistrictListFromCSV();
   lucide.createIcons();
 
 
