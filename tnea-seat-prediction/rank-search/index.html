@@ -16,33 +16,50 @@
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="icon" href="resources/fevicon.ico" type="image/x-icon">
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
      crossorigin="anonymous"></script>
 </head>
 <body class="dark">
+
+  <nav class="navbar">
+  <div class="nav-left">
+    <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+    <span class="site-title">Merit Seat</span>
+  </div>
+    <!-- Burger toggle button -->
+  <div class="burger" id="burger">&#9776;</div>
+  <div class="nav-links" id = "nav-links">
+    <a href="/">Home</a>
+    <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+    <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+    <a href="/about">About</a>
+  </div>
+  </nav>
+
   <header>
-    <h1><img src="resources/meritseat-logo.png" height="50" width="50"/></i>Merit Seat</h1>
+    <h1><img src="/favicon-180x180.png" height="50" width="50"/></i>TNEA Counselling Seat Predictor</h1>
   </header>
 
   <div class="container">
   <header>
-    <h1>TNEA Colleages - Counselling Seat Predictor</h1>
+    <h1><i data-lucide="list-ordered"></i> Rank - Seat Prediction</h1>
   </header>
   </div>
 
   <div class="container">
-    <label><i data-lucide="percent"></i> Enter Your Cutoff:</label>
+    <label><i data-lucide="list-ordered"></i> Enter Your Rank:</label>
     <input 
   type="number" 
-  id="cutoff" 
-  step="0.25" 
-  min="70" 
-  max="200" 
-  placeholder="e.g. 194.5">
-  <small id="cutoffWarning" style="color: red; display: none;">Please enter a value between 70 and 200.</small>
+  id="rank" 
+  step="1" 
+  min="1" 
+  max="300000" 
+  placeholder="e.g. 6234">
+  <small id="rankWarning" style="color: red; display: none;">Please enter a value between 1 and 300000.</small>
 
 
     <label><i data-lucide="user"></i> Select Category:</label>
@@ -80,14 +97,46 @@
         <option value="">-- Select Branch (optional) --</option>
     </select> 
 
-    <button onclick="findColleges()"><i data-lucide="search"></i> Find Colleges</button>
+    <button onclick="findCollegesByRank()"><i data-lucide="search"></i> Find Colleges</button>
 
     <div id="results"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script src="script.js"></script>
+  <script src="/script.js"></script>
   <script>
     lucide.createIcons();
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+
+      burger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+    });
+
+    
+    document.addEventListener("DOMContentLoaded", function () {
+    const rankInput = document.getElementById("rank");
+    const rankWarningText = document.getElementById("rankWarning");
+
+      rankInput.addEventListener("input", function () {
+        let value = parseFloat(rankInput.value);
+        if (isNaN(value)) {
+          rankInput.style.boxShadow = "";
+          rankWarningText.style.display = "none";
+          return;
+          }
+
+        if (value < 1 || value > 300000) {
+          rankInput.style.boxShadow = "0 0 8px 2px red";
+          rankWarningText.style.display = "inline";
+          } else {
+          rankInput.style.boxShadow = "0 0 6px 2px #2196f3";
+          rankWarningText.style.display = "none";
+          }
+      });
+    });
   </script>
 </body>
 </html>

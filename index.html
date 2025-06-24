@@ -16,17 +16,32 @@
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="icon" href="fevicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="favicon-180x180.png">
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
      crossorigin="anonymous"></script>
 </head>
 
 <body class="dark">
+  <nav class="navbar">
+  <div class="nav-left">
+    <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+    <span class="site-title">Merit Seat</span>
+  </div>
+    <!-- Burger toggle button -->
+  <div class="burger" id="burger">&#9776;</div>
+  <div class="nav-links" id = "nav-links">
+    <a href="/">Home</a>
+    <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+    <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+    <a href="/about">About</a>
+  </div>
+  </nav>
+
   <header>
-    <h1><img src="resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo"/>Merit Seat</h1>
+    <h1><img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo"/>Merit Seat</h1>
   </header>
 
   <div class="container">
@@ -36,30 +51,51 @@
   </div>
 
   
-<div class="container tnea-link" style="cursor: pointer;">
+<div class="container tnea-link cutoff-search" style="cursor: pointer;">
+ <img src="/resources/anna-univ-symbol.png" height="80" width="80" alt="Anna Univ Logo"/>
+ <h2>TNEA - Counselling Predictor</h2>
+ <button><i data-lucide="percent"></i>CutOff Search </button>
+</div>
 
- <img src="resources/anna-univ-symbol.png" height="80" width="80" alt="Anna Univ Logo"/>
- <h1>TNEA - Counselling Predictor</h1>
- 
+<div class="container tnea-link rank-search" style="cursor: pointer;">
+ <img src="/resources/anna-univ-symbol.png" height="80" width="80" alt="Anna Univ Logo"/>
+ <h2>TNEA - Counselling Predictor</h2>
+ <button><i data-lucide="list-ordered"></i>Rank Search </button>
 </div>
 
   <div class="container grey_con">
-      <h1>Predictor for Other Universities comming soon<h1>
-
+      <h2>Predictor for Other Universities coming soon..<h2>
   </div>
 
 
   <script>
     lucide.createIcons();
-     document.addEventListener("DOMContentLoaded", function () {
-    const tneaContainer = document.querySelector(".tnea-link");
-    if (tneaContainer) {
-      tneaContainer.addEventListener("click", function () {
-        window.location.href = "TNEA.html";
+    document.addEventListener("DOMContentLoaded", function () {
+      const tneaContainer = document.querySelector(".tnea-link.cutoff-search");
+      if (tneaContainer) {
+        tneaContainer.addEventListener("click", function () {
+          window.location.href = "/tnea-seat-prediction/cutoff-search";
+        });
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const tneaContainer = document.querySelector(".tnea-link.rank-search");
+      if (tneaContainer) {
+        tneaContainer.addEventListener("click", function () {
+          window.location.href = "/tnea-seat-prediction/rank-search";
+        });
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+
+      burger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
       });
-    }
-  });
-  
+      });
     
   </script>
 </body>

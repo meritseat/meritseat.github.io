@@ -2,9 +2,14 @@
 let branchMap = {};
 let collegeMap = {};
 let cutoffData = [];
+let rankData = [];
 
 let cutoffMargin = 1.0;
 let avgcutOffMargin = 0.5;
+
+let rankMargin = 200;
+let avgRankMargin = 100;
+
 let sliceLength = 50
 
 
@@ -18,38 +23,28 @@ function getPossibilityColor(level) {
   }
 }
 
-function loadCSVAndPopulateBranches() {
-  Papa.parse("data/cleansed/2024_tnea_cutoff_data.csv", {
+function loadCutOffCSV() {
+  Papa.parse("/data/cleansed/2024_tnea_cutoff_data.csv", {
     download: true,
     header: true,
     complete: function(results) {
       cutoffData = results.data;
+    }
+  });
+}
 
-      /* const branchSet = new Set();
-      results.data.forEach(row => {
-        const BranchCode = row.BranchCode?.trim();
-        const name = row.Branch?.trim();
-        if (BranchCode && name && !branchMap[BranchCode]) {
-          branchMap[BranchCode] = name;
-          branchSet.add(BranchCode);
-        }
-      });
-
-      // Populate dropdown
-      const branchDropdown = document.getElementById("branch");
-      const sortedCodes = [...branchSet].sort();
-      sortedCodes.forEach(BranchCode => {
-        const option = document.createElement("option");
-        option.value = BranchCode;
-        option.textContent = `[${BranchCode}] ${branchMap[BranchCode]}`;
-        branchDropdown.appendChild(option);
-      } ); */
+function loadRankCSV() {
+  Papa.parse("/data/cleansed/2024_tnea_rank_data.csv", {
+    download: true,
+    header: true,
+    complete: function(results) {
+      rankData = results.data;
     }
   });
 }
 
 function loadBranchListFromCSV() {
-  Papa.parse("data/branch_list.csv", {
+  Papa.parse("/data/branch_list.csv", {
     download: true,
     header: true,
     complete: function(results) {
@@ -71,7 +66,7 @@ function loadBranchListFromCSV() {
 }
 
 function loadCollegeListFromCSV() {
-  Papa.parse("data/college_list_w_district.csv", {
+  Papa.parse("/data/college_list_w_district.csv", {
     download: true,
     header: true,
     complete: function(results) {
@@ -94,7 +89,7 @@ function loadCollegeListFromCSV() {
 }
 
 function loadDistrictListFromCSV() {
-  Papa.parse("data/district_list.csv", {
+  Papa.parse("/data/district_list.csv", {
     download: true,
     header: true,
     complete: function(results) {
@@ -113,12 +108,13 @@ function loadDistrictListFromCSV() {
 }
 
 
-function findColleges() {
+function findCollegesByCutoff() {
+  //loadCutOffCSV();
   const rawCutoffInput = document.getElementById("cutoff").value;
   const rawCutoff = parseFloat(rawCutoffInput);
 
   // Check if the entered cutoff is a valid number
-  if (isNaN(rawCutoffInput) || isNaN(rawCutoff)) {
+  if (isNaN(rawCutoffInput) || isNaN(rawCutoff) || rawCutoff < 70 || rawCutoff >200) {
     alert("Please enter a valid cutoff mark.");
     return;
   }
@@ -232,45 +228,180 @@ table.appendChild(tbody);
 resultsContainer.appendChild(table);
 }
 
+function findCollegesByRank() {
+  //loadRankCSV();
+  const rawRankInput = document.getElementById("rank").value;
+  const rawRank = parseFloat(rawRankInput);
+
+  // Check if the entered Rank is a valid number and within Range
+  if (isNaN(rawRankInput) || isNaN(rawRank) || rawRank < 1 || rawRank >300000) {
+    alert("Please enter a valid Rank Assigned by TNEA.");
+    return;
+  }
+
+  const rank = Math.max(rawRank - rankMargin, 1) || 0;
+  const category = document.getElementById("category").value;
+  const city = document.getElementById("city").value.toLowerCase();
+  const branch = document.getElementById("branch").value;
+  const collegeCode = document.getElementById("collegeCode").value;
+
+  if (isNaN(rank)) {
+    alert("Please enter a valid Rank Assigned by TNEA.");
+    return;
+  }
+
+console.log("rankData: ", rankData);
+
+const filtered = rankData
+  .map(row => {
+    const rawValue = row[category]?.trim();
+    const rank = parseFloat(rawValue) === 0 ? 500000 : parseFloat(rawValue);
+    return { ...row, rank }; // attach the rank
+  })
+  .filter(row => {
+    if (!collegeMap[row.CollegeCode]) {
+      console.warn("Missing college info for code:", row);
+    }
+    //console.log("mappedData: ", row);
+    const matchRank = isNaN(row.rank) || row.rank === 500000 || rank <= row.rank;
+    const matchCity = !city || ( collegeMap[row.CollegeCode] && collegeMap[row.CollegeCode].districtName && collegeMap[row.CollegeCode].districtName.toLowerCase() === city);
+    const matchBranch = !branch || row.BranchCode === branch;
+    const matchCollegeCode = !collegeCode || row.CollegeCode === collegeCode;
+    return matchRank && matchBranch && matchCollegeCode  && matchCity;
+  });
+
+  console.log("filtered records : ", filtered);
+
+  // Sort by cutoff descending for selected category
+  filtered.sort((a, b) => parseFloat(a.rank) - parseFloat(b.rank) );
+
+  const results = filtered.slice(0, sliceLength);
+  const resultsContainer = document.getElementById("results");
+  resultsContainer.innerHTML = "";
+
+  if (results.length === 0) {
+    resultsContainer.innerHTML = "<p>Try with different College code/Branch Code/City or remove the optional filters for broader suggestion.</p>";
+    return;
+  }
+
+const table = document.createElement("table");
+table.style.width = "100%";
+table.style.borderCollapse = "collapse";
+
+const thead = document.createElement("thead");
+thead.innerHTML = `
+  <tr>
+    <th>College Code</th>
+    <th>City</th>
+    <th>College Name</th>
+    <th>Branch Code</th>
+    <th>Branch Name</th>
+    <th>Rank</th>
+    <th>Possibility</th>
+  </tr>`;
+table.appendChild(thead);
+
+const tbody = document.createElement("tbody");
+
+let possibilityLevel = "LOW"
+
+let displayRank = 0
+
+results.forEach(row => {
+  
+
+  if( rawRank === 1){
+     possibilityLevel = "HIGH";
+  }
+  else if(row['rank'] < rawRank-avgRankMargin){
+      possibilityLevel = "LOW";
+  }
+  else if(rawRank-avgRankMargin <= row['rank']  &&   row['rank'] < rawRank){
+     possibilityLevel = "MEDIUM";
+  }
+  else{
+     possibilityLevel = "HIGH";
+  }
+
+  const possibilityColor = getPossibilityColor(possibilityLevel);
+
+
+  if(isNaN(row['rank']) || row['rank'] === 500000) { displayRank = "Seat Not Filled" } else { displayRank = row['rank']}
+
+
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${row.CollegeCode}</td>
+    <td>${collegeMap[row.CollegeCode]['districtName']}</td>
+    <td>${row.College}</td>
+    <td>${row.BranchCode}</td>
+    <td>${row.Branch}</td>
+    <td>${displayRank}</td>
+    <td><span style="color:${possibilityColor}; font-weight:bold;">${possibilityLevel}</span></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+table.appendChild(tbody);
+resultsContainer.appendChild(table);
+}
+
 // On page load
 window.onload = () => {
-  loadCSVAndPopulateBranches();
+  loadCutOffCSV();
+  loadRankCSV();
   loadBranchListFromCSV();
   loadCollegeListFromCSV();
   loadDistrictListFromCSV();
   lucide.createIcons();
 
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const tneaContainer = document.querySelector(".tnea-link");
-    if (tneaContainer) {
-      tneaContainer.addEventListener("click", function () {
-        window.location.href = "TNEA.html";
-      });
-    }
-  });
-
-  // Cutoff input validation + formatting
+/*   // Cutoff input validation + formatting
   const cutoffInput = document.getElementById("cutoff");
-  const warningText = document.getElementById("cutoffWarning");
+  const cutOffWarningText = document.getElementById("cutoffWarning");
 
-  cutoffInput.addEventListener("input", function () {
-    let value = parseFloat(cutoffInput.value);
+  if(cutoffInput){
+    cutoffInput.addEventListener("input", function () {
+      let value = parseFloat(cutoffInput.value);
+      if (isNaN(value)) {
+        cutoffInput.style.boxShadow = "";
+        cutOffWarningText.style.display = "none";
+        return;
+      }
+      // Validation
+      if (value < 70 || value > 200) {
+        cutoffInput.style.boxShadow = "0 0 8px 2px red";
+        cutOffWarningText.style.display = "inline";
+      } else {
+        cutoffInput.style.boxShadow = "0 0 6px 2px #2196f3";
+        cutOffWarningText.style.display = "none";
+      }
+    });
+  } */
 
-    if (isNaN(value)) {
-      cutoffInput.style.boxShadow = "";
-      warningText.style.display = "none";
-      return;
-    }
+
+/*   // Rank input validation + formatting
+  const rankInput = document.getElementById("rank");
+  const rankWarningText = document.getElementById("rankWarning");
+
+  if(rankInput){
+    rankInput.addEventListener("input", function () {
+      let value = parseFloat(rank.value);
+      if (isNaN(value)) {
+        rankInput.style.boxShadow = "";
+        rankWarningText.style.display = "none";
+        return;
+      }
+      // Validation
+      if (value < 1 || value > 300000) {
+        rankInput.style.boxShadow = "0 0 8px 2px red";
+        rankWarningText.style.display = "inline";
+      } else {
+        rankInput.style.boxShadow = "0 0 6px 2px #2196f3";
+        rankWarningText.style.display = "none";
+      }
+    });
+  } */
 
 
-    // Validation
-    if (value < 70 || value > 200) {
-      cutoffInput.style.boxShadow = "0 0 8px 2px red";
-      warningText.style.display = "inline";
-    } else {
-      cutoffInput.style.boxShadow = "0 0 6px 2px #2196f3";
-      warningText.style.display = "none";
-    }
-  });
 };
