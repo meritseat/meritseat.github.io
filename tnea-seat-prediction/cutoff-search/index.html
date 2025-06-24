@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH4LF10RKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VH4LF10RKB');
+  </script>
+  <meta charset="UTF-8">
+  <title>MeritSeat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
+  <!-- Styles -->
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
+     crossorigin="anonymous"></script>
+</head>
+<body class="dark">
+  
+  <nav class="navbar">
+  <div class="nav-left">
+    <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+    <span class="site-title">Merit Seat</span>
+  </div>
+    <!-- Burger toggle button -->
+  <div class="burger" id="burger">&#9776;</div>
+  <div class="nav-links" id = "nav-links">
+    <a href="/">Home</a>
+    <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+    <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+    <a href="/about">About</a>
+  </div>
+  </nav>
+  
+  <header>
+    <h1><img src="/favicon-180x180.png" height="50" width="50"/></i>TNEA Counselling Seat Predictor</h1>
+  </header>
+
+  <div class="container">
+  <header>
+    <h1><i data-lucide="percent"></i> CutOff - Seat Prediction</h1>
+  </header>
+  </div>
+
+  <div class="container">
+    <label><i data-lucide="percent"></i> Enter Your Cutoff:</label>
+    <input 
+  type="number" 
+  id="cutoff" 
+  step="0.25" 
+  min="70" 
+  max="200" 
+  placeholder="e.g. 194.5">
+  <small id="cutoffWarning" style="color: red; display: none;">Please enter a value between 70 and 200.</small>
+
+
+    <label><i data-lucide="user"></i> Select Category:</label>
+    <select id="category">
+      <option value="OC">OC</option>
+      <option value="BC">BC</option>
+      <option value="BCM">BCM</option>
+      <option value="MBC">MBC</option>
+      <option value="SC">SC</option>
+      <option value="SCA">SCA</option>
+      <option value="ST">ST</option>
+    </select>
+
+    <!-- <label><i data-lucide="map-pin"></i> City (optional):</label>
+    <input type="text" id="city" placeholder="Chennai, Coimbatore, etc."> -->
+
+    <label><i data-lucide="map-pin"></i> District (optional):</label>
+    <select id="city">
+        <option value="">-- Select District (optional) --</option>
+    </select> 
+
+    <!-- <label><i data-lucide="school"></i> College Code (optional):</label>
+    <input type="number" id="collegeCode" step="1" placeholder="1, 100, 200"> -->
+
+    <label><i data-lucide="school"></i> College Code (optional):</label>
+    <select id="collegeCode">
+        <option value="">-- Select College (optional) --</option>
+    </select> 
+
+    <!-- <label><i data-lucide="cpu"></i> Branch (optional):</label>
+    <input type="text" id="branch" placeholder="CS, EC, AD, EE etc."> -->
+
+    <label><i data-lucide="cpu"></i> Branch (optional):</label>
+    <select id="branch">
+        <option value="">-- Select Branch (optional) --</option>
+    </select> 
+
+    <button onclick="findCollegesByCutoff()"><i data-lucide="search"></i> Find Colleges</button>
+
+    <div id="results"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="/script.js"></script>
+  <script>
+    lucide.createIcons();
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+
+      burger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const cutoffInput = document.getElementById("cutoff");
+    const cutOffWarningText = document.getElementById("cutoffWarning");
+
+    cutoffInput.addEventListener("input", function () {
+      let value = parseFloat(cutoffInput.value);
+        if (isNaN(value)) {
+          cutoffInput.style.boxShadow = "";
+          cutOffWarningText.style.display = "none";
+          return;
+        }
+
+        if (value < 70 || value > 200) {
+          cutoffInput.style.boxShadow = "0 0 8px 2px red";
+          cutOffWarningText.style.display = "inline";
+        } else {
+          cutoffInput.style.boxShadow = "0 0 6px 2px #2196f3";
+          cutOffWarningText.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
