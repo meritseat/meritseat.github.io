@@ -137,6 +137,8 @@ table {
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   background-color: #fff;
+  table-layout: auto; /* or 'fixed' for more control */
+  word-wrap: break-word;
 }
 
 thead tr {
@@ -145,10 +147,10 @@ thead tr {
 }
 
 th, td {
-  padding: 12px 18px;
+  padding: 6px 8px;
   background: #232323;
   border: 1px solid #818181;
-  text-align: left;
+  text-align: center;
 }
 
 tr {
@@ -175,6 +177,26 @@ input.invalid {
 }
 
 
+@media (max-width: 1000px) {
+  table {
+    font-size: 10px;
+  }
+  th, td {
+    padding: 4px 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  table {
+    font-size: 8px;
+  }
+  th, td {
+    padding: 2px 2px;
+  }
+}
+
+
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
@@ -186,4 +208,7 @@ input.invalid {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeInLis
+@keyframes fadeInList {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
