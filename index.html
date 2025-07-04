@@ -55,29 +55,35 @@
 
 <div class="notification-bar">
   <div class="notification-track" id="notificationMessage">
-    📢 TNEA - Anna University Schedules    ||  📢 Last date for Registration : 06-June-2025 ❌ || 📢 Assigning Random Number : 11-June-2025 ✅ || 📢 Certificates Verification at TFC’s (Online) : 10-June-2025 to 20-June-2025 ✅ ||  📢 Publication of Rank List : 27-June-2025  || 📢 Grievances Redressal : 28-June-2025 to 02-July-2025 || 📢 Online Counselling Dates will be anounced Soon || 📢 Stay tuned for more Informations! ...
+    📢 TNEA - Anna University Schedules    ||  📢 Last date for Registration : 06-June-2025 ❌ || 📢 Assigning Random Number : 11-June-2025 ✅ || 📢 Certificates Verification at TFC’s (Online) : 10-June-2025 to 20-June-2025 ✅ ||  📢 Publication of Rank List : 27-June-2025 ✅ || 📢 Grievances Redressal : 28-June-2025 to 02-July-2025 ✅ || 📢 Counseling for Government (7.5%) Special Reservation Categories : 07-July-2025 to  08-July-2025  || 📢 Counseling for General Special Reservation Categories : 09-July-2025 to  11-July-2025 || 📢 General Counseling (Academic/Govt. School 7.5% Category/Vocational) Vocational :  14-July-2025 to  19-Aug-2025 || 📢 Stay tuned for more Informations! ...
   </div>
 </div>
 
-  
+<a href="/tnea-seat-prediction/cutoff-search">
 <div class="container tnea-link cutoff-search" style="cursor: pointer;">
  <img src="/resources/anna-univ-symbol.png" height="80" width="80" alt="Anna Univ Logo"/>
  <h2>TNEA - Counselling Predictor</h2>
  <button><i data-lucide="percent"></i>CutOff Search </button>
 </div>
+</a>
 
+<a href="/tnea-seat-prediction/rank-search">
 <div class="container tnea-link rank-search" style="cursor: pointer;">
  <img src="/resources/anna-univ-symbol.png" height="80" width="80" alt="Anna Univ Logo"/>
  <h2>TNEA - Counselling Predictor</h2>
  <button><i data-lucide="list-ordered"></i>Rank Search </button>
 </div>
+</a>
 
-<div class="container tnea-link calculator" style="cursor: pointer;">
-<img src="/resources/calculator.png" height="50" width="50" alt="Anna Univ Logo"/>
-  <h2>Cutoff Calculator</h2>
-  <button><i data-lucide="list-ordered"></i>Calculate </button>
-  <!-- Your calculator input fields and button go here -->
-</div>
+
+<a href="/cutoff-calculator">
+  <div class="container tnea-link calculator" style="cursor: pointer;">
+    <img src="/resources/calculator.png" height="50" width="50" alt="Anna Univ Logo"/>
+    <h2>Cutoff Calculator</h2>
+    <button><i data-lucide="list-ordered"></i>Calculate </button>
+  </div>
+</a>
+
 
 <div class="container grey_con">
   <h2>Predictor for Other Universities coming soon..<h2>
@@ -95,43 +101,32 @@
  -->
 
   <script>
+
+    //Navigation Burger Button 
+    document.addEventListener("DOMContentLoaded", function () {
+        const burger = document.getElementById("burger");
+        const navLinks = document.getElementById("nav-links");
+        
+        if (burger && navLinks) {
+            burger.addEventListener("click", () => {
+                navLinks.classList.toggle("show");
+            });
+            
+            document.addEventListener("click", function (event) {
+                if (
+                navLinks.classList.contains("show") &&
+                !navLinks.contains(event.target) &&
+                !burger.contains(event.target)
+                ) {
+                    navLinks.classList.remove("show");
+                }
+            });
+        }
+    });
+
     lucide.createIcons();
-    document.addEventListener("DOMContentLoaded", function () {
-      const tneaContainer = document.querySelector(".tnea-link.cutoff-search");
-      if (tneaContainer) {
-        tneaContainer.addEventListener("click", function () {
-          window.location.href = "/tnea-seat-prediction/cutoff-search";
-        });
-      }
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const tneaContainer = document.querySelector(".tnea-link.rank-search");
-      if (tneaContainer) {
-        tneaContainer.addEventListener("click", function () {
-          window.location.href = "/tnea-seat-prediction/rank-search";
-        });
-      }
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const tneaContainer = document.querySelector(".tnea-link.calculator");
-      if (tneaContainer) {
-        tneaContainer.addEventListener("click", function () {
-          window.location.href = "/cutoff-calculator";
-        });
-      }
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const burger = document.getElementById("burger");
-      const navLinks = document.getElementById("nav-links");
-
-      burger.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
-      });
-    
   </script>
 </body>
 

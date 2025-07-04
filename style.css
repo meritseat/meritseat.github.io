@@ -47,10 +47,13 @@
   font-weight: 500;
   transition: color 0.3s ease;
 } */
+a {
+  text-decoration: none;
+} 
 
 .nav-links a {
   color: #e0e0e0;
-  text-decoration: none;
+/* text-decoration: none; */ 
   margin-left: 1rem;
   font-weight: 500;
   padding: 6px 4px;
@@ -63,6 +66,10 @@
   background-color: #2196f3;
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
   transform: translateY(-2px);
+}
+
+.nav-links.show {
+  transition: all 0.3s ease-in-out;
 }
 
 body {
@@ -98,7 +105,7 @@ header h1 {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 50rem;
   margin: 2rem auto;
   background: #1f1f1f;
   padding: 2rem;
@@ -147,6 +154,7 @@ header h1 {
 
 label {
   font-weight: 600;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   margin-top: 1rem;
@@ -155,14 +163,14 @@ label {
 }
 
 input, select, button {
-  width: 100%;
+  width: 95%;
   padding: 0.75rem;
   margin-top: 0.5rem;
   border-radius: 8px;
   background: #2c2c2c;
   border: 1px solid #555;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: .75rem;
   transition: all 0.3s ease;
 }
 
@@ -276,8 +284,42 @@ blockquote {
   color: #cfe9ff;
 }
 
+#branchNote {
+  color: #0f0;
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-top: 5px;
+}
+
 
 @media (max-width: 1200px) {
+
+  .container {
+    max-width: 80%;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  .container h1 {
+    font-size: 1.3rem;
+    letter-spacing: 0.2rem;
+  }
+  .container h2 {
+    font-size: 1.3rem;
+    letter-spacing: 0.2rem;
+  }
+
+  .container p {
+    font-size: 13px;
+  }
+
+  input, select, button, label {
+  width: 95%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  font-size: .75rem;
+}
+
   table {
     font-size: 10px;
   }
@@ -289,8 +331,8 @@ blockquote {
   .nav-links {
     position: absolute;
     top: 60px; /* or adjust to match navbar height */
-    left: 0;
-    right: 0;
+    left: 5%;
+    right: 5%;
     background-color: #1e1e1e;
     display: none;
     flex-direction: column;
@@ -302,8 +344,8 @@ blockquote {
   }
 
   .nav-links.show {
-    display: flex;
-  }
+  display: flex;
+}
 
   .nav-links a {
     width: 100%;
@@ -322,6 +364,34 @@ blockquote {
 }
 
 @media (max-width: 768px) {
+
+  .container {
+    max-width: 90%;
+    margin: 1.5rem auto;
+    padding: 0.5rem;
+  }
+
+  .container p {
+    font-size: 10px;
+  }
+
+  .container h1 {
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+  }
+
+  .container h2 {
+    font-size: 0.75rem;
+    letter-spacing: 0.25px;
+  }
+
+  input, select, button, label {
+    width: 95%;
+    padding: 0.3rem;
+    margin-top: 0.3rem;
+    font-size: .60rem;
+  }
+
   table {
     font-size: 8px;
   }
@@ -333,8 +403,8 @@ blockquote {
   .nav-links {
     position: absolute;
     top: 60px; /* or adjust to match navbar height */
-    left: 0;
-    right: 0;
+    left: 5%;
+    right: 5%;
     background-color: #1e1e1e;
     display: none;
     flex-direction: column;
@@ -346,8 +416,8 @@ blockquote {
   }
 
   .nav-links.show {
-    display: flex;
-  }
+  display: flex;
+}
 
   .nav-links a {
     width: 100%;

@@ -89,6 +89,29 @@
     </div>
 
   <script>
+
+    //Navigation Burger Button 
+    document.addEventListener("DOMContentLoaded", function () {
+        const burger = document.getElementById("burger");
+        const navLinks = document.getElementById("nav-links");
+        
+        if (burger && navLinks) {
+            burger.addEventListener("click", () => {
+                navLinks.classList.toggle("show");
+            });
+            
+            document.addEventListener("click", function (event) {
+                if (
+                navLinks.classList.contains("show") &&
+                !navLinks.contains(event.target) &&
+                !burger.contains(event.target)
+                ) {
+                    navLinks.classList.remove("show");
+                }
+            });
+        }
+    });
+
     function calculateEngineeringCutoff() {
         const math = parseFloat(document.getElementById('engg_math').value) ;
         const phy = parseFloat(document.getElementById('engg_physics').value) ;
