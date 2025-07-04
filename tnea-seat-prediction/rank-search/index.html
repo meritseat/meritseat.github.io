@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8">
   <title>Rank Predictor | Explore TNEA colleges by Rank | MeritSeat.in</title>
-  <meta name="description" content="Search eligible colleges by your TNEA rank and category. Get transparent insights into engineering admissions across Tamil Nadu.">
+  <meta name="description" content="Anna University Counselling 2025, Rank Search. Use the Rank Predictor to find Anna University colleges in Tamilnadu based on your TNEA Rank 2025.">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Fonts & Icons -->
@@ -97,10 +97,15 @@
     <label><i data-lucide="cpu"></i> Branch (optional):</label>
     <select id="branch">
         <option value="">-- Select Branch (optional) --</option>
-    </select> 
+    </select>
+    <p id="branchNote" style="display: none; color: #0f0; font-style: italic; margin-top: 5px;">
+      All Branches will be listed for the above selected College.
+    </p>
 
     <button onclick="findCollegesByRank()"><i data-lucide="search"></i> Find Colleges</button>
 
+    <p>First 100 Results will only be shown.</p>
+    
     <div id="results"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -108,13 +113,26 @@
   <script>
     lucide.createIcons();
     
+    //Navigation Burger Button 
     document.addEventListener("DOMContentLoaded", function () {
-      const burger = document.getElementById("burger");
-      const navLinks = document.getElementById("nav-links");
-
-      burger.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
+        const burger = document.getElementById("burger");
+        const navLinks = document.getElementById("nav-links");
+        
+        if (burger && navLinks) {
+            burger.addEventListener("click", () => {
+                navLinks.classList.toggle("show");
+            });
+            
+            document.addEventListener("click", function (event) {
+                if (
+                navLinks.classList.contains("show") &&
+                !navLinks.contains(event.target) &&
+                !burger.contains(event.target)
+                ) {
+                    navLinks.classList.remove("show");
+                }
+            });
+        }
     });
 
     
