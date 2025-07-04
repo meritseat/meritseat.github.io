@@ -3,6 +3,7 @@ let branchMap = {};
 let collegeMap = {};
 let cutoffData = [];
 let rankData = [];
+let fullCollegeList = [];
 
 let cutoffMargin = 1.0;
 let avgcutOffMargin = 0.5;
@@ -53,7 +54,13 @@ function loadBranchListFromCSV() {
       results.data.forEach(row => {
         const code = row.BranchCode?.trim();
         const name = row.Branch?.trim();
-        if (code && name && !branchMap[code]) {
+        if(code == 'DISABLE'){
+          const option = document.createElement("option");
+          option.disabled  = true;
+          option.textContent = `${name}`
+          branchDropdown.appendChild(option);
+        }
+        if (code && name && !branchMap[code] && code !== 'DISABLE') {
           branchMap[code] = name;
           const option = document.createElement("option");
           option.value = code;
@@ -65,7 +72,7 @@ function loadBranchListFromCSV() {
   });
 }
 
-function loadCollegeListFromCSV() {
+/* function loadCollegeListFromCSV() {
   Papa.parse("/data/college_list_w_district.csv", {
     download: true,
     header: true,
@@ -82,6 +89,26 @@ function loadCollegeListFromCSV() {
           option.value = colCode;
           option.textContent = `[${colCode}] ${colName}`;
           collegeCodeDropdown.appendChild(option);
+        }
+      });
+    }
+  });
+} */
+
+
+
+function loadCollegeListFromCSV() {
+  Papa.parse("/data/college_list_w_district.csv", {
+    download: true,
+    header: true,
+    complete: function(results) {
+      fullCollegeList = results.data;
+      fullCollegeList.forEach(row => {
+        const colCode = row.collegeCode?.trim();
+        const colName = row.collegeName?.trim();
+        const districtName = row.districtName?.trim();
+        if (colCode && colName && !collegeMap[colCode]) {
+          collegeMap[colCode]  =  {'colName': colName,'districtName':  districtName};
         }
       });
     }
@@ -130,7 +157,7 @@ function findCollegesByCutoff() {
     return;
   }
 
-console.log("cutoffData: ", cutoffData);
+//console.log("cutoffData: ", cutoffData);
 
 const filtered = cutoffData
   .map(row => {
@@ -138,20 +165,20 @@ const filtered = cutoffData
     const mark = parseFloat(rawValue);
     return { ...row, mark }; // attach the mark
   })
-  .filter(row => {
-    if (!collegeMap[row.CollegeCode]) {
-      console.warn("Missing college info for code:", row);
-    }
-    //console.log("mappedData: ", row);
-    //const matchCutoff = cutoff >= row.mark;
-    const matchCutoff = isNaN(row.mark) || row.mark === 0 || cutoff >= row.mark;
-    const matchCity = !city || ( collegeMap[row.CollegeCode] && collegeMap[row.CollegeCode].districtName && collegeMap[row.CollegeCode].districtName.toLowerCase() === city);
-    const matchBranch = !branch || row.BranchCode === branch;
-    const matchCollegeCode = !collegeCode || row.CollegeCode === collegeCode;
-    return matchCutoff && matchBranch && matchCollegeCode  && matchCity;
-  });
+.filter(row => {
+  const matchCity = !city || (collegeMap[row.CollegeCode]?.districtName?.toLowerCase() === city);
 
-  console.log("filtered records : ", filtered);
+  if (collegeCode) {
+    return row.CollegeCode === collegeCode && matchCity;
+  } else {
+    const matchCutoff = isNaN(row.mark) || row.mark === 0 || cutoff >= row.mark;
+    const matchBranch = !branch || row.BranchCode === branch;
+    return matchCutoff && matchBranch && matchCity;
+  }
+});
+
+
+  //console.log("filtered records : ", filtered);
 
   // Sort by cutoff descending for selected category
   filtered.sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark));
@@ -172,13 +199,13 @@ table.style.borderCollapse = "collapse";
 const thead = document.createElement("thead");
 thead.innerHTML = `
   <tr>
-    <th>College Code</th>
-    <th>City</th>
-    <th>College Name</th>
-    <th>Branch Code</th>
-    <th>Branch Name</th>
-    <th>Cutoff</th>
-    <th>Possibility</th>
+    <th>COLLEGE CODE</th>
+    <th>CITY</th>
+    <th>COLLEGE NAME</th>
+    <th>BRANCH CODE</th>
+    <th>BRANCH NAME</th>
+    <th>${category} CUTOFF</th>
+    <th>POSSIBILITY</th>
   </tr>`;
 table.appendChild(thead);
 
@@ -250,7 +277,7 @@ function findCollegesByRank() {
     return;
   }
 
-console.log("rankData: ", rankData);
+//console.log("rankData: ", rankData);
 
 const filtered = rankData
   .map(row => {
@@ -259,18 +286,22 @@ const filtered = rankData
     return { ...row, rank }; // attach the rank
   })
   .filter(row => {
-    if (!collegeMap[row.CollegeCode]) {
-      console.warn("Missing college info for code:", row);
+    const matchCity = !city || (
+      collegeMap[row.CollegeCode] &&
+      collegeMap[row.CollegeCode].districtName &&
+      collegeMap[row.CollegeCode].districtName.toLowerCase() === city
+    );
+    
+    if (collegeCode) {
+      return row.CollegeCode === collegeCode && matchCity;
+    } else {
+      const matchRank = isNaN(row.rank) || row.rank === 500000 || rank <= row.rank;
+      const matchBranch = !branch || row.BranchCode === branch;
+      return matchRank && matchBranch && matchCity;
     }
-    //console.log("mappedData: ", row);
-    const matchRank = isNaN(row.rank) || row.rank === 500000 || rank <= row.rank;
-    const matchCity = !city || ( collegeMap[row.CollegeCode] && collegeMap[row.CollegeCode].districtName && collegeMap[row.CollegeCode].districtName.toLowerCase() === city);
-    const matchBranch = !branch || row.BranchCode === branch;
-    const matchCollegeCode = !collegeCode || row.CollegeCode === collegeCode;
-    return matchRank && matchBranch && matchCollegeCode  && matchCity;
   });
 
-  console.log("filtered records : ", filtered);
+  //console.log("filtered records : ", filtered);
 
   // Sort by cutoff descending for selected category
   filtered.sort((a, b) => parseFloat(a.rank) - parseFloat(b.rank) );
@@ -291,13 +322,13 @@ table.style.borderCollapse = "collapse";
 const thead = document.createElement("thead");
 thead.innerHTML = `
   <tr>
-    <th>College Code</th>
-    <th>City</th>
-    <th>College Name</th>
-    <th>Branch Code</th>
-    <th>Branch Name</th>
-    <th>Rank</th>
-    <th>Possibility</th>
+    <th>COLLEGE CODE</th>
+    <th>CITY</th>
+    <th>COLLEGE NAME</th>
+    <th>BRANCH CODE</th>
+    <th>BRANCH NAME</th>
+    <th>${category} RANK</th>
+    <th>POSSIBILITY</th>
   </tr>`;
 table.appendChild(thead);
 
@@ -355,5 +386,37 @@ window.onload = () => {
   loadCollegeListFromCSV();
   loadDistrictListFromCSV();
   lucide.createIcons();
+
+  // Attach district change listener AFTER college list loads
+  const districtDropdown = document.getElementById("city");
+  districtDropdown.addEventListener("change", function () {
+    const selectedDistrict = this.value.toLowerCase();
+    const collegeDropdown = document.getElementById("collegeCode");
+    collegeDropdown.innerHTML = '<option value="">-- Select College (optional) --</option>';
+
+    fullCollegeList.forEach(row => {
+      if (row.districtName?.trim().toLowerCase() === selectedDistrict) {
+        const option = document.createElement("option");
+        option.value = row.collegeCode.trim();
+        option.textContent = `[${row.collegeCode}] ${row.collegeName}`;
+        collegeDropdown.appendChild(option);
+      }
+    });
+  });
+
+  // Disable Branch if college is selected
+  document.getElementById("collegeCode").addEventListener("change", function () {
+  const branchDropdown = document.getElementById("branch");
+  const branchNote = document.getElementById("branchNote");
+
+  if (this.value !== "") {
+    branchDropdown.disabled = true;
+    branchNote.style.display = "block";
+  } else {
+    branchDropdown.disabled = false;
+    branchNote.style.display = "none";
+  }
+});
+
 
 };
