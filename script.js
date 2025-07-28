@@ -8,10 +8,10 @@ let fullCollegeList = [];
 let cutoffMargin = 1.0;
 let avgcutOffMargin = 0.5;
 
-let rankMargin = 200;
-let avgRankMargin = 100;
+let rankMargin = 2000;
+let avgRankMargin = 1000;
 
-let sliceLength = 50
+let sliceLength = 100
 
 
 // Helper to assign color based on possibility level
