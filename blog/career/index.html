@@ -58,6 +58,7 @@
       text-decoration: none; transition: all 0.25s ease; width: auto; margin-top: 0;
     }
     .read-more-btn:hover { background: #9c27b0; color: #fff; transform: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 
@@ -104,35 +105,27 @@
       </div>
     </a>
 
-    <!-- =====================================================
-      HOW TO ADD A NEW POST:
-      1. Copy blog/career/template.html
-      2. Save it as: blog/career/your-post-slug/index.html
-      3. Fill in all the placeholders in that file
-      4. Copy the .post-card block below, paste it ABOVE this comment,
-         and update the title, date, author, excerpt, and href link.
-      ===================================================== -->
-
-    <!-- SAMPLE POST CARD — replace with real data -->
-    <div class="post-card">
-      <span class="badge">💼 Career Blogs</span>
-      <h3><a href="/blog/career/top-engineering-branches-for-placements/">Top Engineering Branches for High Placement Packages in Tamil Nadu</a></h3>
-      <div class="post-meta">
-        <span>📅 April 1, 2025</span>
-        <span>✍️ MeritSeat Team</span>
-        <span>⏱️ 6 min read</span>
-      </div>
-      <p class="post-excerpt">
-        Which engineering branch gives you the best career outcome? We break down placement statistics, average salary packages, and future job market demand for top branches like CS, ECE, Mechanical, and Civil — to help you choose wisely.
-      </p>
-      <a class="read-more-btn" href="/blog/career/top-engineering-branches-for-placements/">
-        <i data-lucide="arrow-right" style="width:14px;height:14px;"></i> Read More
+    <!-- Posts loaded dynamically from /blog/career/posts.json -->
+    <div id="posts-loading" style="text-align:center;padding:2rem 1rem;">
+      <div style="width:36px;height:36px;border-radius:50%;border:4px solid #2a2a2a;border-top-color:#9c27b0;animation:spin 1s linear infinite;margin:0 auto 0.8rem;"></div>
+      <p style="color:#888;font-size:0.9rem;margin:0;">Loading posts…</p>
+    </div>
+    <div id="posts-grid"></div>
+    <div id="posts-empty" style="display:none;text-align:center;padding:2.5rem 1rem;">
+      <p style="font-size:2.5rem;margin:0 0 0.5rem;">📭</p>
+      <p style="color:#888;margin:0 0 1rem;">No posts yet. Be the first!</p>
+      <a href="/blog/write/?category=career"
+         style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(156,39,176,0.15);color:#b366d4;border:1px solid #9c27b0;border-radius:8px;font-size:0.88rem;font-weight:600;text-decoration:none;">
+        ✍️ Write a Career Blog
       </a>
     </div>
 
-    <!-- ADD MORE POST CARDS ABOVE THIS LINE -->
-
   </div>
+
+  <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+    data-ad-layout-key="-er-29-16-82+yx" data-ad-client="ca-pub-6236248589959486"
+    data-ad-slot="2150554952"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <script>
     lucide.createIcons();
@@ -148,6 +141,47 @@
         });
       }
     });
+
+    // ── Dynamic post loader ────────────────────────────────────────
+    (function loadPosts() {
+      fetch('/blog/career/posts.json?t=' + Date.now())
+        .then(function (r) {
+          if (!r.ok) throw new Error('not found');
+          return r.json();
+        })
+        .then(function (data) {
+          var posts = (data && data.posts) ? data.posts : [];
+          document.getElementById('posts-loading').style.display = 'none';
+          if (posts.length === 0) {
+            document.getElementById('posts-empty').style.display = 'block';
+            return;
+          }
+          var html = posts.map(function (p) {
+            return '<div class="post-card">' +
+              '<span class="badge">💼 Career Blogs</span>' +
+              '<h3><a href="/blog/career/' + _esc(p.slug) + '/">' + _esc(p.title) + '</a></h3>' +
+              '<div class="post-meta">' +
+              '<span>📅 ' + _esc(p.date) + '</span>' +
+              '<span>✍️ ' + _esc(p.author) + '</span>' +
+              '<span>⏱️ ' + (p.readingTime || 5) + ' min read</span>' +
+              '</div>' +
+              '<p class="post-excerpt">' + _esc(p.excerpt || '') + '</p>' +
+              '<a class="read-more-btn" href="/blog/career/' + _esc(p.slug) + '/">' +
+              '<i data-lucide="arrow-right" style="width:14px;height:14px;"></i> Read More</a>' +
+              '</div>';
+          }).join('');
+          document.getElementById('posts-grid').innerHTML = html;
+          lucide.createIcons();
+        })
+        .catch(function () {
+          document.getElementById('posts-loading').style.display = 'none';
+          document.getElementById('posts-empty').style.display = 'block';
+        });
+    })();
+
+    function _esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
   </script>
 </body>
 </html>

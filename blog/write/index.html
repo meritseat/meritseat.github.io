@@ -1067,13 +1067,13 @@
       <div class="loading-box">
         <div class="spinner"></div>
         <h2>Submitting your blog…</h2>
-        <p id="loading-msg">Preparing your post…</p>
+        <p id="loading-msg">Getting things ready…</p>
         <div class="loading-steps">
-          <div class="loading-step-item" id="ls-branch">⬜ Creating your branch</div>
-          <div class="loading-step-item" id="ls-commit">⬜ Uploading blog post</div>
-          <div class="loading-step-item" id="ls-sitemap">⬜ Updating sitemap</div>
-          <div class="loading-step-item" id="ls-pr">⬜ Opening pull request</div>
-          <div class="loading-step-item" id="ls-reviewer">⬜ Requesting review</div>
+          <div class="loading-step-item" id="ls-branch">⬜ Saving your content</div>
+          <div class="loading-step-item" id="ls-commit">⬜ Uploading your blog post</div>
+          <div class="loading-step-item" id="ls-sitemap">⬜ Registering your blog</div>
+          <div class="loading-step-item" id="ls-pr">⬜ Sending for review</div>
+          <div class="loading-step-item" id="ls-reviewer">⬜ Notifying the MeritSeat team</div>
         </div>
       </div>
     </div>
@@ -1084,24 +1084,25 @@
     <div class="container">
       <div class="success-box">
         <span class="success-emoji">🎉</span>
-        <h2>Blog Submitted!</h2>
-        <p class="subtitle">Your blog is now waiting for review. Once approved, it will appear live on MeritSeat.</p>
+        <h2>Blog Submitted Successfully!</h2>
+        <p class="subtitle">Thank you for contributing to MeritSeat. Your blog is now under review.</p>
 
-        <div class="success-pr-card">
-          <p>Your Pull Request has been opened on GitHub:</p>
-          <a href="#" id="pr-link" target="_blank" rel="noopener">
-            <i data-lucide="github" style="width:16px;height:16px;"></i>
-            View Pull Request
-          </a>
+        <div class="success-pr-card" style="background:rgba(76,175,80,0.08);border-color:#4caf50;">
+          <p style="color:#ccc;font-size:0.9rem;margin:0 0 0.5rem;">
+            ✅ Your blog has been received and is waiting for approval by the <strong style="color:#e0e0e0;">MeritSeat Admin</strong>.
+          </p>
+          <p style="color:#888;font-size:0.82rem;margin:0;">
+            We review all submissions within <strong style="color:#ccc;">1–3 working days</strong>. You'll be notified at your registered email once it's live.
+          </p>
         </div>
 
         <div class="next-steps">
-          <h3>What happens next?</h3>
+          <h3>📌 What happens next?</h3>
           <ol>
             <li>The <strong>MeritSeat team</strong> reviews your post for accuracy and quality.</li>
-            <li>If approved, your post is <strong>merged and published</strong> automatically.</li>
-            <li>You'll receive a <strong>notification</strong> once your blog is live.</li>
-            <li>Your post will be <strong>listed</strong> on the category page with full credit to you.</li>
+            <li>If approved, your post is <strong>published automatically</strong> on the blog.</li>
+            <li>Your blog will appear on the <strong>category listing page</strong> with full credit to you.</li>
+            <li>Write more blogs to build your <strong>author presence</strong> on MeritSeat!</li>
           </ol>
         </div>
 
@@ -1132,7 +1133,7 @@
       ghName: null,
       readingTime: 1,
     };
-    let sections = [{ id: 1, heading: '', body: '', highlight: '' }];
+    let sections = [{ id: 1, heading: '', body: '', highlight: '', image: null }];
     let images = [];
 
     // ── Init ───────────────────────────────────────────────────────
@@ -1304,16 +1305,39 @@
           <input type="text" placeholder="💡 A key insight or tip for this section (leave blank to skip)..."
                  value="${esc(sec.highlight)}"
                  oninput="updateSection(${sec.id},'highlight',this.value)">
+          <!-- Per-section image -->
+          <div style="margin-top:0.9rem;">
+            <div style="font-size:.82rem;font-weight:600;color:#888;margin-bottom:0.45rem;">📷 Section Image <span style="font-weight:400;color:#555;">(optional — appears after this section)</span></div>
+            ${sec.image
+              ? `<div style="display:flex;align-items:center;gap:0.7rem;">
+                   <img src="${sec.image.previewUrl}" alt="preview" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #444;flex-shrink:0;">
+                   <div>
+                     <div style="font-size:0.73rem;color:#888;margin-bottom:0.3rem;word-break:break-all;">${sec.image.name.substring(0,36)}${sec.image.name.length>36?'…':''}</div>
+                     <button type="button" onclick="removeSectionImage(${sec.id})" style="background:rgba(244,67,54,0.12);color:#ef5350;border:1px solid #ef5350;border-radius:6px;padding:3px 10px;font-size:.75rem;cursor:pointer;min-width:auto;width:auto;margin:0;">✕ Remove</button>
+                   </div>
+                 </div>`
+              : `<label for="sec-img-${sec.id}" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(33,150,243,0.07);color:#2196f3;border:1px dashed #2196f3;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;">
+                   📷 Add image for this section
+                 </label>
+                 <input type="file" id="sec-img-${sec.id}" accept="image/*" style="display:none;" onchange="handleSectionImageUpload(${sec.id},this)">`
+            }
+          </div>
         </div>`).join('');
 
-      if (addBtn) addBtn.style.display = sections.length >= 5 ? 'none' : 'flex';
+      if (addBtn) addBtn.style.display = sections.length >= 50 ? 'none' : 'flex';
+      if (addBtn) addBtn.title = `${sections.length}/50 sections`;
       lucide.createIcons();
     }
 
     function addSection() {
-      if (sections.length >= 5) return;
-      sections.push({ id: Date.now(), heading: '', body: '', highlight: '' });
+      if (sections.length >= 50) return;
+      sections.push({ id: Date.now(), heading: '', body: '', highlight: '', image: null });
       renderSections();
+      // Scroll new section into view
+      setTimeout(() => {
+        const last = document.getElementById(`sec-blk-${sections[sections.length-1].id}`);
+        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
     }
 
     function removeSection(id) {
@@ -1325,6 +1349,29 @@
     function updateSection(id, field, value) {
       const s = sections.find(s => s.id === id);
       if (s) s[field] = value;
+    }
+
+    // ── Per-section images ─────────────────────────────────────────
+    async function handleSectionImageUpload(id, input) {
+      const file = input.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`"${file.name}" exceeds the 5 MB limit and was skipped.`);
+        input.value = '';
+        return;
+      }
+      const dataUrl = await toBase64(file);
+      const sec = sections.find(s => s.id === id);
+      if (sec) {
+        sec.image = { name: file.name, base64: dataUrl.split(',')[1], previewUrl: dataUrl };
+        renderSections();
+      }
+      input.value = '';
+    }
+
+    function removeSectionImage(id) {
+      const sec = sections.find(s => s.id === id);
+      if (sec) { sec.image = null; renderSections(); }
     }
 
     // ── Slug / meta ────────────────────────────────────────────────
@@ -1423,11 +1470,11 @@
       }
 
       const loadingMsgs = [
-        { id: 'ls-branch', text: 'Creating your branch…' },
-        { id: 'ls-commit', text: 'Uploading your blog…' },
-        { id: 'ls-sitemap', text: 'Updating sitemap…' },
-        { id: 'ls-pr', text: 'Opening pull request…' },
-        { id: 'ls-reviewer', text: 'Requesting review…' },
+        { id: 'ls-branch',   text: 'Saving your content…' },
+        { id: 'ls-commit',   text: 'Uploading your blog post…' },
+        { id: 'ls-sitemap',  text: 'Registering your blog…' },
+        { id: 'ls-pr',       text: 'Sending for review…' },
+        { id: 'ls-reviewer', text: 'Notifying the MeritSeat team…' },
       ];
 
       goToStep('loading');
@@ -1457,7 +1504,12 @@
             title, slug, author, email,
             metaDescription: meta,
             leadText: lead,
-            sections,
+            sections: sections.map(s => ({
+              heading: s.heading,
+              body: s.body,
+              highlight: s.highlight,
+              sectionImage: s.image ? { name: s.image.name, base64: s.image.base64 } : null,
+            })),
             images,
             readingTime: appState.readingTime,
           }),
@@ -1482,11 +1534,6 @@
         });
 
         // Show success
-        const prLink = document.getElementById('pr-link');
-        if (prLink) {
-          prLink.href = data.prUrl;
-          prLink.textContent = `View Pull Request #${data.prNumber}`;
-        }
         setTimeout(() => goToStep('success'), 600);
 
       } catch (err) {

@@ -28,7 +28,7 @@ OWNER       = os.environ.get("GITHUB_REPO_OWNER", "")
 REPO        = os.environ.get("GITHUB_REPO_NAME", "")
 REVIEWER    = os.environ.get("REVIEWER_GITHUB_USERNAME", "")
 API_BASE    = os.environ.get("API_BASE_URL", "")
-BASE_BRANCH = "main"
+BASE_BRANCH = os.environ.get("BLOGS_RELEASE_BRANCH", "").strip() or "main"
 GH_API      = "https://api.github.com"
 GH_TOKEN_URL = "https://github.com/login/oauth/access_token"
 
@@ -183,7 +183,7 @@ def submit_blog():
         _commit_text(post_path, post_html,
                      f"[Blog] Add post: {title}", branch, token)
 
-        # 4. Commit images
+        # 4. Commit top-level images
         for img in images:
             name = img.get("name", "")
             b64  = img.get("base64", "")
@@ -192,6 +192,18 @@ def submit_blog():
                 _commit_b64(
                     f"blog/images/{slug}/{safe}", b64,
                     f"[Blog] Add image: {name}", branch, token,
+                )
+
+        # 4b. Commit per-section images
+        for s in sections:
+            si = s.get("sectionImage") or {}
+            si_name = si.get("name", "")
+            si_b64  = si.get("base64", "")
+            if si_name and si_b64:
+                safe = re.sub(r"[^a-zA-Z0-9._-]", "_", si_name)
+                _commit_b64(
+                    f"blog/images/{slug}/{safe}", si_b64,
+                    f"[Blog] Add section image: {si_name}", branch, token,
                 )
 
         # 5. Update sitemap.xml
@@ -297,36 +309,45 @@ def _update_sitemap(category: str, slug: str, branch: str, token: str):
 
 def _update_listing(category: str, slug: str, title: str, author: str,
                     excerpt: str, reading: int, branch: str, token: str):
-    path = f"blog/{category}/index.html"
+    """Prepend new post metadata to blog/{category}/posts.json."""
+    path = f"blog/{category}/posts.json"
     f    = _get_file(path, branch, token)
-    if not f:
-        return
-    current = base64.b64decode(f["content"].replace("\n", "")).decode("utf-8")
-    cat     = CAT_CONFIG[category]
-    today   = f"{date.today().day} {date.today().strftime('%B %Y')}"
-    clean   = _esc(excerpt or "")[:200]
-    card    = (
-        f'\n    <div class="post-card">\n'
-        f'      <span class="badge {cat["badge_class"]}">{cat["emoji"]} {category.capitalize()} Blogs</span>\n'
-        f'      <h3><a href="/blog/{category}/{slug}/">{_esc(title)}</a></h3>\n'
-        f'      <div class="post-meta">\n'
-        f'        <span>📅 {today}</span>\n'
-        f'        <span>✍️ {_esc(author)}</span>\n'
-        f'        <span>⏱️ {reading} min read</span>\n'
-        f'      </div>\n'
-        f'      <p class="post-excerpt">{clean}</p>\n'
-        f'      <a class="read-more-btn" href="/blog/{category}/{slug}/">'
-        f'<i data-lucide="arrow-right" style="width:14px;height:14px;"></i> Read More</a>\n'
-        f'    </div>\n'
-    )
-    marker  = "<!-- ADD MORE POST CARDS ABOVE THIS LINE -->"
-    updated = current.replace(marker, f"{card}\n    {marker}")
-    encoded = base64.b64encode(updated.encode("utf-8")).decode("ascii")
-    safe    = urllib.parse.quote(path, safe="")
-    _gh_put(f"/repos/{OWNER}/{REPO}/contents/{safe}", token, {
-        "message": f"[Blog] Add listing card: {title}",
-        "content": encoded, "branch": branch, "sha": f["sha"],
-    })
+
+    if f:
+        try:
+            current = json.loads(
+                base64.b64decode(f["content"].replace("\n", "")).decode("utf-8")
+            )
+        except Exception:
+            current = {"posts": []}
+    else:
+        current = {"posts": []}
+
+    today    = f"{date.today().day} {date.today().strftime('%B %Y')}"
+    new_post = {
+        "slug":        slug,
+        "title":       title,
+        "author":      author,
+        "date":        today,
+        "excerpt":     (excerpt or "")[:200],
+        "readingTime": reading,
+    }
+    # Prepend so newest post appears first
+    current.setdefault("posts", []).insert(0, new_post)
+
+    content = json.dumps(current, indent=2, ensure_ascii=False)
+    encoded = base64.b64encode(content.encode("utf-8")).decode("ascii")
+    body    = {
+        "message": f"[Blog] Add to {category}/posts.json: {title}",
+        "content": encoded,
+        "branch":  branch,
+    }
+    if f and "sha" in f:
+        body["sha"] = f["sha"]
+
+    safe = urllib.parse.quote(path, safe="")
+    _gh_put(f"/repos/{OWNER}/{REPO}/contents/{safe}", token, body)
+
 
 # ── HTML generator ────────────────────────────────────────────────────────────
 
@@ -337,9 +358,10 @@ def _generate_html(category, title, slug, author, meta,
 
     sections_html = ""
     for s in sections:
-        h  = (s.get("heading") or "").strip()
-        b  = (s.get("body")    or "").strip()
-        hl = (s.get("highlight") or "").strip()
+        h       = (s.get("heading")     or "").strip()
+        b       = (s.get("body")        or "").strip()
+        hl      = (s.get("highlight")   or "").strip()
+        sec_img = s.get("sectionImage") or {}
         if h or b:
             paras    = "\n".join(
                 f"<p>{_esc(p.strip())}</p>" for p in b.split("\n\n") if p.strip()
@@ -348,7 +370,17 @@ def _generate_html(category, title, slug, author, meta,
                 f'<div class="blog-highlight">'
                 f"<strong>💡 Key Insight:</strong> {_esc(hl)}</div>"
             ) if hl else ""
-            sections_html += f"<h2>{_esc(h)}</h2>\n{paras}\n{hl_block}\n"
+            # Optional inline section image
+            si_html = ""
+            si_name = sec_img.get("name", "")
+            if si_name:
+                safe_si = re.sub(r"[^a-zA-Z0-9._-]", "_", si_name)
+                si_html = (
+                    f'<img src="/blog/images/{slug}/{_esc(safe_si)}" '
+                    f'alt="{_esc(si_name)}" '
+                    f'style="max-width:100%;border-radius:8px;margin:0.8rem 0 1.2rem;">\n'
+                )
+            sections_html += f"<h2>{_esc(h)}</h2>\n{paras}\n{hl_block}\n{si_html}\n"
 
     imgs_html = ""
     for img in images:
