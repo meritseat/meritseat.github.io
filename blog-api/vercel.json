@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "functions": {
+    "api/auth/github.py":   { "runtime": "python3.12" },
+    "api/auth/callback.py": { "runtime": "python3.12" },
+    "api/submit_blog.py":   { "runtime": "python3.12" }
+  },
+  "rewrites": [
+    { "source": "/api/submit-blog", "destination": "/api/submit_blog" }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin",  "value": "https://meritseat.in" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+      ]
+    }
+  ]
+}

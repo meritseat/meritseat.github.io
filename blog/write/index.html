@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="canonical" href="https://meritseat.in/blog/write/" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH4LF10RKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-VH4LF10RKB');
+  </script>
+  <meta charset="UTF-8">
+  <title>Write a Blog | Share Your Knowledge | MeritSeat.in</title>
+  <meta name="description"
+    content="Write a blog for MeritSeat — share your college experience, study tips, or career advice with Tamil Nadu engineering students.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
+    crossorigin="anonymous"></script>
+
+  <style>
+    /* ─── Wizard layout ───────────────────────────────── */
+    .wizard-step {
+      display: none;
+    }
+
+    .wizard-step.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    /* ─── Step indicator ──────────────────────────────── */
+    .step-bar {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      padding: 1.5rem 0 0.5rem;
+    }
+
+    .step-bar.visible {
+      display: flex;
+    }
+
+    .step-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      background: #1f1f1f;
+      color: #666;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .step-dot.active {
+      border-color: #2196f3;
+      color: #2196f3;
+      box-shadow: 0 0 12px rgba(33, 150, 243, 0.4);
+    }
+
+    .step-dot.done {
+      background: #2196f3;
+      border-color: #2196f3;
+      color: #fff;
+    }
+
+    .step-line {
+      width: 60px;
+      height: 2px;
+      background: #333;
+    }
+
+    .step-line.done {
+      background: #2196f3;
+    }
+
+    .step-label-row {
+      display: none;
+      justify-content: center;
+      gap: 0;
+      font-size: 0.72rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-label-row.visible {
+      display: flex;
+    }
+
+    .step-label {
+      width: 94px;
+      text-align: center;
+    }
+
+    .step-label.active {
+      color: #2196f3;
+    }
+
+    .step-label.done {
+      color: #aaa;
+    }
+
+    /* ─── Welcome step ────────────────────────────────── */
+    .welcome-hero {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .welcome-hero .hero-emoji {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .welcome-hero h1 {
+      font-size: 2rem;
+      color: #fff;
+      margin: 0 0 0.8rem;
+      background: linear-gradient(135deg, #2196f3, #f09347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-hero p {
+      color: #aaa;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    .benefits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .benefit-card {
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      width: 140px;
+      text-align: center;
+    }
+
+    .benefit-card .b-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .benefit-card .b-label {
+      font-size: 0.8rem;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    /* ─── Category step ───────────────────────────────── */
+    .cat-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cat-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #252525;
+      border: 2px solid #333;
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .cat-card:hover {
+      border-color: #555;
+      background: #2c2c2c;
+      transform: translateX(4px);
+    }
+
+    .cat-card.cat-college:hover,
+    .cat-card.cat-college.selected {
+      border-color: #2196f3;
+      box-shadow: 0 0 16px rgba(33, 150, 243, 0.2);
+    }
+
+    .cat-card.cat-study:hover,
+    .cat-card.cat-study.selected {
+      border-color: #4caf50;
+      box-shadow: 0 0 16px rgba(76, 175, 80, 0.2);
+    }
+
+    .cat-card.cat-career:hover,
+    .cat-card.cat-career.selected {
+      border-color: #9c27b0;
+      box-shadow: 0 0 16px rgba(156, 39, 176, 0.2);
+    }
+
+    .cat-card .cat-emoji {
+      font-size: 2rem;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .cat-card .cat-info h3 {
+      margin: 0 0 0.2rem;
+      color: #fff;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .cat-card .cat-info p {
+      margin: 0;
+      color: #888;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    /* ─── Auth step ───────────────────────────────────── */
+    .auth-box {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .auth-box .auth-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .auth-box h2 {
+      color: #fff;
+      margin: 0 0 0.6rem;
+    }
+
+    .auth-box p {
+      color: #aaa;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      max-width: 420px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .github-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f6f8fa;
+      color: #24292f;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      width: auto;
+      margin: 0;
+    }
+
+    .github-btn:hover {
+      background: #e8eaed;
+      transform: scale(1.02);
+    }
+
+    .github-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .auth-success {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: rgba(76, 175, 80, 0.12);
+      border: 1px solid #4caf50;
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem auto;
+      max-width: 380px;
+      color: #4caf50;
+      font-weight: 600;
+    }
+
+    .auth-error-box {
+      display: none;
+      background: rgba(244, 67, 54, 0.12);
+      border: 1px solid #f44336;
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem auto;
+      max-width: 380px;
+      color: #ef9a9a;
+      font-size: 0.9rem;
+    }
+
+    .auth-permissions {
+      background: #252525;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1.2rem;
+      font-size: 0.82rem;
+      color: #888;
+      text-align: left;
+    }
+
+    .auth-permissions strong {
+      color: #ccc;
+    }
+
+    /* ─── Write form ──────────────────────────────────── */
+    .form-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-section-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .form-row .form-field {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .form-field {
+      margin-bottom: 1rem;
+    }
+
+    .form-field label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ccc;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .form-field label .required {
+      color: #f09347;
+      margin-left: 2px;
+    }
+
+    .form-field label .optional {
+      color: #555;
+      font-weight: 400;
+      font-size: 0.78rem;
+      margin-left: 4px;
+    }
+
+    .char-count {
+      font-size: 0.75rem;
+      color: #555;
+      float: right;
+    }
+
+    .char-count.warn {
+      color: #f09347;
+    }
+
+    .word-count-bar {
+      text-align: right;
+      font-size: 0.78rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .section-block {
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-header label {
+      color: #ccc;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .remove-section-btn {
+      background: rgba(244, 67, 54, 0.12);
+      color: #ef9a9a;
+      border: 1px solid #f44336;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      width: auto;
+      margin: 0;
+    }
+
+    .remove-section-btn:hover {
+      background: rgba(244, 67, 54, 0.25);
+      transform: none;
+    }
+
+    .add-section-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      background: rgba(33, 150, 243, 0.08);
+      color: #2196f3;
+      border: 1px dashed #2196f3;
+      border-radius: 10px;
+      padding: 0.8rem;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .add-section-btn:hover {
+      background: rgba(33, 150, 243, 0.16);
+      transform: none;
+    }
+
+    /* Image upload */
+    .img-upload-area {
+      border: 2px dashed #444;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .img-upload-area:hover {
+      border-color: #2196f3;
+      background: rgba(33, 150, 243, 0.05);
+    }
+
+    .img-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+
+    .img-upload-area .upload-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .img-upload-area p {
+      color: #888;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    .img-upload-area span {
+      font-size: 0.75rem;
+      color: #555;
+    }
+
+    .img-previews {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .img-preview-item {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #444;
+    }
+
+    .img-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .img-preview-item .remove-img {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.65rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      min-width: unset;
+    }
+
+    .img-preview-item .remove-img:hover {
+      background: #f44336;
+      transform: none;
+    }
+
+    .img-name-label {
+      font-size: 0.68rem;
+      color: #666;
+      text-align: center;
+      padding: 2px 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ─── Loading step ────────────────────────────────── */
+    .loading-box {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .spinner {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 5px solid #2a2a2a;
+      border-top-color: #2196f3;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-box h2 {
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+
+    #loading-msg {
+      color: #aaa;
+      font-size: 0.9rem;
+      min-height: 1.4em;
+      transition: opacity 0.3s;
+    }
+
+    .loading-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .loading-step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: #555;
+    }
+
+    .loading-step-item.done {
+      color: #4caf50;
+    }
+
+    .loading-step-item.active {
+      color: #2196f3;
+    }
+
+    /* ─── Success step ────────────────────────────────── */
+    .success-box {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .success-emoji {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+      animation: bounceIn 0.6s ease;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      70% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .success-box h2 {
+      font-size: 1.8rem;
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+
+    .success-box .subtitle {
+      color: #aaa;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .success-pr-card {
+      background: rgba(33, 150, 243, 0.08);
+      border: 1px solid #2196f3;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+      text-align: left;
+    }
+
+    .success-pr-card p {
+      color: #ccc;
+      font-size: 0.88rem;
+      margin: 0 0 0.8rem;
+    }
+
+    .success-pr-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #2196f3;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .next-steps {
+      background: #252525;
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      margin: 1rem 0;
+    }
+
+    .next-steps h3 {
+      color: #fff;
+      font-size: 1rem;
+      margin: 0 0 0.8rem;
+      text-align: left;
+    }
+
+    .next-steps ol {
+      color: #aaa;
+      font-size: 0.88rem;
+      padding-left: 1.2rem;
+      line-height: 1.9;
+      margin: 0;
+    }
+
+    .next-steps ol li strong {
+      color: #ccc;
+    }
+
+    .success-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .success-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      width: auto;
+      margin: 0;
+    }
+
+    .btn-primary {
+      background: rgba(240, 147, 71, 0.9);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: rgb(240, 114, 12);
+      transform: scale(1.02);
+    }
+
+    .btn-secondary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #2196f3;
+      border: 1px solid #2196f3;
+    }
+
+    .btn-secondary:hover {
+      background: #2196f3;
+      color: #fff;
+      transform: none;
+    }
+
+    /* ─── Shared back button ──────────────────────────── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #555;
+      font-size: 0.82rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0 0 1rem;
+      width: auto;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #aaa;
+      transform: none;
+      background: none;
+    }
+
+    /* ─── Submit button ───────────────────────────────── */
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background: rgba(240, 147, 71, 0.95);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1.5rem;
+      transition: all 0.25s;
+    }
+
+    .submit-btn:hover {
+      background: rgb(240, 114, 12);
+      transform: scale(1.01);
+    }
+
+    /* ─── Responsive ──────────────────────────────────── */
+    @media (max-width: 600px) {
+      .welcome-hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .benefits {
+        gap: 0.6rem;
+      }
+
+      .benefit-card {
+        width: 110px;
+      }
+
+      .step-line {
+        width: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+      <span class="site-title">Merit Seat</span>
+    </div>
+    <div class="burger" id="burger">&#9776;</div>
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+      <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <!-- Step indicator -->
+  <div class="step-bar" id="step-bar">
+    <div class="step-dot" id="dot-1">1</div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-dot" id="dot-2">2</div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step-dot" id="dot-3">3</div>
+  </div>
+  <div class="step-label-row" id="step-labels">
+    <span class="step-label" id="lbl-1">Category</span>
+    <span style="width:60px;"></span>
+    <span class="step-label" id="lbl-2">Login</span>
+    <span style="width:60px;"></span>
+    <span class="step-label" id="lbl-3">Write</span>
+  </div>
+
+  <!-- ═══════════════ STEP: WELCOME ═══════════════ -->
+  <div class="wizard-step active" id="step-welcome">
+    <div class="container">
+      <div class="welcome-hero">
+        <span class="hero-emoji">✍️</span>
+        <h1>Write for MeritSeat</h1>
+        <p>Share your college experience, study strategies, or career advice with thousands of Tamil Nadu engineering
+          students. Your knowledge can change someone's future.</p>
+        <div class="benefits">
+          <div class="benefit-card">
+            <div class="b-icon">📝</div>
+            <div class="b-label">Easy<br>Writing Tool</div>
+          </div>
+          <div class="benefit-card">
+            <div class="b-icon">✅</div>
+            <div class="b-label">Reviewed &<br>Published</div>
+          </div>
+          <div class="benefit-card">
+            <div class="b-icon">🏅</div>
+            <div class="b-label">Full Credit<br>to You</div>
+          </div>
+          <div class="benefit-card">
+            <div class="b-icon">🎓</div>
+            <div class="b-label">Help<br>Students</div>
+          </div>
+        </div>
+        <button class="submit-btn" style="max-width:260px;margin:0 auto;" onclick="goToStep('category')">
+          <i data-lucide="pen-line"></i> Start Writing →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: CATEGORY ═══════════════ -->
+  <div class="wizard-step" id="step-category">
+    <div class="container">
+      <button class="back-link" onclick="goToStep('welcome')">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back
+      </button>
+      <h2 style="margin-bottom:0.3rem;">Choose your blog category</h2>
+      <p style="color:#888;font-size:0.9rem;margin-bottom:1.5rem;">Select the category that best fits your topic.</p>
+
+      <div class="cat-grid">
+        <div class="cat-card cat-college" id="cat-college" onclick="selectCategory('college')">
+          <div class="cat-emoji">🏫</div>
+          <div class="cat-info">
+            <h3>College Blogs</h3>
+            <p>College reviews, campus life, hostel experiences, placement stories, and how to choose the right college.
+            </p>
+          </div>
+        </div>
+        <div class="cat-card cat-study" id="cat-study" onclick="selectCategory('study')">
+          <div class="cat-emoji">📖</div>
+          <div class="cat-info">
+            <h3>Study Blogs</h3>
+            <p>TNEA preparation tips, subject guides, study timetables, and strategies to maximise your +2 board scores.
+            </p>
+          </div>
+        </div>
+        <div class="cat-card cat-career" id="cat-career" onclick="selectCategory('career')">
+          <div class="cat-emoji">💼</div>
+          <div class="cat-info">
+            <h3>Career Blogs</h3>
+            <p>Career paths after engineering, highest-paying branches, placements, government jobs, and higher studies.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: LOGIN ═══════════════ -->
+  <div class="wizard-step" id="step-auth">
+    <div class="container">
+      <button class="back-link" onclick="goToStep('category')">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back
+      </button>
+      <div class="auth-box">
+        <div class="auth-icon">🔐</div>
+        <h2>Connect with GitHub</h2>
+        <p>We use your GitHub account to submit your blog as a Pull Request. Your post will be reviewed before it goes
+          live. You can sign in to GitHub using your Google account.</p>
+
+        <div class="auth-error-box" id="auth-error-box">
+          ⚠️ Authentication failed. Please try again.
+        </div>
+        <div class="auth-success" id="auth-success">
+          ✅ Logged in as <strong id="gh-username-display">@user</strong>
+          — <a href="#" onclick="goToStep('write');return false;" style="color:#4caf50;font-size:0.85rem;">Continue
+            →</a>
+        </div>
+
+        <button class="github-btn" id="github-login-btn" onclick="startOAuth()">
+          <!-- GitHub mark SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+              0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
+              1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+              0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+              .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15
+              0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
+              0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+          </svg>
+          Login with GitHub
+        </button>
+
+        <div class="auth-permissions">
+          <strong>🔒 What we request:</strong> Only <code>public_repo</code> scope — to create a branch and open a Pull
+          Request on the MeritSeat repo. We never access your private repositories.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: WRITE ═══════════════ -->
+  <div class="wizard-step" id="step-write">
+    <div class="container">
+      <div
+        style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+        <h2 style="margin:0;">Write Your Blog</h2>
+        <div id="category-badge" style="font-size:0.85rem;color:#888;"></div>
+      </div>
+
+      <!-- ── Basic Info ── -->
+      <div class="form-section">
+        <div class="form-section-title">📋 Basic Information</div>
+        <div class="form-row">
+          <div class="form-field" style="flex:2;">
+            <label for="inp-title">Post Title <span class="required">*</span></label>
+            <input type="text" id="inp-title"
+              placeholder="e.g., How to Choose the Right Engineering College in Tamil Nadu"
+              oninput="onTitleInput(this.value)">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field" style="flex:2;">
+            <label for="inp-slug">URL Slug <span class="required">*</span> <span class="optional">(auto-generated,
+                editable)</span></label>
+            <input type="text" id="inp-slug" placeholder="e.g., choose-right-engineering-college">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="inp-author">Your Name <span class="required">*</span></label>
+            <input type="text" id="inp-author" placeholder="e.g., Ravi Kumar">
+          </div>
+          <div class="form-field">
+            <label for="inp-email">Contact Email <span class="required">*</span></label>
+            <input type="email" id="inp-email" placeholder="e.g., you@gmail.com">
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Meta Description ── -->
+      <div class="form-section">
+        <div class="form-section-title">🔍 SEO Description</div>
+        <div class="form-field">
+          <label for="inp-meta">
+            Meta Description <span class="required">*</span>
+            <span class="char-count" id="meta-count">0 / 160</span>
+          </label>
+          <textarea id="inp-meta" rows="2" maxlength="160"
+            placeholder="A short summary of your post shown in Google search results (max 160 characters)."
+            oninput="updateMetaCount()"></textarea>
+        </div>
+      </div>
+
+      <!-- ── Content ── -->
+      <div class="form-section">
+        <div class="form-section-title">📝 Blog Content</div>
+        <div class="form-field">
+          <label for="inp-lead">Introduction / Lead Paragraph <span class="required">*</span></label>
+          <textarea id="inp-lead" rows="4"
+            placeholder="Write a compelling 2–3 sentence intro. Hook the reader and tell them what they'll learn."
+            oninput="calcWordCount()"></textarea>
+        </div>
+
+        <div style="font-size:0.82rem;color:#666;margin-bottom:0.8rem;">
+          <strong style="color:#aaa;">Content Sections</strong> — add up to 5 sections. Each can have a heading, body,
+          and an optional highlight box.
+        </div>
+
+        <div id="sections-container"></div>
+
+        <button class="add-section-btn" id="add-section-btn" onclick="addSection()">
+          <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Add Another Section
+        </button>
+
+        <div class="word-count-bar" id="word-count-bar">0 words · ~1 min read</div>
+      </div>
+
+      <!-- ── Images ── -->
+      <div class="form-section">
+        <div class="form-section-title">🖼️ Images <span
+            style="text-transform:none;font-weight:400;color:#555;">(optional — max 3, 5 MB each)</span></div>
+        <div class="img-upload-area" id="img-upload-area">
+          <input type="file" accept="image/*" multiple id="inp-images" onchange="handleImageUpload(this)">
+          <div class="upload-icon">📁</div>
+          <p>Click or drag images here to upload</p>
+          <span>PNG, JPG, GIF · Max 5 MB each · Max 3 images</span>
+        </div>
+        <div class="img-previews" id="img-previews"></div>
+      </div>
+
+      <button class="submit-btn" onclick="submitBlog()">
+        <i data-lucide="send"></i> Submit for Review
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: LOADING ═══════════════ -->
+  <div class="wizard-step" id="step-loading">
+    <div class="container">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <h2>Submitting your blog…</h2>
+        <p id="loading-msg">Preparing your post…</p>
+        <div class="loading-steps">
+          <div class="loading-step-item" id="ls-branch">⬜ Creating your branch</div>
+          <div class="loading-step-item" id="ls-commit">⬜ Uploading blog post</div>
+          <div class="loading-step-item" id="ls-sitemap">⬜ Updating sitemap</div>
+          <div class="loading-step-item" id="ls-pr">⬜ Opening pull request</div>
+          <div class="loading-step-item" id="ls-reviewer">⬜ Requesting review</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: SUCCESS ═══════════════ -->
+  <div class="wizard-step" id="step-success">
+    <div class="container">
+      <div class="success-box">
+        <span class="success-emoji">🎉</span>
+        <h2>Blog Submitted!</h2>
+        <p class="subtitle">Your blog is now waiting for review. Once approved, it will appear live on MeritSeat.</p>
+
+        <div class="success-pr-card">
+          <p>Your Pull Request has been opened on GitHub:</p>
+          <a href="#" id="pr-link" target="_blank" rel="noopener">
+            <i data-lucide="github" style="width:16px;height:16px;"></i>
+            View Pull Request
+          </a>
+        </div>
+
+        <div class="next-steps">
+          <h3>What happens next?</h3>
+          <ol>
+            <li>The <strong>MeritSeat team</strong> reviews your post for accuracy and quality.</li>
+            <li>If approved, your post is <strong>merged and published</strong> automatically.</li>
+            <li>You'll receive a <strong>notification</strong> once your blog is live.</li>
+            <li>Your post will be <strong>listed</strong> on the category page with full credit to you.</li>
+          </ol>
+        </div>
+
+        <div class="success-actions">
+          <button class="success-btn btn-primary" onclick="resetWizard()">
+            <i data-lucide="pen-line"></i> Write Another Blog
+          </button>
+          <a class="success-btn btn-secondary" href="/blog/">
+            <i data-lucide="book-open"></i> Browse Blogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════════════════════
+    // ⚙️  CONFIGURATION — Update VERCEL_API_URL after deploying!
+    // ══════════════════════════════════════════════════════════════
+    const VERCEL_API_URL = 'https://meritseat-blog-api.vercel.app'; // ← Set this after Vercel deploy
+
+    // ── State ──────────────────────────────────────────────────────
+    let appState = {
+      step: 'welcome',
+      category: null,
+      token: null,
+      ghUser: null,
+      ghName: null,
+      readingTime: 1,
+    };
+    let sections = [{ id: 1, heading: '', body: '', highlight: '' }];
+    let images = [];
+
+    // ── Init ───────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initBurger();
+
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const authErr = params.get('auth_error');
+      const catParam = params.get('category');
+
+      if (token) {
+        // Returning from GitHub OAuth
+        appState.token = token;
+        appState.ghUser = params.get('gh_user') || '';
+        appState.ghName = params.get('gh_name') || '';
+        const ghEmail = params.get('gh_email') || '';
+        sessionStorage.setItem('ms_token', appState.token);
+        sessionStorage.setItem('ms_gh_user', appState.ghUser);
+        sessionStorage.setItem('ms_gh_name', appState.ghName);
+        sessionStorage.setItem('ms_gh_email', ghEmail);
+        history.replaceState({}, '', '/blog/write/');
+        appState.category = sessionStorage.getItem('ms_category');
+        initWriteStep(ghEmail);
+        goToStep('write');
+
+      } else if (authErr) {
+        history.replaceState({}, '', '/blog/write/');
+        appState.category = sessionStorage.getItem('ms_category');
+        showAuthError(authErr);
+        goToStep('auth');
+
+      } else if (sessionStorage.getItem('ms_token')) {
+        // Already authenticated
+        appState.token = sessionStorage.getItem('ms_token');
+        appState.ghUser = sessionStorage.getItem('ms_gh_user');
+        appState.ghName = sessionStorage.getItem('ms_gh_name');
+        appState.category = sessionStorage.getItem('ms_category');
+        const ghEmail = sessionStorage.getItem('ms_gh_email') || '';
+        if (appState.category) {
+          initWriteStep(ghEmail);
+          goToStep('write');
+        } else {
+          goToStep('category');
+        }
+      } else if (catParam && ['college', 'study', 'career'].includes(catParam)) {
+        appState.category = catParam;
+        sessionStorage.setItem('ms_category', catParam);
+        goToStep('auth');
+      } else {
+        goToStep('welcome');
+      }
+
+      renderSections();
+    });
+
+    // ── Step navigation ────────────────────────────────────────────
+    function goToStep(step) {
+      appState.step = step;
+      document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
+      const el = document.getElementById(`step-${step}`);
+      if (el) {
+        el.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      updateStepBar();
+      lucide.createIcons();
+    }
+
+    function updateStepBar() {
+      const stepMap = { category: 1, auth: 2, write: 3 };
+      const bar = document.getElementById('step-bar');
+      const labels = document.getElementById('step-labels');
+      const hidden = ['welcome', 'loading', 'success'].includes(appState.step);
+
+      bar.classList.toggle('visible', !hidden);
+      labels.classList.toggle('visible', !hidden);
+
+      const current = stepMap[appState.step] || 0;
+      [1, 2, 3].forEach(i => {
+        const dot = document.getElementById(`dot-${i}`);
+        const lbl = document.getElementById(`lbl-${i}`);
+        dot.classList.toggle('active', i === current);
+        dot.classList.toggle('done', i < current);
+        if (lbl) {
+          lbl.classList.toggle('active', i === current);
+          lbl.classList.toggle('done', i < current);
+        }
+        if (i < 3) {
+          document.getElementById(`line-${i}`)?.classList.toggle('done', i < current);
+        }
+      });
+    }
+
+    // ── Category selection ─────────────────────────────────────────
+    function selectCategory(cat) {
+      appState.category = cat;
+      sessionStorage.setItem('ms_category', cat);
+      document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById(`cat-${cat}`)?.classList.add('selected');
+      setTimeout(() => goToStep('auth'), 200);
+    }
+
+    // ── OAuth ──────────────────────────────────────────────────────
+    function startOAuth() {
+      const state = Math.random().toString(36).substring(2);
+      sessionStorage.setItem('ms_oauth_state', state);
+      window.location.href = `${VERCEL_API_URL}/api/auth/github?state=${state}`;
+    }
+
+    function showAuthError(errCode) {
+      const box = document.getElementById('auth-error-box');
+      const msgs = {
+        no_code: 'GitHub did not return an authorization code. Please try again.',
+        bad_verification_code: 'The authorization code expired. Please try again.',
+        server_error: 'A server error occurred. Please try again in a moment.',
+      };
+      box.textContent = '⚠️ ' + (msgs[errCode] || `Authentication error: ${errCode}. Please try again.`);
+      box.style.display = 'block';
+    }
+
+    // ── Init write step with user data ─────────────────────────────
+    function initWriteStep(ghEmail) {
+      // Show auth success badge
+      const successBadge = document.getElementById('auth-success');
+      const usernameDisplay = document.getElementById('gh-username-display');
+      if (successBadge && appState.ghUser) {
+        successBadge.style.display = 'flex';
+        usernameDisplay.textContent = '@' + appState.ghUser;
+        document.getElementById('github-login-btn').style.display = 'none';
+      }
+
+      // Pre-fill author name and email from GitHub
+      const authorInput = document.getElementById('inp-author');
+      const emailInput = document.getElementById('inp-email');
+      if (authorInput && !authorInput.value && appState.ghName) authorInput.value = appState.ghName;
+      if (emailInput && !emailInput.value && ghEmail) emailInput.value = ghEmail;
+
+      // Show category badge
+      const catNames = { college: '🏫 College Blogs', study: '📖 Study Blogs', career: '💼 Career Blogs' };
+      const badge = document.getElementById('category-badge');
+      if (badge && appState.category) badge.textContent = catNames[appState.category] || '';
+    }
+
+    // ── Sections ───────────────────────────────────────────────────
+    function renderSections() {
+      const container = document.getElementById('sections-container');
+      const addBtn = document.getElementById('add-section-btn');
+      if (!container) return;
+
+      container.innerHTML = sections.map((sec, i) => `
+        <div class="section-block" id="sec-blk-${sec.id}">
+          <div class="section-header">
+            <label>Section ${i + 1} Heading</label>
+            ${sections.length > 1
+          ? `<button type="button" class="remove-section-btn" onclick="removeSection(${sec.id})">✕ Remove</button>`
+          : ''}
+          </div>
+          <input type="text" placeholder="e.g., Why Campus Placement Matters"
+                 value="${esc(sec.heading)}"
+                 oninput="updateSection(${sec.id},'heading',this.value)">
+          <label style="margin-top:0.8rem;display:block;font-size:.85rem;font-weight:600;color:#ccc;">Section ${i + 1} Content</label>
+          <textarea rows="5" placeholder="Write the content for this section. Use a blank line to separate paragraphs."
+                    oninput="updateSection(${sec.id},'body',this.value);calcWordCount();">${esc(sec.body)}</textarea>
+          <label style="margin-top:0.8rem;display:block;font-size:.85rem;font-weight:600;color:#ccc;">
+            Highlight Box <span style="font-weight:400;color:#555;font-size:.78rem;">(optional)</span>
+          </label>
+          <input type="text" placeholder="💡 A key insight or tip for this section (leave blank to skip)..."
+                 value="${esc(sec.highlight)}"
+                 oninput="updateSection(${sec.id},'highlight',this.value)">
+        </div>`).join('');
+
+      if (addBtn) addBtn.style.display = sections.length >= 5 ? 'none' : 'flex';
+      lucide.createIcons();
+    }
+
+    function addSection() {
+      if (sections.length >= 5) return;
+      sections.push({ id: Date.now(), heading: '', body: '', highlight: '' });
+      renderSections();
+    }
+
+    function removeSection(id) {
+      if (sections.length <= 1) return;
+      sections = sections.filter(s => s.id !== id);
+      renderSections();
+    }
+
+    function updateSection(id, field, value) {
+      const s = sections.find(s => s.id === id);
+      if (s) s[field] = value;
+    }
+
+    // ── Slug / meta ────────────────────────────────────────────────
+    function onTitleInput(val) {
+      const slug = val.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim().replace(/\s+/g, '-')
+        .replace(/-+/g, '-').substring(0, 60);
+      document.getElementById('inp-slug').value = slug;
+      calcWordCount();
+    }
+
+    function updateMetaCount() {
+      const len = document.getElementById('inp-meta').value.length;
+      const counter = document.getElementById('meta-count');
+      counter.textContent = `${len} / 160`;
+      counter.classList.toggle('warn', len > 130);
+    }
+
+    function calcWordCount() {
+      const sources = [
+        document.getElementById('inp-lead')?.value || '',
+        ...sections.map(s => s.body),
+      ];
+      const words = sources.join(' ').split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.round(words / 200));
+      appState.readingTime = mins;
+      const bar = document.getElementById('word-count-bar');
+      if (bar) bar.textContent = `${words} words · ~${mins} min read`;
+    }
+
+    // ── Images ─────────────────────────────────────────────────────
+    async function handleImageUpload(input) {
+      const files = Array.from(input.files);
+      if (images.length + files.length > 3) {
+        alert('Maximum 3 images are allowed. Please remove one before adding more.');
+        input.value = '';
+        return;
+      }
+      for (const file of files) {
+        if (file.size > 5 * 1024 * 1024) {
+          alert(`"${file.name}" exceeds the 5 MB limit and was skipped.`);
+          continue;
+        }
+        const dataUrl = await toBase64(file);
+        images.push({ name: file.name, base64: dataUrl.split(',')[1], previewUrl: dataUrl });
+      }
+      input.value = '';
+      renderImages();
+    }
+
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+    }
+
+    function removeImage(i) {
+      images.splice(i, 1);
+      renderImages();
+    }
+
+    function renderImages() {
+      const container = document.getElementById('img-previews');
+      container.innerHTML = images.map((img, i) => `
+        <div class="img-preview-item">
+          <img src="${img.previewUrl}" alt="${img.name}">
+          <button class="remove-img" onclick="removeImage(${i})">✕</button>
+        </div>
+        <div class="img-name-label">${img.name.substring(0, 16)}${img.name.length > 16 ? '…' : ''}</div>
+      `).join('');
+    }
+
+    // ── Submit ─────────────────────────────────────────────────────
+    async function submitBlog() {
+      const title = document.getElementById('inp-title').value.trim();
+      const slug = document.getElementById('inp-slug').value.trim();
+      const author = document.getElementById('inp-author').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const meta = document.getElementById('inp-meta').value.trim();
+      const lead = document.getElementById('inp-lead').value.trim();
+
+      if (!title) { alert('Please enter a blog title.'); return; }
+      if (!slug) { alert('Please enter a URL slug.'); return; }
+      if (!author) { alert('Please enter your name.'); return; }
+      if (!email) { alert('Please enter your contact email.'); return; }
+      if (!meta) { alert('Please write a meta description.'); return; }
+      if (!lead) { alert('Please write an introduction paragraph.'); return; }
+      if (!/^[a-z0-9-]+$/.test(slug)) {
+        alert('URL slug can only contain lowercase letters, numbers, and hyphens.');
+        return;
+      }
+
+      const loadingMsgs = [
+        { id: 'ls-branch', text: 'Creating your branch…' },
+        { id: 'ls-commit', text: 'Uploading your blog…' },
+        { id: 'ls-sitemap', text: 'Updating sitemap…' },
+        { id: 'ls-pr', text: 'Opening pull request…' },
+        { id: 'ls-reviewer', text: 'Requesting review…' },
+      ];
+
+      goToStep('loading');
+
+      let msgIdx = 0;
+      const msgEl = document.getElementById('loading-msg');
+      const interval = setInterval(() => {
+        if (msgIdx < loadingMsgs.length) {
+          if (msgIdx > 0) {
+            const prev = document.getElementById(loadingMsgs[msgIdx - 1].id);
+            if (prev) { prev.textContent = '✅ ' + prev.textContent.replace(/^⬜ /, ''); prev.classList.add('done'); }
+          }
+          const cur = document.getElementById(loadingMsgs[msgIdx].id);
+          if (cur) { cur.textContent = '⏳ ' + loadingMsgs[msgIdx].text; cur.classList.add('active'); }
+          if (msgEl) msgEl.textContent = loadingMsgs[msgIdx].text;
+          msgIdx++;
+        }
+      }, 1400);
+
+      try {
+        const res = await fetch(`${VERCEL_API_URL}/api/submit-blog`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: appState.token,
+            category: appState.category,
+            title, slug, author, email,
+            metaDescription: meta,
+            leadText: lead,
+            sections,
+            images,
+            readingTime: appState.readingTime,
+          }),
+        });
+
+        clearInterval(interval);
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: res.statusText }));
+          throw new Error(err.error || 'Submission failed. Please try again.');
+        }
+
+        const data = await res.json();
+
+        // Clear session
+        ['ms_token', 'ms_gh_user', 'ms_gh_name', 'ms_gh_email', 'ms_category'].forEach(k => sessionStorage.removeItem(k));
+
+        // Mark all loading steps done
+        loadingMsgs.forEach(m => {
+          const el = document.getElementById(m.id);
+          if (el) { el.textContent = '✅ Done'; el.classList.add('done'); el.classList.remove('active'); }
+        });
+
+        // Show success
+        const prLink = document.getElementById('pr-link');
+        if (prLink) {
+          prLink.href = data.prUrl;
+          prLink.textContent = `View Pull Request #${data.prNumber}`;
+        }
+        setTimeout(() => goToStep('success'), 600);
+
+      } catch (err) {
+        clearInterval(interval);
+        alert(`Submission failed:\n${err.message}\n\nPlease try again.`);
+        goToStep('write');
+      }
+    }
+
+    // ── Reset ──────────────────────────────────────────────────────
+    function resetWizard() {
+      appState = { step: 'welcome', category: null, token: null, ghUser: null, ghName: null, readingTime: 1 };
+      sections = [{ id: 1, heading: '', body: '', highlight: '' }];
+      images = [];
+      ['inp-title', 'inp-slug', 'inp-author', 'inp-email', 'inp-meta', 'inp-lead'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      goToStep('welcome');
+    }
+
+    // ── Burger menu ────────────────────────────────────────────────
+    function initBurger() {
+      const burger = document.getElementById('burger');
+      const navLinks = document.getElementById('nav-links');
+      if (burger && navLinks) {
+        burger.addEventListener('click', () => navLinks.classList.toggle('show'));
+        document.addEventListener('click', e => {
+          if (navLinks.classList.contains('show') && !navLinks.contains(e.target) && !burger.contains(e.target)) {
+            navLinks.classList.remove('show');
+          }
+        });
+      }
+    }
+
+    // ── Escape for inline HTML attrs ──────────────────────────────
+    function esc(s) { return String(s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<!--
+  =============================================================
+  MERITSEAT — CAREER BLOG POST TEMPLATE
+  =============================================================
+  HOW TO USE:
+  1. Copy this file to a new folder:
+       blog/career/YOUR-POST-SLUG/index.html
+     Example: blog/career/cse-vs-ece-career-comparison/index.html
+
+  2. Search for all <!-- EDIT: tags and replace with your content.
+
+  3. After writing your post, add a card in blog/career/index.html
+     (copy the sample .post-card block and update its fields).
+
+  4. Add the new URL to sitemap.xml
+
+  5. Commit and push to GitHub — it will go live automatically!
+  =============================================================
+-->
+<html lang="en">
+<head>
+  <link rel="canonical" href="https://meritseat.in/blog/career/YOUR-POST-SLUG/" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH4LF10RKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VH4LF10RKB');
+  </script>
+  <meta charset="UTF-8">
+
+  <!-- EDIT: Change this to your post title + | Career Blogs | MeritSeat.in -->
+  <title>YOUR POST TITLE | Career Blogs | MeritSeat.in</title>
+
+  <!-- EDIT: Write a 1-2 sentence summary of your post (for Google search results) -->
+  <meta name="description" content="YOUR POST META DESCRIPTION — Keep it under 160 characters.">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
+     crossorigin="anonymous"></script>
+
+  <style>
+    /* === Blog Post Styles (Career — Purple accent) === */
+    :root { --accent: #9c27b0; --accent-light: #b366d4; --accent-bg: rgba(156,39,176,0.12); }
+
+    .breadcrumb { font-size: 0.85rem; color: #aaa; margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--accent-light); }
+    .breadcrumb span { margin: 0 6px; }
+
+    .post-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600; margin-bottom: 1rem;
+      background: var(--accent-bg); color: var(--accent-light); border: 1px solid var(--accent);
+    }
+
+    .post-title {
+      font-size: 1.8rem; font-weight: 600; color: #fff;
+      line-height: 1.3; margin: 0 0 1rem 0; text-align: left;
+    }
+
+    .post-meta {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      font-size: 0.85rem; color: #888; margin-bottom: 1.5rem;
+      padding-bottom: 1rem; border-bottom: 1px solid #333;
+    }
+
+    .lead-text {
+      font-size: 1.05rem; color: #ccc; line-height: 1.8;
+      margin-bottom: 1.5rem; font-style: italic;
+      border-left: 3px solid var(--accent); padding-left: 1rem;
+    }
+
+    .post-body h2 {
+      font-size: 1.3rem; color: #fff; margin: 2rem 0 0.8rem 0;
+      padding-bottom: 0.4rem; border-bottom: 1px solid #333;
+      text-align: left;
+    }
+
+    .post-body h3 {
+      font-size: 1.1rem; color: #e0e0e0; margin: 1.5rem 0 0.6rem 0;
+      text-align: left;
+    }
+
+    .post-body p { color: #ccc; line-height: 1.8; margin-bottom: 1rem; }
+
+    .blog-list { padding-left: 1.5rem; margin: 0.5rem 0 1rem 0; }
+    .blog-list li { color: #ccc; line-height: 1.8; margin-bottom: 0.4rem; }
+    .blog-list li::marker { color: var(--accent-light); }
+
+    .blog-highlight {
+      background: var(--accent-bg); border: 1px solid var(--accent);
+      border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0;
+      color: #e1bee7;
+    }
+    .blog-highlight strong { color: var(--accent-light); }
+
+    /* Comparison table — great for career posts */
+    .compare-table { width: 100%; margin: 1rem 0 1.5rem 0; }
+    .compare-table th {
+      background: var(--accent-bg); color: var(--accent-light);
+      border-color: var(--accent) !important;
+    }
+    .compare-table tbody tr:hover td { background-color: rgba(156,39,176,0.2) !important; }
+
+    /* Career path card row */
+    .career-cards { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1rem 0; }
+    .career-card-item {
+      flex: 1; min-width: 140px; background: #2a2a2a;
+      border: 1px solid var(--accent); border-radius: 10px;
+      padding: 0.8rem 1rem; text-align: center;
+    }
+    .career-card-item .card-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .career-card-item .card-title { font-size: 0.85rem; color: var(--accent-light); font-weight: 600; }
+    .career-card-item .card-desc  { font-size: 0.78rem; color: #aaa; margin-top: 0.2rem; }
+
+    .post-footer {
+      margin-top: 2.5rem; padding-top: 1.5rem;
+      border-top: 1px solid #333;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; background: var(--accent-bg); color: var(--accent-light);
+      border: 1px solid var(--accent); border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      transition: all 0.25s ease; width: auto; margin-top: 0;
+    }
+    .back-btn:hover { background: var(--accent); color: #fff; transform: none; }
+
+    @media (max-width: 768px) {
+      .post-title { font-size: 1.3rem; }
+      .lead-text  { font-size: 0.95rem; }
+      .career-cards { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+      <span class="site-title">Merit Seat</span>
+    </div>
+    <div class="burger" id="burger">&#9776;</div>
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+      <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Breadcrumb navigation -->
+    <div class="breadcrumb">
+      <a href="/">Home</a><span>›</span>
+      <a href="/blog/">Blog</a><span>›</span>
+      <a href="/blog/career/">Career Blogs</a><span>›</span>
+      <!-- EDIT: Replace with your post title (short version) -->
+      YOUR POST TITLE
+    </div>
+
+    <!-- Category badge -->
+    <span class="post-badge">💼 Career Blogs</span>
+
+    <!-- EDIT: Your full post title -->
+    <h1 class="post-title">YOUR POST TITLE GOES HERE</h1>
+
+    <!-- Post meta info -->
+    <div class="post-meta">
+      <!-- EDIT: Publication date -->
+      <span>📅 April 1, 2025</span>
+      <!-- EDIT: Author name -->
+      <span>✍️ Your Name</span>
+      <!-- EDIT: Estimated reading time -->
+      <span>⏱️ 6 min read</span>
+    </div>
+
+    <!-- ==================== POST BODY ==================== -->
+    <div class="post-body">
+
+      <!-- Lead paragraph (intro) -->
+      <p class="lead-text">
+        <!-- EDIT: Write 2-3 sentences that hook the reader and summarise the career topic -->
+        Write a compelling introduction here. Tell the reader what career paths, opportunities, or decisions this post will help them navigate.
+      </p>
+
+      <!-- ─── SECTION 1 ─── -->
+      <h2><!-- EDIT --> Section 1: Overview / Background</h2>
+
+      <p>
+        <!-- EDIT -->
+        Set the context for your career topic. Give an overview of the industry, branch, or opportunity you're writing about.
+      </p>
+
+      <!-- Optional: Career path visual cards -->
+      <div class="career-cards">
+        <!-- EDIT: Add/remove/update cards for each career path/option -->
+        <div class="career-card-item">
+          <div class="card-icon">💻</div>
+          <div class="card-title">Option 1</div>
+          <div class="card-desc">Brief description</div>
+        </div>
+        <div class="career-card-item">
+          <div class="card-icon">🏭</div>
+          <div class="card-title">Option 2</div>
+          <div class="card-desc">Brief description</div>
+        </div>
+        <div class="career-card-item">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">Option 3</div>
+          <div class="card-desc">Brief description</div>
+        </div>
+        <div class="career-card-item">
+          <div class="card-icon">📚</div>
+          <div class="card-title">Option 4</div>
+          <div class="card-desc">Brief description</div>
+        </div>
+      </div>
+
+      <!-- ─── SECTION 2 ─── -->
+      <h2><!-- EDIT --> Section 2: Salary & Placement Data</h2>
+
+      <p>
+        <!-- EDIT -->
+        Share relevant placement or salary data here. Use specific numbers when possible — they make the post more trustworthy.
+      </p>
+
+      <!-- Optional: Comparison table (great for branch comparisons) -->
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <!-- EDIT: Update column headers -->
+            <th>Branch / Option</th>
+            <th>Avg Package</th>
+            <th>Job Market</th>
+            <th>Higher Studies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- EDIT: Add/remove rows as needed -->
+          <tr>
+            <td>Option A</td>
+            <td>₹X LPA</td>
+            <td>High</td>
+            <td>M.Tech / MS</td>
+          </tr>
+          <tr>
+            <td>Option B</td>
+            <td>₹Y LPA</td>
+            <td>Medium</td>
+            <td>MBA / GATE</td>
+          </tr>
+          <tr>
+            <td>Option C</td>
+            <td>₹Z LPA</td>
+            <td>Steady</td>
+            <td>Govt Jobs</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ─── SECTION 3 ─── -->
+      <h2><!-- EDIT --> Section 3: Skills Required / How to Prepare</h2>
+
+      <p>
+        <!-- EDIT -->
+        What skills or steps does a student need to succeed in this career path?
+      </p>
+
+      <!-- Optional: Skills list -->
+      <ul class="blog-list">
+        <!-- EDIT -->
+        <li>Skill or preparation step #1</li>
+        <li>Skill or preparation step #2</li>
+        <li>Skill or preparation step #3</li>
+        <li>Skill or preparation step #4</li>
+      </ul>
+
+      <!-- Optional: Highlight box -->
+      <div class="blog-highlight">
+        <strong>💡 Career Insight:</strong>
+        <!-- EDIT: A valuable insight or industry fact -->
+        Write a key career insight here that students wouldn't easily find elsewhere.
+      </div>
+
+      <!-- Optional: Sub-section -->
+      <h3><!-- EDIT --> Government vs Private Sector (or any sub-topic)</h3>
+      <p>
+        <!-- EDIT -->
+        Explore a specific sub-topic related to the career path.
+      </p>
+
+      <!-- Optional: Quote -->
+      <blockquote>
+        <!-- EDIT -->
+        "A relevant quote from an industry expert or a key statistic about the job market."
+      </blockquote>
+
+      <!-- ─── CONCLUSION ─── -->
+      <h2>Conclusion</h2>
+      <p>
+        <!-- EDIT: Summarise key points and give a clear call to action -->
+        Wrap up the post with the most important takeaways. Guide the student toward their next step — whether that's choosing a branch, using the MeritSeat predictor, or doing more research.
+      </p>
+
+    </div>
+    <!-- ==================== END POST BODY ==================== -->
+
+    <!-- Footer navigation -->
+    <div class="post-footer">
+      <a class="back-btn" href="/blog/career/">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back to Career Blogs
+      </a>
+      <a class="back-btn" href="/blog/">
+        <i data-lucide="layout-grid" style="width:14px;height:14px;"></i> All Categories
+      </a>
+    </div>
+
+  </div>
+
+  <!-- AdSense -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-format="fluid"
+       data-ad-layout-key="-er-29-16-82+yx"
+       data-ad-client="ca-pub-6236248589959486"
+       data-ad-slot="2150554952"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <script>
+    lucide.createIcons();
+    document.addEventListener("DOMContentLoaded", function () {
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+      if (burger && navLinks) {
+        burger.addEventListener("click", () => { navLinks.classList.toggle("show"); });
+        document.addEventListener("click", function (event) {
+          if (navLinks.classList.contains("show") && !navLinks.contains(event.target) && !burger.contains(event.target)) {
+            navLinks.classList.remove("show");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--
+  =============================================================
+  MERITSEAT — COLLEGE BLOG POST TEMPLATE
+  =============================================================
+  HOW TO USE:
+  1. Copy this file to a new folder:
+       blog/college/YOUR-POST-SLUG/index.html
+     Example: blog/college/anna-university-review/index.html
+
+  2. Search for all <!-- EDIT: tags and replace with your content.
+
+  3. After writing your post, add a card in blog/college/index.html
+     (copy the sample .post-card block and update its fields).
+
+  4. Add the new URL to sitemap.xml
+
+  5. Commit and push to GitHub — it will go live automatically!
+  =============================================================
+-->
+<html lang="en">
+<head>
+  <link rel="canonical" href="https://meritseat.in/blog/college/YOUR-POST-SLUG/" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH4LF10RKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VH4LF10RKB');
+  </script>
+  <meta charset="UTF-8">
+
+  <!-- EDIT: Change this to your post title + | College Blogs | MeritSeat.in -->
+  <title>YOUR POST TITLE | College Blogs | MeritSeat.in</title>
+
+  <!-- EDIT: Write a 1-2 sentence summary of your post (for Google search results) -->
+  <meta name="description" content="YOUR POST META DESCRIPTION — Keep it under 160 characters.">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
+     crossorigin="anonymous"></script>
+
+  <style>
+    /* === Blog Post Styles (College — Blue accent) === */
+    :root { --accent: #2196f3; --accent-bg: rgba(33,150,243,0.12); }
+
+    .breadcrumb { font-size: 0.85rem; color: #aaa; margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--accent); }
+    .breadcrumb span { margin: 0 6px; }
+
+    .post-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600; margin-bottom: 1rem;
+      background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent);
+    }
+
+    .post-title {
+      font-size: 1.8rem; font-weight: 600; color: #fff;
+      line-height: 1.3; margin: 0 0 1rem 0; text-align: left;
+    }
+
+    .post-meta {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      font-size: 0.85rem; color: #888; margin-bottom: 1.5rem;
+      padding-bottom: 1rem; border-bottom: 1px solid #333;
+    }
+
+    .lead-text {
+      font-size: 1.05rem; color: #ccc; line-height: 1.8;
+      margin-bottom: 1.5rem; font-style: italic;
+      border-left: 3px solid var(--accent); padding-left: 1rem;
+    }
+
+    .post-body h2 {
+      font-size: 1.3rem; color: #fff; margin: 2rem 0 0.8rem 0;
+      padding-bottom: 0.4rem; border-bottom: 1px solid #333;
+      text-align: left;
+    }
+
+    .post-body h3 {
+      font-size: 1.1rem; color: #e0e0e0; margin: 1.5rem 0 0.6rem 0;
+      text-align: left;
+    }
+
+    .post-body p { color: #ccc; line-height: 1.8; margin-bottom: 1rem; }
+
+    .blog-list { padding-left: 1.5rem; margin: 0.5rem 0 1rem 0; }
+    .blog-list li { color: #ccc; line-height: 1.8; margin-bottom: 0.4rem; }
+    .blog-list li::marker { color: var(--accent); }
+
+    .blog-highlight {
+      background: var(--accent-bg); border: 1px solid var(--accent);
+      border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0;
+      color: #cfe9ff;
+    }
+    .blog-highlight strong { color: var(--accent); }
+
+    .post-footer {
+      margin-top: 2.5rem; padding-top: 1.5rem;
+      border-top: 1px solid #333;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; background: var(--accent-bg); color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      transition: all 0.25s ease; width: auto; margin-top: 0;
+    }
+    .back-btn:hover { background: var(--accent); color: #fff; transform: none; }
+
+    @media (max-width: 768px) {
+      .post-title { font-size: 1.3rem; }
+      .lead-text  { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+      <span class="site-title">Merit Seat</span>
+    </div>
+    <div class="burger" id="burger">&#9776;</div>
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+      <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Breadcrumb navigation -->
+    <div class="breadcrumb">
+      <a href="/">Home</a><span>›</span>
+      <a href="/blog/">Blog</a><span>›</span>
+      <a href="/blog/college/">College Blogs</a><span>›</span>
+      <!-- EDIT: Replace with your post title (short version) -->
+      YOUR POST TITLE
+    </div>
+
+    <!-- Category badge -->
+    <span class="post-badge">🏫 College Blogs</span>
+
+    <!-- EDIT: Your full post title -->
+    <h1 class="post-title">YOUR POST TITLE GOES HERE</h1>
+
+    <!-- Post meta info -->
+    <div class="post-meta">
+      <!-- EDIT: Publication date -->
+      <span>📅 April 1, 2025</span>
+      <!-- EDIT: Author name -->
+      <span>✍️ Your Name</span>
+      <!-- EDIT: Estimated reading time -->
+      <span>⏱️ 5 min read</span>
+    </div>
+
+    <!-- ==================== POST BODY ==================== -->
+    <div class="post-body">
+
+      <!-- Lead paragraph (intro) — make it compelling! -->
+      <p class="lead-text">
+        <!-- EDIT: Write a strong 2-3 sentence introduction that hooks the reader -->
+        Write your engaging introduction here. Explain what this post is about and why the reader should care.
+      </p>
+
+      <!-- ─── SECTION 1 ─── -->
+      <h2><!-- EDIT: Section 1 Heading --> Section 1: Your First Main Topic</h2>
+
+      <p>
+        <!-- EDIT: Write your paragraph content here -->
+        Start writing your first section here. Keep paragraphs focused — one idea per paragraph works best.
+      </p>
+
+      <!-- Optional: Key points list -->
+      <ul class="blog-list">
+        <!-- EDIT: Add/remove list items as needed -->
+        <li>First key point or fact</li>
+        <li>Second key point or fact</li>
+        <li>Third key point or fact</li>
+      </ul>
+
+      <!-- ─── SECTION 2 ─── -->
+      <h2><!-- EDIT: Section 2 Heading --> Section 2: Your Second Topic</h2>
+
+      <p>
+        <!-- EDIT: Write your second section content -->
+        Continue your post with the next main topic here.
+      </p>
+
+      <!-- Optional: Highlight / callout box -->
+      <div class="blog-highlight">
+        <strong>💡 Pro Tip:</strong>
+        <!-- EDIT: Write a useful tip or important note -->
+        Write a helpful insight or important fact that you want readers to remember here.
+      </div>
+
+      <!-- ─── SECTION 3 ─── -->
+      <h2><!-- EDIT: Section 3 Heading --> Section 3: Another Topic</h2>
+
+      <p>
+        <!-- EDIT: Write content for this section -->
+        Add more content here. You can add as many sections as you need — just copy a h2 + p block.
+      </p>
+
+      <!-- Optional: Sub-section -->
+      <h3><!-- EDIT --> Sub-topic Heading</h3>
+      <p>
+        <!-- EDIT -->
+        Sub-section content goes here.
+      </p>
+
+      <!-- Optional: Blockquote for a quote or important statement -->
+      <blockquote>
+        <!-- EDIT: A quote, important statistic, or key takeaway -->
+        "An inspiring quote or important fact that supports your post's message."
+      </blockquote>
+
+      <!-- ─── CONCLUSION ─── -->
+      <h2>Conclusion</h2>
+      <p>
+        <!-- EDIT: Wrap up your post. Summarise the key takeaways and encourage action. -->
+        Summarise your main points here. Tell the reader what they should do next — use the MeritSeat predictor, explore a college, or look at another blog post.
+      </p>
+
+    </div>
+    <!-- ==================== END POST BODY ==================== -->
+
+    <!-- Footer navigation -->
+    <div class="post-footer">
+      <a class="back-btn" href="/blog/college/">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back to College Blogs
+      </a>
+      <a class="back-btn" href="/blog/">
+        <i data-lucide="layout-grid" style="width:14px;height:14px;"></i> All Categories
+      </a>
+    </div>
+
+  </div>
+
+  <!-- AdSense -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-format="fluid"
+       data-ad-layout-key="-er-29-16-82+yx"
+       data-ad-client="ca-pub-6236248589959486"
+       data-ad-slot="2150554952"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <script>
+    lucide.createIcons();
+    document.addEventListener("DOMContentLoaded", function () {
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+      if (burger && navLinks) {
+        burger.addEventListener("click", () => { navLinks.classList.toggle("show"); });
+        document.addEventListener("click", function (event) {
+          if (navLinks.classList.contains("show") && !navLinks.contains(event.target) && !burger.contains(event.target)) {
+            navLinks.classList.remove("show");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
