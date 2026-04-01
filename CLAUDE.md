@@ -266,3 +266,6 @@ Since this is a pure static site:
 | Keep CSVs in `/data/cleansed/` for runtime use | Load raw uncleaned CSVs in production JS |
 | Follow the nav + header HTML pattern on every page | Create pages without the sticky navbar |
 | Use orange (`rgba(240,147,71)`) for primary CTAs | Use random ad-hoc colors outside the design system |
+
+
+## End
