@@ -1,16 +1,8 @@
 {
-  "version": 2,
-  "rewrites": [
-    { "source": "/api/submit-blog", "destination": "/api/submit_blog" }
+  "builds": [
+    { "src": "api/blogs_auth_index.py", "use": "@vercel/python" }
   ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin",  "value": "https://meritseat.in" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
-      ]
-    }
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/blogs_auth_index.py" }
   ]
 }
