@@ -630,6 +630,7 @@ def _linkify(s: str) -> str:
         return f'<a href="{url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">{url}</a>{trailing}'
     return re.sub(r'(https?://\S+)', repl, escaped)
 
+
 def _pr_body(category, title, author, google_email, email, slug, today) -> str:
     return (
         "## 📝 New Blog Submission\n\n"
