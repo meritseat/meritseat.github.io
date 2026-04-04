@@ -12,6 +12,7 @@ import os
 import re
 import secrets
 import urllib.parse
+import jwt
 from datetime import date, datetime
 
 import requests as http
@@ -29,8 +30,11 @@ REPO        = os.environ.get("GITHUB_REPO_NAME", "")
 REVIEWER    = os.environ.get("REVIEWER_GITHUB_USERNAME", "")
 API_BASE    = os.environ.get("API_BASE_URL", "")
 BASE_BRANCH = os.environ.get("BLOGS_RELEASE_BRANCH", "").strip() or "main"
-GH_API      = "https://api.github.com"
-GH_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GH_APP_ID   = os.environ.get("GH_APP_ID", "")
+GH_APP_PRIVATE_KEY = os.environ.get("GH_APP_PRIVATE_KEY", "")
+GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
+GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
 
 CAT_CONFIG = {
     "college": {
@@ -60,19 +64,20 @@ def add_cors(response):
     return response
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Route 1: GitHub OAuth — redirect browser to GitHub's authorization page
+# Route 1: Google OAuth — redirect browser to Google's authorization page
 # ─────────────────────────────────────────────────────────────────────────────
 
-@app.route("/api/auth/github")
-def auth_github():
+@app.route("/api/auth/google")
+def auth_google():
     state  = request.args.get("state", secrets.token_hex(16))
     params = urllib.parse.urlencode({
-        "client_id":    os.environ.get("GITHUB_CLIENT_ID", ""),
-        "redirect_uri": f"{API_BASE}/api/auth/callback",
-        "scope":        "public_repo",
-        "state":        state,
+        "client_id":     os.environ.get("GOOGLE_CLIENT_ID", ""),
+        "redirect_uri":  f"{API_BASE}/api/auth/callback",
+        "response_type": "code",
+        "scope":         "openid email profile",
+        "state":         state,
     })
-    return redirect(f"https://github.com/login/oauth/authorize?{params}")
+    return redirect(f"{GOOGLE_AUTH_URL}?{params}")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Route 2: OAuth callback — exchange code for token, redirect back to writer
@@ -90,11 +95,13 @@ def auth_callback():
     try:
         # Exchange code → access token
         token_res = http.post(
-            GH_TOKEN_URL,
-            json={
-                "client_id":     os.environ.get("GITHUB_CLIENT_ID", ""),
-                "client_secret": os.environ.get("GITHUB_CLIENT_SECRET", ""),
+            GOOGLE_TOKEN_URL,
+            data={
+                "client_id":     os.environ.get("GOOGLE_CLIENT_ID", ""),
+                "client_secret": os.environ.get("GOOGLE_CLIENT_SECRET", ""),
                 "code":          code,
+                "grant_type":    "authorization_code",
+                "redirect_uri":  f"{API_BASE}/api/auth/callback",
             },
             headers={"Accept": "application/json"},
             timeout=10,
@@ -103,25 +110,24 @@ def auth_callback():
 
         if "error" in token_data:
             return redirect(
-                f"{SITE_URL}/blog/write/?auth_error={token_data['error']}"
+                f"{SITE_URL}/blog/write/?auth_error={token_data.get('error_description', token_data['error'])}"
             )
 
         token = token_data.get("access_token", "")
 
         # Fetch authenticated user profile
         user_res = http.get(
-            f"{GH_API}/user",
-            headers=_gh_headers(token),
+            GOOGLE_USERINFO_URL,
+            headers={"Authorization": f"Bearer {token}"},
             timeout=10,
         )
         user = user_res.json()
 
         params = urllib.parse.urlencode({
-            "token":    token,
-            "gh_user":  user.get("login", ""),
-            "gh_name":  user.get("name") or user.get("login", ""),
-            "gh_email": user.get("email") or "",
-            "state":    state,
+            "token":       token,
+            "google_name": user.get("name") or user.get("given_name", ""),
+            "google_email": user.get("email") or "",
+            "state":       state,
         })
         return redirect(f"{SITE_URL}/blog/write/?{params}")
 
@@ -159,31 +165,44 @@ def submit_blog():
         return jsonify({"error": f"Invalid category: {category}"}), 400
 
     try:
+        # Resolve which token to use for repo operations using our GitHub App
+        repo_token = _get_github_app_token()
+
+        # 0. Verify the submitter's identity via their OAuth token
+        user_res = http.get(GOOGLE_USERINFO_URL, headers={"Authorization": f"Bearer {token}"}, timeout=10)
+        if user_res.status_code != 200:
+            return jsonify({"error": "Invalid or expired Google token"}), 401
+        google_email = user_res.json().get("email", "unknown")
+        google_name = user_res.json().get("name", "unknown")
+
         ts     = int(datetime.now().timestamp())
         branch = f"blog/{category}/{slug}-{ts}"
 
-        # 1. Get HEAD SHA of main branch
-        ref = _gh_get(f"/repos/{OWNER}/{REPO}/git/ref/heads/{BASE_BRANCH}", token)
+        # 1. Get HEAD SHA of base branch (using repo token)
+        ref = _gh_get(f"/repos/{OWNER}/{REPO}/git/ref/heads/{BASE_BRANCH}", repo_token)
         if "object" not in ref:
             raise RuntimeError(f"Cannot read '{BASE_BRANCH}' branch: {ref}")
         base_sha = ref["object"]["sha"]
 
-        # 2. Create new branch
-        _gh_post(f"/repos/{OWNER}/{REPO}/git/refs", token, {
+        # 2. Create new branch (using repo token)
+        branch_res = _gh_post(f"/repos/{OWNER}/{REPO}/git/refs", repo_token, {
             "ref": f"refs/heads/{branch}",
             "sha": base_sha,
         })
+        print(f"Branch creation result: {branch_res}")
+        if "ref" not in branch_res and "message" in branch_res:
+            raise RuntimeError(f"Branch creation failed: {branch_res}")
 
-        # 3. Commit blog post HTML
+        # 3. Commit blog post HTML (using repo token)
         post_path = f"blog/{category}/{slug}/index.html"
         post_html = _generate_html(
             category, title, slug, author, meta, lead,
             sections, reading, images,
         )
         _commit_text(post_path, post_html,
-                     f"[Blog] Add post: {title}", branch, token)
+                     f"[Blog] Add post: {title}", branch, repo_token)
 
-        # 4. Commit top-level images
+        # 4. Commit top-level images (using repo token)
         for img in images:
             name = img.get("name", "")
             b64  = img.get("base64", "")
@@ -191,10 +210,10 @@ def submit_blog():
                 safe = re.sub(r"[^a-zA-Z0-9._-]", "_", name)
                 _commit_b64(
                     f"blog/images/{slug}/{safe}", b64,
-                    f"[Blog] Add image: {name}", branch, token,
+                    f"[Blog] Add image: {name}", branch, repo_token,
                 )
 
-        # 4b. Commit per-section images
+        # 4b. Commit per-section images (using repo token)
         for s in sections:
             si = s.get("sectionImage") or {}
             si_name = si.get("name", "")
@@ -203,31 +222,31 @@ def submit_blog():
                 safe = re.sub(r"[^a-zA-Z0-9._-]", "_", si_name)
                 _commit_b64(
                     f"blog/images/{slug}/{safe}", si_b64,
-                    f"[Blog] Add section image: {si_name}", branch, token,
+                    f"[Blog] Add section image: {si_name}", branch, repo_token,
                 )
 
-        # 5. Update sitemap.xml
-        _update_sitemap(category, slug, branch, token)
+        # 5. Update sitemap.xml (using repo token)
+        _update_sitemap(category, slug, branch, repo_token)
 
-        # 6. Prepend post card to category listing
-        _update_listing(category, slug, title, author, meta, reading, branch, token)
+        # 6. Prepend post card to category listing (using repo token)
+        _update_listing(category, slug, title, author, meta, reading, branch, repo_token)
 
-        # 7. Create Pull Request
+        # 7. Create Pull Request using repo token, with explicit "OWNER:branch" head
         today = f"{date.today().day} {date.today().strftime('%B %Y')}"
-        pr = _gh_post(f"/repos/{OWNER}/{REPO}/pulls", token, {
+        pr = _gh_post(f"/repos/{OWNER}/{REPO}/pulls", repo_token, {
             "title": f"[Blog] {title}",
-            "body":  _pr_body(category, title, author, email, slug, today),
-            "head":  branch,
+            "body":  _pr_body(category, title, author, google_email, email, slug, today),
+            "head":  f"{OWNER}:{branch}",
             "base":  BASE_BRANCH,
         })
         if "number" not in pr:
             raise RuntimeError(f"PR creation failed: {pr}")
 
-        # 8. Request reviewer
+        # 8. Request reviewer (using repo token)
         if REVIEWER:
             _gh_post(
                 f"/repos/{OWNER}/{REPO}/pulls/{pr['number']}/requested_reviewers",
-                token, {"reviewers": [REVIEWER]},
+                repo_token, {"reviewers": [REVIEWER]},
             )
 
         return jsonify({
@@ -235,6 +254,7 @@ def submit_blog():
             "prUrl":    pr.get("html_url", ""),
             "prNumber": pr["number"],
             "branch":   branch,
+            "submittedBy": google_email,
         }), 200
 
     except Exception as exc:
@@ -249,6 +269,44 @@ def _gh_headers(token: str) -> dict:
         "Accept":               "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+GH_API = "https://api.github.com"
+
+def _get_github_app_token() -> str:
+    """Generates an installation access token for the configured GitHub App."""
+    if not GH_APP_ID or not GH_APP_PRIVATE_KEY:
+        raise RuntimeError("Missing GH_APP_ID or GH_APP_PRIVATE_KEY environment variables.")
+        
+    try:
+        # Attempt to base64 decode the key (handles newlines cleanly in Vercel)
+        private_key = base64.b64decode(GH_APP_PRIVATE_KEY).decode("utf-8")
+    except Exception:
+        # Fallback if it's stored as plain text
+        private_key = GH_APP_PRIVATE_KEY
+
+    # 1. Generate JWT
+    ts = int(datetime.now().timestamp())
+    payload = {
+        "iat": ts - 60,
+        "exp": ts + (10 * 60),
+        "iss": GH_APP_ID
+    }
+    encoded_jwt = jwt.encode(payload, private_key, algorithm="RS256")
+    
+    app_headers = {
+        "Authorization": f"Bearer {encoded_jwt}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    
+    # 2. Get Installation ID for the repo
+    r = http.get(f"{GH_API}/repos/{OWNER}/{REPO}/installation", headers=app_headers, timeout=15)
+    r.raise_for_status()
+    inst_id = r.json()["id"]
+    
+    # 3. Create Installation Access Token
+    r = http.post(f"{GH_API}/app/installations/{inst_id}/access_tokens", headers=app_headers, timeout=15)
+    r.raise_for_status()
+    return r.json()["token"]
 
 def _gh_get(path: str, token: str, **kwargs) -> dict:
     r = http.get(f"{GH_API}{path}", headers=_gh_headers(token), timeout=15, **kwargs)
@@ -561,13 +619,14 @@ def _esc(s: str) -> str:
         .replace("'", "&#39;")
     )
 
-def _pr_body(category, title, author, email, slug, today) -> str:
+def _pr_body(category, title, author, google_email, email, slug, today) -> str:
     return (
         "## 📝 New Blog Submission\n\n"
         "| Field | Value |\n|---|---|\n"
         f"| **Category** | {category} |\n"
         f"| **Author** | {author} |\n"
-        f"| **Email** | {email} |\n"
+        f"| **Verified Google Email** | {google_email} |\n"
+        f"| **Contact Email** | {email} |\n"
         f"| **Post URL** | /blog/{category}/{slug}/ |\n"
         f"| **Submitted** | {today} |\n\n"
         "*Submitted via MeritSeat Blog Writer*\n\n"

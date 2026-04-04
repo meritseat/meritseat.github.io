@@ -255,31 +255,34 @@
       margin: 0 auto 1.5rem;
     }
 
-    .github-btn {
+    .google-btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: #f6f8fa;
-      color: #24292f;
-      border: none;
-      padding: 12px 24px;
+      background: #fff;
+      color: #3c4043;
+      border: 1px solid #dadce0;
+      padding: 10px 24px;
       border-radius: 8px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 500;
+      font-family: "Google Sans", arial, sans-serif;
       cursor: pointer;
       transition: all 0.25s ease;
       width: auto;
       margin: 0;
     }
 
-    .github-btn:hover {
-      background: #e8eaed;
+    .google-btn:hover {
+      background: #f8f9fa;
+      border-color: #d2e3fc;
       transform: scale(1.02);
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
     }
 
-    .github-btn svg {
-      width: 22px;
-      height: 22px;
+    .google-btn svg {
+      width: 20px;
+      height: 20px;
     }
 
     .auth-success {
@@ -930,36 +933,31 @@
       </button>
       <div class="auth-box">
         <div class="auth-icon">🔐</div>
-        <h2>Connect with GitHub</h2>
-        <p>We use your GitHub account to submit your blog as a Pull Request. Your post will be reviewed before it goes
-          live. You can sign in to GitHub using your Google account.</p>
+        <h2>Sign in with Google</h2>
+        <p>Sign in to securely verify your identity. Your email and name will be attached to the blog post when we submit it for review.</p>
 
         <div class="auth-error-box" id="auth-error-box">
           ⚠️ Authentication failed. Please try again.
         </div>
         <div class="auth-success" id="auth-success">
-          ✅ Logged in as <strong id="gh-username-display">@user</strong>
+          ✅ Signed in as <strong id="google-email-display">user@gmail.com</strong>
           — <a href="#" onclick="goToStep('write');return false;" style="color:#4caf50;font-size:0.85rem;">Continue
             →</a>
         </div>
 
-        <button class="github-btn" id="github-login-btn" onclick="startOAuth()">
-          <!-- GitHub mark SVG -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
-              0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
-              1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
-              0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
-              .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15
-              0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
-              0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+        <button class="google-btn" id="google-login-btn" onclick="startOAuth()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            <path fill="none" d="M0 0h48v48H0z"/>
           </svg>
-          Login with GitHub
+          Sign in with Google
         </button>
 
         <div class="auth-permissions">
-          <strong>🔒 What we request:</strong> Only <code>public_repo</code> scope — to create a branch and open a Pull
-          Request on the MeritSeat repo. We never access your private repositories.
+          <strong>🔒 Privacy:</strong> We only request basic profile information (name and email) to verify authorship. We will not sell your data.
         </div>
       </div>
     </div>
@@ -1129,8 +1127,8 @@
       step: 'welcome',
       category: null,
       token: null,
-      ghUser: null,
-      ghName: null,
+      googleEmail: null,
+      googleName: null,
       readingTime: 1,
     };
     let sections = [{ id: 1, heading: '', body: '', highlight: '', image: null }];
@@ -1147,18 +1145,16 @@
       const catParam = params.get('category');
 
       if (token) {
-        // Returning from GitHub OAuth
+        // Returning from Google OAuth
         appState.token = token;
-        appState.ghUser = params.get('gh_user') || '';
-        appState.ghName = params.get('gh_name') || '';
-        const ghEmail = params.get('gh_email') || '';
+        appState.googleName = params.get('google_name') || '';
+        appState.googleEmail = params.get('google_email') || '';
         sessionStorage.setItem('ms_token', appState.token);
-        sessionStorage.setItem('ms_gh_user', appState.ghUser);
-        sessionStorage.setItem('ms_gh_name', appState.ghName);
-        sessionStorage.setItem('ms_gh_email', ghEmail);
+        sessionStorage.setItem('ms_google_name', appState.googleName);
+        sessionStorage.setItem('ms_google_email', appState.googleEmail);
         history.replaceState({}, '', '/blog/write/');
         appState.category = sessionStorage.getItem('ms_category');
-        initWriteStep(ghEmail);
+        initWriteStep();
         goToStep('write');
 
       } else if (authErr) {
@@ -1170,12 +1166,11 @@
       } else if (sessionStorage.getItem('ms_token')) {
         // Already authenticated
         appState.token = sessionStorage.getItem('ms_token');
-        appState.ghUser = sessionStorage.getItem('ms_gh_user');
-        appState.ghName = sessionStorage.getItem('ms_gh_name');
+        appState.googleName = sessionStorage.getItem('ms_google_name');
+        appState.googleEmail = sessionStorage.getItem('ms_google_email');
         appState.category = sessionStorage.getItem('ms_category');
-        const ghEmail = sessionStorage.getItem('ms_gh_email') || '';
         if (appState.category) {
-          initWriteStep(ghEmail);
+          initWriteStep();
           goToStep('write');
         } else {
           goToStep('category');
@@ -1242,13 +1237,13 @@
     function startOAuth() {
       const state = Math.random().toString(36).substring(2);
       sessionStorage.setItem('ms_oauth_state', state);
-      window.location.href = `${VERCEL_API_URL}/api/auth/github?state=${state}`;
+      window.location.href = `${VERCEL_API_URL}/api/auth/google?state=${state}`;
     }
 
     function showAuthError(errCode) {
       const box = document.getElementById('auth-error-box');
       const msgs = {
-        no_code: 'GitHub did not return an authorization code. Please try again.',
+        no_code: 'Google did not return an authorization code. Please try again.',
         bad_verification_code: 'The authorization code expired. Please try again.',
         server_error: 'A server error occurred. Please try again in a moment.',
       };
@@ -1257,21 +1252,21 @@
     }
 
     // ── Init write step with user data ─────────────────────────────
-    function initWriteStep(ghEmail) {
+    function initWriteStep() {
       // Show auth success badge
       const successBadge = document.getElementById('auth-success');
-      const usernameDisplay = document.getElementById('gh-username-display');
-      if (successBadge && appState.ghUser) {
+      const emailDisplay = document.getElementById('google-email-display');
+      if (successBadge && appState.googleEmail) {
         successBadge.style.display = 'flex';
-        usernameDisplay.textContent = '@' + appState.ghUser;
-        document.getElementById('github-login-btn').style.display = 'none';
+        emailDisplay.textContent = appState.googleEmail;
+        document.getElementById('google-login-btn').style.display = 'none';
       }
 
-      // Pre-fill author name and email from GitHub
+      // Pre-fill author name and email from Google
       const authorInput = document.getElementById('inp-author');
       const emailInput = document.getElementById('inp-email');
-      if (authorInput && !authorInput.value && appState.ghName) authorInput.value = appState.ghName;
-      if (emailInput && !emailInput.value && ghEmail) emailInput.value = ghEmail;
+      if (authorInput && !authorInput.value && appState.googleName) authorInput.value = appState.googleName;
+      if (emailInput && !emailInput.value && appState.googleEmail) emailInput.value = appState.googleEmail;
 
       // Show category badge
       const catNames = { college: '🏫 College Blogs', study: '📖 Study Blogs', career: '💼 Career Blogs' };
@@ -1525,7 +1520,7 @@
         const data = await res.json();
 
         // Clear session
-        ['ms_token', 'ms_gh_user', 'ms_gh_name', 'ms_gh_email', 'ms_category'].forEach(k => sessionStorage.removeItem(k));
+        ['ms_token', 'ms_google_name', 'ms_google_email', 'ms_category'].forEach(k => sessionStorage.removeItem(k));
 
         // Mark all loading steps done
         loadingMsgs.forEach(m => {
@@ -1545,7 +1540,7 @@
 
     // ── Reset ──────────────────────────────────────────────────────
     function resetWizard() {
-      appState = { step: 'welcome', category: null, token: null, ghUser: null, ghName: null, readingTime: 1 };
+      appState = { step: 'welcome', category: null, token: null, googleEmail: null, googleName: null, readingTime: 1 };
       sections = [{ id: 1, heading: '', body: '', highlight: '' }];
       images = [];
       ['inp-title', 'inp-slug', 'inp-author', 'inp-email', 'inp-meta', 'inp-lead'].forEach(id => {
