@@ -422,11 +422,11 @@ def _generate_html(category, title, slug, author, meta,
         sec_img = s.get("sectionImage") or {}
         if h or b:
             paras    = "\n".join(
-                f"<p>{_esc(p.strip())}</p>" for p in b.split("\n\n") if p.strip()
+                f"<p>{_linkify(p.strip())}</p>" for p in b.split("\n\n") if p.strip()
             )
             hl_block = (
                 f'<div class="blog-highlight">'
-                f"<strong>💡 Key Insight:</strong> {_esc(hl)}</div>"
+                f"<strong>💡 Key Insight:</strong> {_linkify(hl)}</div>"
             ) if hl else ""
             # Optional inline section image
             si_html = ""
@@ -560,7 +560,7 @@ def _generate_html(category, title, slug, author, meta,
       <span>⏱️ {reading} min read</span>
     </div>
     <div class="post-body">
-      <p class="lead-text">{_esc(lead)}</p>
+      <p class="lead-text">{_linkify(lead)}</p>
       {imgs_html}
       {sections_html}
       <h2>Conclusion</h2>
@@ -618,6 +618,17 @@ def _esc(s: str) -> str:
         .replace('"', "&quot;")
         .replace("'", "&#39;")
     )
+
+def _linkify(s: str) -> str:
+    escaped = _esc(s)
+    def repl(m):
+        url = m.group(1)
+        trailing = ""
+        if url[-1] in ".,;?:()!":
+            trailing = url[-1]
+            url = url[:-1]
+        return f'<a href="{url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">{url}</a>{trailing}'
+    return re.sub(r'(https?://\S+)', repl, escaped)
 
 def _pr_body(category, title, author, google_email, email, slug, today) -> str:
     return (
