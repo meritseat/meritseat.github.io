@@ -1043,12 +1043,12 @@
       <!-- ── Images ── -->
       <div class="form-section">
         <div class="form-section-title">🖼️ Images <span
-            style="text-transform:none;font-weight:400;color:#555;">(optional — max 3, 5 MB each)</span></div>
+            style="text-transform:none;font-weight:400;color:#555;">(optional — max 1, 3 MB)</span></div>
         <div class="img-upload-area" id="img-upload-area">
-          <input type="file" accept="image/*" multiple id="inp-images" onchange="handleImageUpload(this)">
+          <input type="file" accept="image/*" id="inp-images" onchange="handleImageUpload(this)">
           <div class="upload-icon">📁</div>
-          <p>Click or drag images here to upload</p>
-          <span>PNG, JPG, GIF · Max 5 MB each · Max 3 images</span>
+          <p>Click or drag an image here to upload</p>
+          <span>PNG, JPG, GIF · Max 3 MB · Max 1 image</span>
         </div>
         <div class="img-previews" id="img-previews"></div>
       </div>
@@ -1131,7 +1131,7 @@
       googleName: null,
       readingTime: 1,
     };
-    let sections = [{ id: 1, heading: '', body: '', highlight: '', image: null }];
+    let sections = [{ id: 1, heading: '', body: '', highlight: '' }];
     let images = [];
 
     // ── Init ───────────────────────────────────────────────────────
@@ -1300,23 +1300,6 @@
           <input type="text" placeholder="💡 A key insight or tip for this section (leave blank to skip)..."
                  value="${esc(sec.highlight)}"
                  oninput="updateSection(${sec.id},'highlight',this.value)">
-          <!-- Per-section image -->
-          <div style="margin-top:0.9rem;">
-            <div style="font-size:.82rem;font-weight:600;color:#888;margin-bottom:0.45rem;">📷 Section Image <span style="font-weight:400;color:#555;">(optional — appears after this section)</span></div>
-            ${sec.image
-              ? `<div style="display:flex;align-items:center;gap:0.7rem;">
-                   <img src="${sec.image.previewUrl}" alt="preview" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #444;flex-shrink:0;">
-                   <div>
-                     <div style="font-size:0.73rem;color:#888;margin-bottom:0.3rem;word-break:break-all;">${sec.image.name.substring(0,36)}${sec.image.name.length>36?'…':''}</div>
-                     <button type="button" onclick="removeSectionImage(${sec.id})" style="background:rgba(244,67,54,0.12);color:#ef5350;border:1px solid #ef5350;border-radius:6px;padding:3px 10px;font-size:.75rem;cursor:pointer;min-width:auto;width:auto;margin:0;">✕ Remove</button>
-                   </div>
-                 </div>`
-              : `<label for="sec-img-${sec.id}" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(33,150,243,0.07);color:#2196f3;border:1px dashed #2196f3;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;">
-                   📷 Add image for this section
-                 </label>
-                 <input type="file" id="sec-img-${sec.id}" accept="image/*" style="display:none;" onchange="handleSectionImageUpload(${sec.id},this)">`
-            }
-          </div>
         </div>`).join('');
 
       if (addBtn) addBtn.style.display = sections.length >= 50 ? 'none' : 'flex';
@@ -1326,7 +1309,7 @@
 
     function addSection() {
       if (sections.length >= 50) return;
-      sections.push({ id: Date.now(), heading: '', body: '', highlight: '', image: null });
+      sections.push({ id: Date.now(), heading: '', body: '', highlight: '' });
       renderSections();
       // Scroll new section into view
       setTimeout(() => {
@@ -1344,29 +1327,6 @@
     function updateSection(id, field, value) {
       const s = sections.find(s => s.id === id);
       if (s) s[field] = value;
-    }
-
-    // ── Per-section images ─────────────────────────────────────────
-    async function handleSectionImageUpload(id, input) {
-      const file = input.files[0];
-      if (!file) return;
-      if (file.size > 5 * 1024 * 1024) {
-        alert(`"${file.name}" exceeds the 5 MB limit and was skipped.`);
-        input.value = '';
-        return;
-      }
-      const dataUrl = await toBase64(file);
-      const sec = sections.find(s => s.id === id);
-      if (sec) {
-        sec.image = { name: file.name, base64: dataUrl.split(',')[1], previewUrl: dataUrl };
-        renderSections();
-      }
-      input.value = '';
-    }
-
-    function removeSectionImage(id) {
-      const sec = sections.find(s => s.id === id);
-      if (sec) { sec.image = null; renderSections(); }
     }
 
     // ── Slug / meta ────────────────────────────────────────────────
@@ -1402,18 +1362,19 @@
     // ── Images ─────────────────────────────────────────────────────
     async function handleImageUpload(input) {
       const files = Array.from(input.files);
-      if (images.length + files.length > 3) {
-        alert('Maximum 3 images are allowed. Please remove one before adding more.');
+      if (images.length + files.length > 1) {
+        alert('Maximum 1 image is allowed. Please remove the existing one before adding a new one.');
         input.value = '';
         return;
       }
       for (const file of files) {
-        if (file.size > 5 * 1024 * 1024) {
-          alert(`"${file.name}" exceeds the 5 MB limit and was skipped.`);
+        if (file.size > 3 * 1024 * 1024) {
+          alert(`"${file.name}" exceeds the 3 MB limit and was skipped.`);
           continue;
         }
         const dataUrl = await toBase64(file);
-        images.push({ name: file.name, base64: dataUrl.split(',')[1], previewUrl: dataUrl });
+        const newName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+        images.push({ name: newName, base64: dataUrl.split(',')[1], previewUrl: dataUrl });
       }
       input.value = '';
       renderImages();
@@ -1422,7 +1383,28 @@
     function toBase64(file) {
       return new Promise((resolve, reject) => {
         const r = new FileReader();
-        r.onload = () => resolve(r.result);
+        r.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let width = img.width;
+            let height = img.height;
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.8));
+          };
+          img.onerror = reject;
+          img.src = r.result;
+        };
         r.onerror = reject;
         r.readAsDataURL(file);
       });
@@ -1503,7 +1485,6 @@
               heading: s.heading,
               body: s.body,
               highlight: s.highlight,
-              sectionImage: s.image ? { name: s.image.name, base64: s.image.base64 } : null,
             })),
             images,
             readingTime: appState.readingTime,
