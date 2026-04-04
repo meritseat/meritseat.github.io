@@ -1,1 +1,12 @@
-{ "posts": [] }
+{
+  "posts": [
+    {
+      "slug": "blog1",
+      "title": "blog1",
+      "author": "anitha ms",
+      "date": "4 April 2026",
+      "excerpt": "blog1",
+      "readingTime": 1
+    }
+  ]
+}
