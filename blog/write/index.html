@@ -1020,7 +1020,12 @@
 
       <!-- ── Content ── -->
       <div class="form-section">
-        <div class="form-section-title">📝 Blog Content</div>
+        <div class="form-section-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>📝 Blog Content</div>
+          <div style="font-size:0.75rem; text-transform:none; font-weight:400; color:#888;">
+            Auto-detects links, or use <b>[Text](url)</b>
+          </div>
+        </div>
         <div class="form-field">
           <label for="inp-lead">Introduction / Lead Paragraph <span class="required">*</span></label>
           <textarea id="inp-lead" rows="4"
@@ -1457,8 +1462,8 @@
       let sectionsHtml = '';
       sections.forEach((s, idx) => {
         if (s.heading || s.body) {
-          let paras = s.body.split('\n\n').filter(p => p.trim()).map(p => `<p>${esc(p.trim())}</p>`).join('');
-          let hlBlock = s.highlight ? `<div class="blog-highlight"><strong>💡 Key Insight:</strong> ${esc(s.highlight)}</div>` : '';
+          let paras = s.body.split('\n\n').filter(p => p.trim()).map(p => `<p>${parseLinks(esc(p.trim()))}</p>`).join('');
+          let hlBlock = s.highlight ? `<div class="blog-highlight"><strong>💡 Key Insight:</strong> ${parseLinks(esc(s.highlight))}</div>` : '';
           sectionsHtml += `<h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">${esc(s.heading)}</h2>\n${paras}\n${hlBlock}`;
         }
       });
@@ -1479,7 +1484,7 @@
           <span>⏱️ ${appState.readingTime} min read</span>
         </div>
         <div style="color:#ccc; line-height:1.8; text-align:left;">
-          <p style="font-size:1.05rem; font-style:italic; border-left:3px solid #2196f3; padding-left:1rem; margin-bottom:1.5rem;">${esc(lead)}</p>
+          <p style="font-size:1.05rem; font-style:italic; border-left:3px solid #2196f3; padding-left:1rem; margin-bottom:1.5rem;">${parseLinks(esc(lead))}</p>
           ${imgsHtml}
           ${sectionsHtml}
           <h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">Conclusion</h2>
@@ -1618,8 +1623,26 @@
       }
     }
 
-    // ── Escape for inline HTML attrs ──────────────────────────────
+    // ── HTML Formatting ───────────────────────────────
     function esc(s) { return String(s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    
+    function parseLinks(text) {
+      // Matches [Text](URL) OR bare URLs (http://... or https://...)
+      const regex = /\[([^\]]+)\]\(([^)]+)\)|(https?:\/\/[^\s<]+)/g;
+      return text.replace(regex, function(match, mdText, mdUrl, rawUrl) {
+        if (rawUrl) {
+          let url = rawUrl;
+          let suffix = '';
+          if (/[.,;!?]$/.test(url)) {
+            suffix = url.slice(-1);
+            url = url.slice(0, -1);
+          }
+          return '<a href="' + url + '" target="_blank" style="color:#2196f3;text-decoration:underline;">' + url + '</a>' + suffix;
+        } else {
+          return '<a href="' + mdUrl + '" target="_blank" style="color:#2196f3;text-decoration:underline;">' + mdText + '</a>';
+        }
+      });
+    }
 
   </script>
 </body>

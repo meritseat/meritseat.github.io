@@ -318,12 +318,12 @@ def _generate_html(category, title, slug, author, meta,
         hl = (s.get("highlight") or "").strip()
         if h or b:
             paras    = "\n".join(
-                f"<p>{_esc(p.strip())}</p>"
+                f"<p>{_parse_links(_esc(p.strip()))}</p>"
                 for p in b.split("\n\n") if p.strip()
             )
             hl_block = (
                 f'<div class="blog-highlight">'
-                f'<strong>💡 Key Insight:</strong> {_esc(hl)}</div>'
+                f'<strong>💡 Key Insight:</strong> {_parse_links(_esc(hl))}</div>'
             ) if hl else ""
             sections_html += f"<h2>{_esc(h)}</h2>\n{paras}\n{hl_block}\n"
 
@@ -448,7 +448,7 @@ def _generate_html(category, title, slug, author, meta,
       <span>⏱️ {reading} min read</span>
     </div>
     <div class="post-body">
-      <p class="lead-text">{_esc(lead)}</p>
+      <p class="lead-text">{_parse_links(_esc(lead))}</p>
       {imgs_html}
       {sections_html}
       <h2>Conclusion</h2>
@@ -510,6 +510,25 @@ def _esc(s: str) -> str:
         .replace('"', "&quot;")
         .replace("'", "&#39;")
     )
+
+
+def _parse_links(s: str) -> str:
+    """Convert [text](url) and bare URLs to clickable external links."""
+    def replacer(match):
+        md_text = match.group(1)
+        md_url = match.group(2)
+        raw_url = match.group(3)
+        if raw_url:
+            url = raw_url
+            suffix = ""
+            if url[-1] in ".,;!?":
+                suffix = url[-1]
+                url = url[:-1]
+            return f'<a href="{url}" target="_blank" style="color:var(--accent-text);text-decoration:underline;">{url}</a>{suffix}'
+        else:
+            return f'<a href="{md_url}" target="_blank" style="color:var(--accent-text);text-decoration:underline;">{md_text}</a>'
+
+    return re.sub(r'\[([^\]]+)\]\(([^)]+)\)|(https?://[^\s<]+)', replacer, s)
 
 
 def _pr_body(category, title, author, email, slug, today) -> str:
