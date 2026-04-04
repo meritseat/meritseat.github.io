@@ -801,6 +801,29 @@
       transform: scale(1.01);
     }
 
+    /* ─── Preview actions ─────────────────────────────── */
+    .preview-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.5rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .preview-actions .submit-btn,
+    .preview-actions .back-link {
+      width: auto;
+      margin: 0;
+      padding: 10px 20px;
+    }
+    .preview-content {
+      background: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: left;
+    }
+
     /* ─── Responsive ──────────────────────────────────── */
     @media (max-width: 600px) {
       .welcome-hero h1 {
@@ -980,14 +1003,7 @@
             <label for="inp-title">Post Title <span class="required">*</span></label>
             <input type="text" id="inp-title"
               placeholder="e.g., How to Choose the Right Engineering College in Tamil Nadu"
-              oninput="onTitleInput(this.value)">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field" style="flex:2;">
-            <label for="inp-slug">URL Slug <span class="required">*</span> <span class="optional">(auto-generated,
-                editable)</span></label>
-            <input type="text" id="inp-slug" placeholder="e.g., choose-right-engineering-college">
+              oninput="calcWordCount()">
           </div>
         </div>
         <div class="form-row">
@@ -999,20 +1015,6 @@
             <label for="inp-email">Contact Email <span class="required">*</span></label>
             <input type="email" id="inp-email" placeholder="e.g., you@gmail.com">
           </div>
-        </div>
-      </div>
-
-      <!-- ── Meta Description ── -->
-      <div class="form-section">
-        <div class="form-section-title">🔍 SEO Description</div>
-        <div class="form-field">
-          <label for="inp-meta">
-            Meta Description <span class="required">*</span>
-            <span class="char-count" id="meta-count">0 / 160</span>
-          </label>
-          <textarea id="inp-meta" rows="2" maxlength="160"
-            placeholder="A short summary of your post shown in Google search results (max 160 characters)."
-            oninput="updateMetaCount()"></textarea>
         </div>
       </div>
 
@@ -1053,9 +1055,36 @@
         <div class="img-previews" id="img-previews"></div>
       </div>
 
-      <button class="submit-btn" onclick="submitBlog()">
-        <i data-lucide="send"></i> Submit for Review
+      <button class="submit-btn" onclick="previewBlog()">
+        <i data-lucide="eye"></i> Preview Blog
       </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: PREVIEW ═══════════════ -->
+  <div class="wizard-step" id="step-preview">
+    <div class="container">
+      <div class="preview-actions">
+        <button class="back-link" onclick="goToStep('write')" style="background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;">
+          <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Edit
+        </button>
+        <button class="submit-btn" onclick="submitBlog()">
+          <i data-lucide="send"></i> Submit Blog
+        </button>
+      </div>
+
+      <div class="preview-content" id="preview-rendering-area">
+        <!-- Rendered preview html -->
+      </div>
+
+      <div class="preview-actions">
+        <button class="back-link" onclick="goToStep('write')" style="background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;">
+          <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Edit
+        </button>
+        <button class="submit-btn" onclick="submitBlog()">
+          <i data-lucide="send"></i> Submit Blog
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1200,7 +1229,7 @@
     }
 
     function updateStepBar() {
-      const stepMap = { category: 1, auth: 2, write: 3 };
+      const stepMap = { category: 1, auth: 2, write: 3, preview: 3 };
       const bar = document.getElementById('step-bar');
       const labels = document.getElementById('step-labels');
       const hidden = ['welcome', 'loading', 'success'].includes(appState.step);
@@ -1329,24 +1358,7 @@
       if (s) s[field] = value;
     }
 
-    // ── Slug / meta ────────────────────────────────────────────────
-    function onTitleInput(val) {
-      const slug = val.toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim().replace(/\s+/g, '-')
-        .replace(/-+/g, '-').substring(0, 60);
-      document.getElementById('inp-slug').value = slug;
-      calcWordCount();
-    }
-
-    function updateMetaCount() {
-      const len = document.getElementById('inp-meta').value.length;
-      const counter = document.getElementById('meta-count');
-      counter.textContent = `${len} / 160`;
-      counter.classList.toggle('warn', len > 130);
-    }
-
+    // ── Word Count ──────────────────────────────────────────────────
     function calcWordCount() {
       const sources = [
         document.getElementById('inp-lead')?.value || '',
@@ -1426,24 +1438,85 @@
       `).join('');
     }
 
-    // ── Submit ─────────────────────────────────────────────────────
-    async function submitBlog() {
+    // ── Preview ────────────────────────────────────────────────────
+    function previewBlog() {
       const title = document.getElementById('inp-title').value.trim();
-      const slug = document.getElementById('inp-slug').value.trim();
       const author = document.getElementById('inp-author').value.trim();
       const email = document.getElementById('inp-email').value.trim();
-      const meta = document.getElementById('inp-meta').value.trim();
       const lead = document.getElementById('inp-lead').value.trim();
 
       if (!title) { alert('Please enter a blog title.'); return; }
-      if (!slug) { alert('Please enter a URL slug.'); return; }
       if (!author) { alert('Please enter your name.'); return; }
       if (!email) { alert('Please enter your contact email.'); return; }
-      if (!meta) { alert('Please write a meta description.'); return; }
       if (!lead) { alert('Please write an introduction paragraph.'); return; }
-      if (!/^[a-z0-9-]+$/.test(slug)) {
-        alert('URL slug can only contain lowercase letters, numbers, and hyphens.');
-        return;
+
+      const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const catNames = { college: '🏫 College Blogs', study: '📖 Study Blogs', career: '💼 Career Blogs' };
+      const catLabel = catNames[appState.category] || 'Blogs';
+
+      let sectionsHtml = '';
+      sections.forEach((s, idx) => {
+        if (s.heading || s.body) {
+          let paras = s.body.split('\n\n').filter(p => p.trim()).map(p => `<p>${esc(p.trim())}</p>`).join('');
+          let hlBlock = s.highlight ? `<div class="blog-highlight"><strong>💡 Key Insight:</strong> ${esc(s.highlight)}</div>` : '';
+          sectionsHtml += `<h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">${esc(s.heading)}</h2>\n${paras}\n${hlBlock}`;
+        }
+      });
+
+      let imgsHtml = '';
+      images.forEach(img => {
+        imgsHtml += `<img src="${img.previewUrl}" alt="Preview Image" style="max-width:100%;border-radius:8px;margin:0.8rem 0 1.2rem;">\n`;
+      });
+
+      const html = `
+        <span style="display:inline-block; padding:4px 12px; border-radius:20px; font-size:.78rem; font-weight:600; margin-bottom:1rem; background:rgba(33,150,243,0.12); color:#2196f3; border:1px solid #2196f3;">
+          ${catLabel}
+        </span>
+        <h1 style="font-size:1.8rem; font-weight:600; color:#fff; line-height:1.3; margin:0 0 1rem; text-align:left;">${esc(title)}</h1>
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; font-size:.85rem; color:#888; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #333;">
+          <span>📅 ${today}</span>
+          <span>✍️ ${esc(author)}</span>
+          <span>⏱️ ${appState.readingTime} min read</span>
+        </div>
+        <div style="color:#ccc; line-height:1.8; text-align:left;">
+          <p style="font-size:1.05rem; font-style:italic; border-left:3px solid #2196f3; padding-left:1rem; margin-bottom:1.5rem;">${esc(lead)}</p>
+          ${imgsHtml}
+          ${sectionsHtml}
+          <h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">Conclusion</h2>
+          <p>Thank you for reading.</p>
+        </div>
+      `;
+
+      document.getElementById('preview-rendering-area').innerHTML = html;
+      goToStep('preview');
+    }
+
+    // ── Submit ─────────────────────────────────────────────────────
+    async function submitBlog() {
+      const title = document.getElementById('inp-title').value.trim();
+      const author = document.getElementById('inp-author').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const lead = document.getElementById('inp-lead').value.trim();
+
+      if (!title) { alert('Please enter a blog title.'); return; }
+      if (!author) { alert('Please enter your name.'); return; }
+      if (!email) { alert('Please enter your contact email.'); return; }
+      if (!lead) { alert('Please write an introduction paragraph.'); return; }
+
+      // ── Generate SEO items in background ──
+      // 1. Generate URL slug from title
+      let slug = title.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim().replace(/\s+/g, '-')
+        .replace(/-+/g, '-').substring(0, 60);
+      if (!slug || slug === '-') slug = 'blog-' + Date.now();
+
+      // 2. Generate SEO-optimized Meta Description
+      // We combine the title + lead paragraph to form a keyword-rich description
+      let generatedMeta = `Read ${title}. ` + lead.replace(/[\n\r]+/g, ' ').trim();
+      if (generatedMeta.length > 155) {
+         generatedMeta = generatedMeta.substring(0, 153).replace(/\s+\S*$/, '') + '...';
       }
 
       const loadingMsgs = [
@@ -1479,7 +1552,7 @@
             token: appState.token,
             category: appState.category,
             title, slug, author, email,
-            metaDescription: meta,
+            metaDescription: generatedMeta,
             leadText: lead,
             sections: sections.map(s => ({
               heading: s.heading,
@@ -1524,7 +1597,7 @@
       appState = { step: 'welcome', category: null, token: null, googleEmail: null, googleName: null, readingTime: 1 };
       sections = [{ id: 1, heading: '', body: '', highlight: '' }];
       images = [];
-      ['inp-title', 'inp-slug', 'inp-author', 'inp-email', 'inp-meta', 'inp-lead'].forEach(id => {
+      ['inp-title', 'inp-author', 'inp-email', 'inp-lead'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
