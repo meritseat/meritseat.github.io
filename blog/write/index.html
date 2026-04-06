@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
     /* ─── Wizard layout ───────────────────────────────── */
@@ -823,6 +826,20 @@
       padding: 2rem;
       text-align: left;
     }
+    
+    /* ─── EasyMDE Dark Mode Tweaks ────────────────────── */
+    .editor-toolbar { background: #252525; border-color: #444; opacity: 1; border-radius: 8px 8px 0 0; }
+    .editor-toolbar a, .editor-toolbar button { color: #ccc !important; }
+    .editor-toolbar a.active, .editor-toolbar a:hover, .editor-toolbar button:hover { background: #333 !important; border-color: #555 !important; }
+    .editor-toolbar i.separator { border-left-color: #444; border-right-color: #444; }
+    .CodeMirror { background: #1f1f1f !important; color: #fff !important; border-color: #444 !important; border-radius: 0 0 8px 8px; font-family: 'Inter', sans-serif; }
+    .CodeMirror-cursor { border-left: 1px solid #fff !important; }
+    .editor-preview, .editor-preview-side { background: #1f1f1f !important; color: #fff !important; }
+    .editor-statusbar { color: #888; }
+    .parsed-markdown h1, .parsed-markdown h2, .parsed-markdown h3 { color: #fff; }
+    .parsed-markdown p { line-height: 1.7; margin-bottom: 1rem; }
+    .parsed-markdown ul, .parsed-markdown ol { line-height: 1.7; padding-left: 1.5rem; margin-bottom: 1rem; }
+    .parsed-markdown li { margin-bottom: 0.5rem; }
 
     /* ─── Responsive ──────────────────────────────────── */
     @media (max-width: 600px) {
@@ -1310,6 +1327,16 @@
 
     // ── Sections ───────────────────────────────────────────────────
     function renderSections() {
+      // Clean up old EasyMDE instances
+      if (window.mdeInstances) {
+        for (const id in window.mdeInstances) {
+          if (window.mdeInstances[id]) {
+            window.mdeInstances[id].toTextArea();
+          }
+        }
+      }
+      window.mdeInstances = {};
+
       const container = document.getElementById('sections-container');
       const addBtn = document.getElementById('add-section-btn');
       if (!container) return;
@@ -1326,8 +1353,9 @@
                  value="${esc(sec.heading)}"
                  oninput="updateSection(${sec.id},'heading',this.value)">
           <label style="margin-top:0.8rem;display:block;font-size:.85rem;font-weight:600;color:#ccc;">Section ${i + 1} Content</label>
-          <textarea rows="5" placeholder="Write the content for this section. Use a blank line to separate paragraphs."
-                    oninput="updateSection(${sec.id},'body',this.value);calcWordCount();">${esc(sec.body)}</textarea>
+          <div style="margin-top: 0.5rem;">
+            <textarea id="mde-content-${sec.id}">${esc(sec.body)}</textarea>
+          </div>
           <label style="margin-top:0.8rem;display:block;font-size:.85rem;font-weight:600;color:#ccc;">
             Highlight Box <span style="font-weight:400;color:#555;font-size:.78rem;">(optional)</span>
           </label>
@@ -1335,6 +1363,22 @@
                  value="${esc(sec.highlight)}"
                  oninput="updateSection(${sec.id},'highlight',this.value)">
         </div>`).join('');
+
+      // Initialize EasyMDE for each section
+      sections.forEach(sec => {
+        const mde = new EasyMDE({
+          element: document.getElementById(`mde-content-${sec.id}`),
+          spellChecker: false,
+          status: false,
+          placeholder: "Write the content for this section. Use Markdown to easily add bullet points, bold text, etc.",
+          toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview", "guide"]
+        });
+        mde.codemirror.on("change", () => {
+          updateSection(sec.id, 'body', mde.value());
+          calcWordCount();
+        });
+        window.mdeInstances[sec.id] = mde;
+      });
 
       if (addBtn) addBtn.style.display = sections.length >= 50 ? 'none' : 'flex';
       if (addBtn) addBtn.title = `${sections.length}/50 sections`;
@@ -1459,12 +1503,21 @@
       const catNames = { college: '🏫 College Blogs', study: '📖 Study Blogs', career: '💼 Career Blogs' };
       const catLabel = catNames[appState.category] || 'Blogs';
 
+      // Initialize Marked with options to break single lines
+      marked.setOptions({
+        gfm: true,
+        breaks: true 
+      });
+
       let sectionsHtml = '';
       sections.forEach((s, idx) => {
         if (s.heading || s.body) {
-          let paras = s.body.split('\n\n').filter(p => p.trim()).map(p => `<p>${parseLinks(esc(p.trim()))}</p>`).join('');
+          let parsedBody = '';
+          if (s.body && s.body.trim()) {
+            parsedBody = `<div class="parsed-markdown">${marked.parse(s.body)}</div>`;
+          }
           let hlBlock = s.highlight ? `<div class="blog-highlight"><strong>💡 Key Insight:</strong> ${parseLinks(esc(s.highlight))}</div>` : '';
-          sectionsHtml += `<h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">${esc(s.heading)}</h2>\n${paras}\n${hlBlock}`;
+          sectionsHtml += `<h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">${esc(s.heading)}</h2>\n${parsedBody}\n${hlBlock}`;
         }
       });
 
