@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "slug": "associate",
+      "title": "Associate",
+      "author": "Balaji Sugumar",
+      "date": "24 April 2026",
+      "excerpt": "Read Associate. Test associate",
+      "readingTime": 1
+    },
+    {
       "slug": "tnea-counselling-2026",
       "title": "📄 TNEA Counsellingக்கு தேவையான ஆவணங்கள் (முழு பட்டியல் 2026) 🎯",
       "author": "Meena Saravanan",
