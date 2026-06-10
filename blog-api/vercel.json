@@ -1,0 +1,8 @@
+{
+  "builds": [
+    { "src": "api/blogs_auth_index.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/blogs_auth_index.py" }
+  ]
+}

@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="canonical" href="https://meritseat.in/blog/write/" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH4LF10RKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-VH4LF10RKB');
+  </script>
+  <meta charset="UTF-8">
+  <title>Write a Blog | Share Your Knowledge | MeritSeat.in</title>
+  <meta name="description"
+    content="Write a blog for MeritSeat — share your college experience, study tips, or career advice with Tamil Nadu engineering students.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    /* ─── Wizard layout ───────────────────────────────── */
+    .wizard-step {
+      display: none;
+    }
+
+    .wizard-step.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    /* ─── Step indicator ──────────────────────────────── */
+    .step-bar {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      padding: 1.5rem 0 0.5rem;
+    }
+
+    .step-bar.visible {
+      display: flex;
+    }
+
+    .step-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      background: #1f1f1f;
+      color: #666;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .step-dot.active {
+      border-color: #2196f3;
+      color: #2196f3;
+      box-shadow: 0 0 12px rgba(33, 150, 243, 0.4);
+    }
+
+    .step-dot.done {
+      background: #2196f3;
+      border-color: #2196f3;
+      color: #fff;
+    }
+
+    .step-line {
+      width: 60px;
+      height: 2px;
+      background: #333;
+    }
+
+    .step-line.done {
+      background: #2196f3;
+    }
+
+    .step-label-row {
+      display: none;
+      justify-content: center;
+      gap: 0;
+      font-size: 0.72rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-label-row.visible {
+      display: flex;
+    }
+
+    .step-label {
+      width: 94px;
+      text-align: center;
+    }
+
+    .step-label.active {
+      color: #2196f3;
+    }
+
+    .step-label.done {
+      color: #aaa;
+    }
+
+    /* ─── Welcome step ────────────────────────────────── */
+    .welcome-hero {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .welcome-hero .hero-emoji {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .welcome-hero h1 {
+      font-size: 2rem;
+      color: #fff;
+      margin: 0 0 0.8rem;
+      background: linear-gradient(135deg, #2196f3, #f09347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-hero p {
+      color: #aaa;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    .benefits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .benefit-card {
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      width: 140px;
+      text-align: center;
+    }
+
+    .benefit-card .b-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .benefit-card .b-label {
+      font-size: 0.8rem;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    /* ─── Category step ───────────────────────────────── */
+    .cat-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cat-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #252525;
+      border: 2px solid #333;
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .cat-card:hover {
+      border-color: #555;
+      background: #2c2c2c;
+      transform: translateX(4px);
+    }
+
+    .cat-card.cat-college:hover,
+    .cat-card.cat-college.selected {
+      border-color: #2196f3;
+      box-shadow: 0 0 16px rgba(33, 150, 243, 0.2);
+    }
+
+    .cat-card.cat-study:hover,
+    .cat-card.cat-study.selected {
+      border-color: #4caf50;
+      box-shadow: 0 0 16px rgba(76, 175, 80, 0.2);
+    }
+
+    .cat-card.cat-career:hover,
+    .cat-card.cat-career.selected {
+      border-color: #9c27b0;
+      box-shadow: 0 0 16px rgba(156, 39, 176, 0.2);
+    }
+
+    .cat-card .cat-emoji {
+      font-size: 2rem;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .cat-card .cat-info h3 {
+      margin: 0 0 0.2rem;
+      color: #fff;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .cat-card .cat-info p {
+      margin: 0;
+      color: #888;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    /* ─── Auth step ───────────────────────────────────── */
+    .auth-box {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .auth-box .auth-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .auth-box h2 {
+      color: #fff;
+      margin: 0 0 0.6rem;
+    }
+
+    .auth-box p {
+      color: #aaa;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      max-width: 420px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .google-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: #3c4043;
+      border: 1px solid #dadce0;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: "Google Sans", arial, sans-serif;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      width: auto;
+      margin: 0;
+    }
+
+    .google-btn:hover {
+      background: #f8f9fa;
+      border-color: #d2e3fc;
+      transform: scale(1.02);
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    }
+
+    .google-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .auth-success {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: rgba(76, 175, 80, 0.12);
+      border: 1px solid #4caf50;
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem auto;
+      max-width: 380px;
+      color: #4caf50;
+      font-weight: 600;
+    }
+
+    .auth-error-box {
+      display: none;
+      background: rgba(244, 67, 54, 0.12);
+      border: 1px solid #f44336;
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem auto;
+      max-width: 380px;
+      color: #ef9a9a;
+      font-size: 0.9rem;
+    }
+
+    .auth-permissions {
+      background: #252525;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1.2rem;
+      font-size: 0.82rem;
+      color: #888;
+      text-align: left;
+    }
+
+    .auth-permissions strong {
+      color: #ccc;
+    }
+
+    /* ─── Write form ──────────────────────────────────── */
+    .form-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-section-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .form-row .form-field {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .form-field {
+      margin-bottom: 1rem;
+    }
+
+    .form-field label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ccc;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .form-field label .required {
+      color: #f09347;
+      margin-left: 2px;
+    }
+
+    .form-field label .optional {
+      color: #555;
+      font-weight: 400;
+      font-size: 0.78rem;
+      margin-left: 4px;
+    }
+
+    .char-count {
+      font-size: 0.75rem;
+      color: #555;
+      float: right;
+    }
+
+    .char-count.warn {
+      color: #f09347;
+    }
+
+    .word-count-bar {
+      text-align: right;
+      font-size: 0.78rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .section-block {
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-header label {
+      color: #ccc;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .remove-section-btn {
+      background: rgba(244, 67, 54, 0.12);
+      color: #ef9a9a;
+      border: 1px solid #f44336;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      width: auto;
+      margin: 0;
+    }
+
+    .remove-section-btn:hover {
+      background: rgba(244, 67, 54, 0.25);
+      transform: none;
+    }
+
+    .add-section-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      background: rgba(33, 150, 243, 0.08);
+      color: #2196f3;
+      border: 1px dashed #2196f3;
+      border-radius: 10px;
+      padding: 0.8rem;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .add-section-btn:hover {
+      background: rgba(33, 150, 243, 0.16);
+      transform: none;
+    }
+
+    /* Image upload */
+    .img-upload-area {
+      border: 2px dashed #444;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .img-upload-area:hover {
+      border-color: #2196f3;
+      background: rgba(33, 150, 243, 0.05);
+    }
+
+    .img-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+
+    .img-upload-area .upload-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .img-upload-area p {
+      color: #888;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    .img-upload-area span {
+      font-size: 0.75rem;
+      color: #555;
+    }
+
+    .img-previews {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .img-preview-item {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #444;
+    }
+
+    .img-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .img-preview-item .remove-img {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.65rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      min-width: unset;
+    }
+
+    .img-preview-item .remove-img:hover {
+      background: #f44336;
+      transform: none;
+    }
+
+    .img-name-label {
+      font-size: 0.68rem;
+      color: #666;
+      text-align: center;
+      padding: 2px 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ─── Loading step ────────────────────────────────── */
+    .loading-box {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .spinner {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 5px solid #2a2a2a;
+      border-top-color: #2196f3;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-box h2 {
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+
+    #loading-msg {
+      color: #aaa;
+      font-size: 0.9rem;
+      min-height: 1.4em;
+      transition: opacity 0.3s;
+    }
+
+    .loading-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .loading-step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: #555;
+    }
+
+    .loading-step-item.done {
+      color: #4caf50;
+    }
+
+    .loading-step-item.active {
+      color: #2196f3;
+    }
+
+    /* ─── Success step ────────────────────────────────── */
+    .success-box {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .success-emoji {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+      animation: bounceIn 0.6s ease;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      70% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .success-box h2 {
+      font-size: 1.8rem;
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+
+    .success-box .subtitle {
+      color: #aaa;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .success-pr-card {
+      background: rgba(33, 150, 243, 0.08);
+      border: 1px solid #2196f3;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+      text-align: left;
+    }
+
+    .success-pr-card p {
+      color: #ccc;
+      font-size: 0.88rem;
+      margin: 0 0 0.8rem;
+    }
+
+    .success-pr-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #2196f3;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .next-steps {
+      background: #252525;
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      margin: 1rem 0;
+    }
+
+    .next-steps h3 {
+      color: #fff;
+      font-size: 1rem;
+      margin: 0 0 0.8rem;
+      text-align: left;
+    }
+
+    .next-steps ol {
+      color: #aaa;
+      font-size: 0.88rem;
+      padding-left: 1.2rem;
+      line-height: 1.9;
+      margin: 0;
+    }
+
+    .next-steps ol li strong {
+      color: #ccc;
+    }
+
+    .success-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .success-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      width: auto;
+      margin: 0;
+    }
+
+    .btn-primary {
+      background: rgba(240, 147, 71, 0.9);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: rgb(240, 114, 12);
+      transform: scale(1.02);
+    }
+
+    .btn-secondary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #2196f3;
+      border: 1px solid #2196f3;
+    }
+
+    .btn-secondary:hover {
+      background: #2196f3;
+      color: #fff;
+      transform: none;
+    }
+
+    /* ─── Shared back button ──────────────────────────── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #555;
+      font-size: 0.82rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0 0 1rem;
+      width: auto;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #aaa;
+      transform: none;
+      background: none;
+    }
+
+    /* ─── Submit button ───────────────────────────────── */
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background: rgba(240, 147, 71, 0.95);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1.5rem;
+      transition: all 0.25s;
+    }
+
+    .submit-btn:hover {
+      background: rgb(240, 114, 12);
+      transform: scale(1.01);
+    }
+
+    /* ─── Preview actions ─────────────────────────────── */
+    .preview-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.5rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .preview-actions .submit-btn,
+    .preview-actions .back-link {
+      width: auto;
+      margin: 0;
+      padding: 10px 20px;
+    }
+    .preview-content {
+      background: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: left;
+    }
+    
+    /* ─── EasyMDE Dark Mode Tweaks ────────────────────── */
+    .editor-toolbar { background: #252525; border-color: #444; opacity: 1; border-radius: 8px 8px 0 0; display: block !important; text-align: left !important; padding: 4px !important; }
+    .editor-toolbar a, .editor-toolbar button { color: #ccc !important; }
+    /* Override global button CSS to fix vertical stacking */
+    .editor-toolbar button {
+      width: 30px !important;
+      height: 30px !important;
+      min-width: 30px !important;
+      margin: 0 2px !important;
+      padding: 0 !important;
+      display: inline-block !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+      border-radius: 3px !important;
+      box-shadow: none !important;
+      text-align: center !important;
+      line-height: 30px !important;
+    }
+    .editor-toolbar a.active, .editor-toolbar a:hover, .editor-toolbar button.active, .editor-toolbar button:hover { background: #333 !important; border-color: #555 !important; }
+    /* Override global i tag padding that misaligned the icons */
+    .editor-toolbar i {
+      padding: 0 !important;
+      display: inline-block !important;
+      vertical-align: middle !important;
+      line-height: inherit !important;
+    }
+    .editor-toolbar i.separator { border-left-color: #444; border-right-color: #444; }
+    .CodeMirror { background: #1f1f1f !important; color: #fff !important; border-color: #444 !important; border-radius: 0 0 8px 8px; font-family: 'Inter', sans-serif; }
+    .CodeMirror-cursor { border-left: 1px solid #fff !important; }
+    .editor-preview, .editor-preview-side { background: #1f1f1f !important; color: #fff !important; }
+    .editor-statusbar { color: #888; }
+    .parsed-markdown h1, .parsed-markdown h2, .parsed-markdown h3 { color: #fff; }
+    .parsed-markdown p { line-height: 1.7; margin-bottom: 1rem; }
+    .parsed-markdown ul, .parsed-markdown ol { line-height: 1.7; padding-left: 1.5rem; margin-bottom: 1rem; }
+    .parsed-markdown li { margin-bottom: 0.5rem; }
+
+    /* ─── Responsive ──────────────────────────────────── */
+    @media (max-width: 600px) {
+      .welcome-hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .benefits {
+        gap: 0.6rem;
+      }
+
+      .benefit-card {
+        width: 110px;
+      }
+
+      .step-line {
+        width: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+      <span class="site-title">Merit Seat</span>
+    </div>
+    <div class="burger" id="burger">&#9776;</div>
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+      <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <!-- Step indicator -->
+  <div class="step-bar" id="step-bar">
+    <div class="step-dot" id="dot-1">1</div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-dot" id="dot-2">2</div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step-dot" id="dot-3">3</div>
+  </div>
+  <div class="step-label-row" id="step-labels">
+    <span class="step-label" id="lbl-1">Category</span>
+    <span style="width:60px;"></span>
+    <span class="step-label" id="lbl-2">Login</span>
+    <span style="width:60px;"></span>
+    <span class="step-label" id="lbl-3">Write</span>
+  </div>
+
+  <!-- ═══════════════ STEP: WELCOME ═══════════════ -->
+  <div class="wizard-step active" id="step-welcome">
+    <div class="container">
+      <div class="welcome-hero">
+        <span class="hero-emoji">✍️</span>
+        <h1>Write for MeritSeat</h1>
+        <p>Share your college experience, study strategies, or career advice with thousands of Tamil Nadu engineering
+          students. Your knowledge can change someone's future.</p>
+        <div class="benefits">
+          <div class="benefit-card">
+            <div class="b-icon">📝</div>
+            <div class="b-label">Easy<br>Writing Tool</div>
+          </div>
+          <div class="benefit-card">
+            <div class="b-icon">✅</div>
+            <div class="b-label">Reviewed &<br>Published</div>
+          </div>
+          <div class="benefit-card">
+            <div class="b-icon">🏅</div>
+            <div class="b-label">Full Credit<br>to You</div>
+          </div>
+          <div class="benefit-card">
+            <div class="b-icon">🎓</div>
+            <div class="b-label">Help<br>Students</div>
+          </div>
+        </div>
+        <button class="submit-btn" style="max-width:260px;margin:0 auto;" onclick="goToStep('category')">
+          <i data-lucide="pen-line"></i> Start Writing →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: CATEGORY ═══════════════ -->
+  <div class="wizard-step" id="step-category">
+    <div class="container">
+      <button class="back-link" onclick="goToStep('welcome')">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back
+      </button>
+      <h2 style="margin-bottom:0.3rem;">Choose your blog category</h2>
+      <p style="color:#888;font-size:0.9rem;margin-bottom:1.5rem;">Select the category that best fits your topic.</p>
+
+      <div class="cat-grid">
+        <div class="cat-card cat-college" id="cat-college" onclick="selectCategory('college')">
+          <div class="cat-emoji">🏫</div>
+          <div class="cat-info">
+            <h3>College Blogs</h3>
+            <p>College reviews, campus life, hostel experiences, placement stories, and how to choose the right college.
+            </p>
+          </div>
+        </div>
+        <div class="cat-card cat-study" id="cat-study" onclick="selectCategory('study')">
+          <div class="cat-emoji">📖</div>
+          <div class="cat-info">
+            <h3>Study Blogs</h3>
+            <p>TNEA preparation tips, subject guides, study timetables, and strategies to maximise your +2 board scores.
+            </p>
+          </div>
+        </div>
+        <div class="cat-card cat-career" id="cat-career" onclick="selectCategory('career')">
+          <div class="cat-emoji">💼</div>
+          <div class="cat-info">
+            <h3>Career Blogs</h3>
+            <p>Career paths after engineering, highest-paying branches, placements, government jobs, and higher studies.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: LOGIN ═══════════════ -->
+  <div class="wizard-step" id="step-auth">
+    <div class="container">
+      <button class="back-link" onclick="goToStep('category')">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back
+      </button>
+      <div class="auth-box">
+        <div class="auth-icon">🔐</div>
+        <h2>Sign in with Google</h2>
+        <p>Sign in to securely verify your identity. Your email and name will be attached to the blog post when we submit it for review.</p>
+
+        <div class="auth-error-box" id="auth-error-box">
+          ⚠️ Authentication failed. Please try again.
+        </div>
+        <div class="auth-success" id="auth-success">
+          ✅ Signed in as <strong id="google-email-display">user@gmail.com</strong>
+          — <a href="#" onclick="goToStep('write');return false;" style="color:#4caf50;font-size:0.85rem;">Continue
+            →</a>
+        </div>
+
+        <button class="google-btn" id="google-login-btn" onclick="startOAuth()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            <path fill="none" d="M0 0h48v48H0z"/>
+          </svg>
+          Sign in with Google
+        </button>
+
+        <div class="auth-permissions">
+          <strong>🔒 Privacy:</strong> We only request basic profile information (name and email) to verify authorship. We will not sell your data.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: WRITE ═══════════════ -->
+  <div class="wizard-step" id="step-write">
+    <div class="container">
+      <div
+        style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+        <h2 style="margin:0;">Write Your Blog</h2>
+        <div id="category-badge" style="font-size:0.85rem;color:#888;"></div>
+      </div>
+
+      <!-- ── Basic Info ── -->
+      <div class="form-section">
+        <div class="form-section-title">📋 Basic Information</div>
+        <div class="form-row">
+          <div class="form-field" style="flex:2;">
+            <label for="inp-title">Post Title <span class="required">*</span></label>
+            <input type="text" id="inp-title"
+              placeholder="e.g., How to Choose the Right Engineering College in Tamil Nadu"
+              oninput="calcWordCount()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="inp-author">Your Name <span class="required">*</span></label>
+            <input type="text" id="inp-author" placeholder="e.g., Ravi Kumar">
+          </div>
+          <div class="form-field">
+            <label for="inp-email">Contact Email <span class="required">*</span></label>
+            <input type="email" id="inp-email" placeholder="e.g., you@gmail.com">
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Content ── -->
+      <div class="form-section">
+        <div class="form-section-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>📝 Blog Content</div>
+          <div style="font-size:0.75rem; text-transform:none; font-weight:400; color:#888;">
+            Auto-detects links, or use <b>[Text](url)</b>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="inp-lead">Introduction / Lead Paragraph <span class="required">*</span></label>
+          <textarea id="inp-lead" rows="4"
+            placeholder="Write a compelling 2–3 sentence intro. Hook the reader and tell them what they'll learn."
+            oninput="calcWordCount()"></textarea>
+        </div>
+
+        <div style="font-size:0.82rem;color:#666;margin-bottom:0.8rem;">
+          <strong style="color:#aaa;">Content Sections</strong> — add up to 5 sections. Each can have a heading, body,
+          and an optional highlight box.
+        </div>
+
+        <div id="sections-container"></div>
+
+        <button class="add-section-btn" id="add-section-btn" onclick="addSection()">
+          <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Add Another Section
+        </button>
+
+        <div class="word-count-bar" id="word-count-bar">0 words · ~1 min read</div>
+      </div>
+
+      <!-- ── Images ── -->
+      <div class="form-section">
+        <div class="form-section-title">🖼️ Images <span
+            style="text-transform:none;font-weight:400;color:#555;">(optional — max 1, 3 MB)</span></div>
+        <div class="img-upload-area" id="img-upload-area">
+          <input type="file" accept="image/*" id="inp-images" onchange="handleImageUpload(this)">
+          <div class="upload-icon">📁</div>
+          <p>Click or drag an image here to upload</p>
+          <span>PNG, JPG, GIF · Max 3 MB · Max 1 image</span>
+        </div>
+        <div class="img-previews" id="img-previews"></div>
+      </div>
+
+      <button class="submit-btn" onclick="previewBlog()">
+        <i data-lucide="eye"></i> Preview Blog
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: PREVIEW ═══════════════ -->
+  <div class="wizard-step" id="step-preview">
+    <div class="container">
+      <div class="preview-actions">
+        <button class="back-link" onclick="goToStep('write')" style="background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;">
+          <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Edit
+        </button>
+        <button class="submit-btn" onclick="submitBlog()">
+          <i data-lucide="send"></i> Submit Blog
+        </button>
+      </div>
+
+      <div class="preview-content" id="preview-rendering-area">
+        <!-- Rendered preview html -->
+      </div>
+
+      <div class="preview-actions">
+        <button class="back-link" onclick="goToStep('write')" style="background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;">
+          <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Edit
+        </button>
+        <button class="submit-btn" onclick="submitBlog()">
+          <i data-lucide="send"></i> Submit Blog
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: LOADING ═══════════════ -->
+  <div class="wizard-step" id="step-loading">
+    <div class="container">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <h2>Submitting your blog…</h2>
+        <p id="loading-msg">Getting things ready…</p>
+        <div class="loading-steps">
+          <div class="loading-step-item" id="ls-branch">⬜ Saving your content</div>
+          <div class="loading-step-item" id="ls-commit">⬜ Uploading your blog post</div>
+          <div class="loading-step-item" id="ls-sitemap">⬜ Registering your blog</div>
+          <div class="loading-step-item" id="ls-pr">⬜ Sending for review</div>
+          <div class="loading-step-item" id="ls-reviewer">⬜ Notifying the MeritSeat team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STEP: SUCCESS ═══════════════ -->
+  <div class="wizard-step" id="step-success">
+    <div class="container">
+      <div class="success-box">
+        <span class="success-emoji">🎉</span>
+        <h2>Blog Submitted Successfully!</h2>
+        <p class="subtitle">Thank you for contributing to MeritSeat. Your blog is now under review.</p>
+
+        <div class="success-pr-card" style="background:rgba(76,175,80,0.08);border-color:#4caf50;">
+          <p style="color:#ccc;font-size:0.9rem;margin:0 0 0.5rem;">
+            ✅ Your blog has been received and is waiting for approval by the <strong style="color:#e0e0e0;">MeritSeat Admin</strong>.
+          </p>
+          <p style="color:#888;font-size:0.82rem;margin:0;">
+            We review all submissions within <strong style="color:#ccc;">1–3 working days</strong>. You'll be notified at your registered email once it's live.
+          </p>
+        </div>
+
+        <div class="next-steps">
+          <h3>📌 What happens next?</h3>
+          <ol>
+            <li>The <strong>MeritSeat team</strong> reviews your post for accuracy and quality.</li>
+            <li>If approved, your post is <strong>published automatically</strong> on the blog.</li>
+            <li>Your blog will appear on the <strong>category listing page</strong> with full credit to you.</li>
+            <li>Write more blogs to build your <strong>author presence</strong> on MeritSeat!</li>
+          </ol>
+        </div>
+
+        <div class="success-actions">
+          <button class="success-btn btn-primary" onclick="resetWizard()">
+            <i data-lucide="pen-line"></i> Write Another Blog
+          </button>
+          <a class="success-btn btn-secondary" href="/blog/">
+            <i data-lucide="book-open"></i> Browse Blogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════════════════════
+    // ⚙️  CONFIGURATION — Update VERCEL_API_URL after deploying!
+    // ══════════════════════════════════════════════════════════════
+    const VERCEL_API_URL = 'https://meritseat-blog-api.vercel.app'; // ← Set this after Vercel deploy
+
+    // ── State ──────────────────────────────────────────────────────
+    let appState = {
+      step: 'welcome',
+      category: null,
+      token: null,
+      googleEmail: null,
+      googleName: null,
+      readingTime: 1,
+    };
+    let sections = [{ id: 1, heading: '', body: '', highlight: '' }];
+    let images = [];
+
+    // ── Init ───────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initBurger();
+
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const authErr = params.get('auth_error');
+      const catParam = params.get('category');
+
+      if (token) {
+        // Returning from Google OAuth
+        appState.token = token;
+        appState.googleName = params.get('google_name') || '';
+        appState.googleEmail = params.get('google_email') || '';
+        sessionStorage.setItem('ms_token', appState.token);
+        sessionStorage.setItem('ms_google_name', appState.googleName);
+        sessionStorage.setItem('ms_google_email', appState.googleEmail);
+        history.replaceState({}, '', '/blog/write/');
+        appState.category = sessionStorage.getItem('ms_category');
+        initWriteStep();
+        goToStep('write');
+
+      } else if (authErr) {
+        history.replaceState({}, '', '/blog/write/');
+        appState.category = sessionStorage.getItem('ms_category');
+        showAuthError(authErr);
+        goToStep('auth');
+
+      } else if (sessionStorage.getItem('ms_token')) {
+        // Already authenticated
+        appState.token = sessionStorage.getItem('ms_token');
+        appState.googleName = sessionStorage.getItem('ms_google_name');
+        appState.googleEmail = sessionStorage.getItem('ms_google_email');
+        appState.category = sessionStorage.getItem('ms_category');
+        if (appState.category) {
+          initWriteStep();
+          goToStep('write');
+        } else {
+          goToStep('category');
+        }
+      } else if (catParam && ['college', 'study', 'career'].includes(catParam)) {
+        appState.category = catParam;
+        sessionStorage.setItem('ms_category', catParam);
+        goToStep('auth');
+      } else {
+        goToStep('welcome');
+      }
+
+      renderSections();
+    });
+
+    // ── Step navigation ────────────────────────────────────────────
+    function goToStep(step) {
+      appState.step = step;
+      document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
+      const el = document.getElementById(`step-${step}`);
+      if (el) {
+        el.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      updateStepBar();
+      lucide.createIcons();
+    }
+
+    function updateStepBar() {
+      const stepMap = { category: 1, auth: 2, write: 3, preview: 3 };
+      const bar = document.getElementById('step-bar');
+      const labels = document.getElementById('step-labels');
+      const hidden = ['welcome', 'loading', 'success'].includes(appState.step);
+
+      bar.classList.toggle('visible', !hidden);
+      labels.classList.toggle('visible', !hidden);
+
+      const current = stepMap[appState.step] || 0;
+      [1, 2, 3].forEach(i => {
+        const dot = document.getElementById(`dot-${i}`);
+        const lbl = document.getElementById(`lbl-${i}`);
+        dot.classList.toggle('active', i === current);
+        dot.classList.toggle('done', i < current);
+        if (lbl) {
+          lbl.classList.toggle('active', i === current);
+          lbl.classList.toggle('done', i < current);
+        }
+        if (i < 3) {
+          document.getElementById(`line-${i}`)?.classList.toggle('done', i < current);
+        }
+      });
+    }
+
+    // ── Category selection ─────────────────────────────────────────
+    function selectCategory(cat) {
+      appState.category = cat;
+      sessionStorage.setItem('ms_category', cat);
+      document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById(`cat-${cat}`)?.classList.add('selected');
+      setTimeout(() => goToStep('auth'), 200);
+    }
+
+    // ── OAuth ──────────────────────────────────────────────────────
+    function startOAuth() {
+      const state = Math.random().toString(36).substring(2);
+      sessionStorage.setItem('ms_oauth_state', state);
+      window.location.href = `${VERCEL_API_URL}/api/auth/google?state=${state}`;
+    }
+
+    function showAuthError(errCode) {
+      const box = document.getElementById('auth-error-box');
+      const msgs = {
+        no_code: 'Google did not return an authorization code. Please try again.',
+        bad_verification_code: 'The authorization code expired. Please try again.',
+        server_error: 'A server error occurred. Please try again in a moment.',
+      };
+      box.textContent = '⚠️ ' + (msgs[errCode] || `Authentication error: ${errCode}. Please try again.`);
+      box.style.display = 'block';
+    }
+
+    // ── Init write step with user data ─────────────────────────────
+    function initWriteStep() {
+      // Show auth success badge
+      const successBadge = document.getElementById('auth-success');
+      const emailDisplay = document.getElementById('google-email-display');
+      if (successBadge && appState.googleEmail) {
+        successBadge.style.display = 'flex';
+        emailDisplay.textContent = appState.googleEmail;
+        document.getElementById('google-login-btn').style.display = 'none';
+      }
+
+      // Pre-fill author name and email from Google
+      const authorInput = document.getElementById('inp-author');
+      const emailInput = document.getElementById('inp-email');
+      if (authorInput && !authorInput.value && appState.googleName) authorInput.value = appState.googleName;
+      if (emailInput && !emailInput.value && appState.googleEmail) emailInput.value = appState.googleEmail;
+
+      // Show category badge
+      const catNames = { college: '🏫 College Blogs', study: '📖 Study Blogs', career: '💼 Career Blogs' };
+      const badge = document.getElementById('category-badge');
+      if (badge && appState.category) badge.textContent = catNames[appState.category] || '';
+    }
+
+    // ── Sections ───────────────────────────────────────────────────
+    function renderSections() {
+      // Clean up old EasyMDE instances
+      if (window.mdeInstances) {
+        for (const id in window.mdeInstances) {
+          if (window.mdeInstances[id]) {
+            window.mdeInstances[id].toTextArea();
+          }
+        }
+      }
+      window.mdeInstances = {};
+
+      const container = document.getElementById('sections-container');
+      const addBtn = document.getElementById('add-section-btn');
+      if (!container) return;
+
+      container.innerHTML = sections.map((sec, i) => `
+        <div class="section-block" id="sec-blk-${sec.id}">
+          <div class="section-header">
+            <label>Section ${i + 1} Heading</label>
+            ${sections.length > 1
+          ? `<button type="button" class="remove-section-btn" onclick="removeSection(${sec.id})">✕ Remove</button>`
+          : ''}
+          </div>
+          <input type="text" placeholder="e.g., Why Campus Placement Matters"
+                 value="${esc(sec.heading)}"
+                 oninput="updateSection(${sec.id},'heading',this.value)">
+          <label style="margin-top:0.8rem;display:block;font-size:.85rem;font-weight:600;color:#ccc;">Section ${i + 1} Content</label>
+          <div style="margin-top: 0.5rem;">
+            <textarea id="mde-content-${sec.id}">${esc(sec.body)}</textarea>
+          </div>
+          <label style="margin-top:0.8rem;display:block;font-size:.85rem;font-weight:600;color:#ccc;">
+            Highlight Box <span style="font-weight:400;color:#555;font-size:.78rem;">(optional)</span>
+          </label>
+          <input type="text" placeholder="💡 A key insight or tip for this section (leave blank to skip)..."
+                 value="${esc(sec.highlight)}"
+                 oninput="updateSection(${sec.id},'highlight',this.value)">
+        </div>`).join('');
+
+      // Initialize EasyMDE for each section
+      sections.forEach(sec => {
+        const mde = new EasyMDE({
+          element: document.getElementById(`mde-content-${sec.id}`),
+          spellChecker: false,
+          status: false,
+          placeholder: "Write the content for this section. Use Markdown to easily add bullet points, bold text, etc.",
+          toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview", "guide"]
+        });
+        mde.codemirror.on("change", () => {
+          updateSection(sec.id, 'body', mde.value());
+          calcWordCount();
+        });
+        window.mdeInstances[sec.id] = mde;
+      });
+
+      if (addBtn) addBtn.style.display = sections.length >= 50 ? 'none' : 'flex';
+      if (addBtn) addBtn.title = `${sections.length}/50 sections`;
+      lucide.createIcons();
+    }
+
+    function addSection() {
+      if (sections.length >= 50) return;
+      sections.push({ id: Date.now(), heading: '', body: '', highlight: '' });
+      renderSections();
+      // Scroll new section into view
+      setTimeout(() => {
+        const last = document.getElementById(`sec-blk-${sections[sections.length-1].id}`);
+        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+
+    function removeSection(id) {
+      if (sections.length <= 1) return;
+      sections = sections.filter(s => s.id !== id);
+      renderSections();
+    }
+
+    function updateSection(id, field, value) {
+      const s = sections.find(s => s.id === id);
+      if (s) s[field] = value;
+    }
+
+    // ── Word Count ──────────────────────────────────────────────────
+    function calcWordCount() {
+      const sources = [
+        document.getElementById('inp-lead')?.value || '',
+        ...sections.map(s => s.body),
+      ];
+      const words = sources.join(' ').split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.round(words / 200));
+      appState.readingTime = mins;
+      const bar = document.getElementById('word-count-bar');
+      if (bar) bar.textContent = `${words} words · ~${mins} min read`;
+    }
+
+    // ── Images ─────────────────────────────────────────────────────
+    async function handleImageUpload(input) {
+      const files = Array.from(input.files);
+      if (images.length + files.length > 1) {
+        alert('Maximum 1 image is allowed. Please remove the existing one before adding a new one.');
+        input.value = '';
+        return;
+      }
+      for (const file of files) {
+        if (file.size > 3 * 1024 * 1024) {
+          alert(`"${file.name}" exceeds the 3 MB limit and was skipped.`);
+          continue;
+        }
+        const dataUrl = await toBase64(file);
+        const newName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+        images.push({ name: newName, base64: dataUrl.split(',')[1], previewUrl: dataUrl });
+      }
+      input.value = '';
+      renderImages();
+    }
+
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let width = img.width;
+            let height = img.height;
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.8));
+          };
+          img.onerror = reject;
+          img.src = r.result;
+        };
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+    }
+
+    function removeImage(i) {
+      images.splice(i, 1);
+      renderImages();
+    }
+
+    function renderImages() {
+      const container = document.getElementById('img-previews');
+      container.innerHTML = images.map((img, i) => `
+        <div class="img-preview-item">
+          <img src="${img.previewUrl}" alt="${img.name}">
+          <button class="remove-img" onclick="removeImage(${i})">✕</button>
+        </div>
+        <div class="img-name-label">${img.name.substring(0, 16)}${img.name.length > 16 ? '…' : ''}</div>
+      `).join('');
+    }
+
+    // ── Preview ────────────────────────────────────────────────────
+    function previewBlog() {
+      const title = document.getElementById('inp-title').value.trim();
+      const author = document.getElementById('inp-author').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const lead = document.getElementById('inp-lead').value.trim();
+
+      if (!title) { alert('Please enter a blog title.'); return; }
+      if (!author) { alert('Please enter your name.'); return; }
+      if (!email) { alert('Please enter your contact email.'); return; }
+      if (!lead) { alert('Please write an introduction paragraph.'); return; }
+
+      const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const catNames = { college: '🏫 College Blogs', study: '📖 Study Blogs', career: '💼 Career Blogs' };
+      const catLabel = catNames[appState.category] || 'Blogs';
+
+      // Initialize Marked with options to break single lines
+      marked.setOptions({
+        gfm: true,
+        breaks: true 
+      });
+
+      let sectionsHtml = '';
+      sections.forEach((s, idx) => {
+        if (s.heading || s.body) {
+          let parsedBody = '';
+          if (s.body && s.body.trim()) {
+            parsedBody = `<div class="parsed-markdown">${marked.parse(s.body)}</div>`;
+          }
+          let hlBlock = s.highlight ? `<div class="blog-highlight"><strong>💡 Key Insight:</strong> ${parseLinks(esc(s.highlight))}</div>` : '';
+          sectionsHtml += `<h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">${esc(s.heading)}</h2>\n${parsedBody}\n${hlBlock}`;
+        }
+      });
+
+      let imgsHtml = '';
+      images.forEach(img => {
+        imgsHtml += `<img src="${img.previewUrl}" alt="Preview Image" style="max-width:100%;border-radius:8px;margin:0.8rem 0 1.2rem;">\n`;
+      });
+
+      const html = `
+        <span style="display:inline-block; padding:4px 12px; border-radius:20px; font-size:.78rem; font-weight:600; margin-bottom:1rem; background:rgba(33,150,243,0.12); color:#2196f3; border:1px solid #2196f3;">
+          ${catLabel}
+        </span>
+        <h1 style="font-size:1.8rem; font-weight:600; color:#fff; line-height:1.3; margin:0 0 1rem; text-align:left;">${esc(title)}</h1>
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; font-size:.85rem; color:#888; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #333;">
+          <span>📅 ${today}</span>
+          <span>✍️ ${esc(author)}</span>
+          <span>⏱️ ${appState.readingTime} min read</span>
+        </div>
+        <div style="color:#ccc; line-height:1.8; text-align:left;">
+          <p style="font-size:1.05rem; font-style:italic; border-left:3px solid #2196f3; padding-left:1rem; margin-bottom:1.5rem;">${parseLinks(esc(lead))}</p>
+          ${imgsHtml}
+          ${sectionsHtml}
+          <h2 style="font-size:1.3rem; color:#fff; border-bottom:1px solid #333; padding-bottom:0.4rem; margin-top:2rem; text-align:left;">Conclusion</h2>
+          <p>Thank you for reading.</p>
+        </div>
+      `;
+
+      document.getElementById('preview-rendering-area').innerHTML = html;
+      goToStep('preview');
+    }
+
+    // ── Submit ─────────────────────────────────────────────────────
+    async function submitBlog() {
+      const title = document.getElementById('inp-title').value.trim();
+      const author = document.getElementById('inp-author').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const lead = document.getElementById('inp-lead').value.trim();
+
+      if (!title) { alert('Please enter a blog title.'); return; }
+      if (!author) { alert('Please enter your name.'); return; }
+      if (!email) { alert('Please enter your contact email.'); return; }
+      if (!lead) { alert('Please write an introduction paragraph.'); return; }
+
+      // ── Generate SEO items in background ──
+      // 1. Generate URL slug from title
+      let slug = title.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim().replace(/\s+/g, '-')
+        .replace(/-+/g, '-').substring(0, 60);
+      if (!slug || slug === '-') slug = 'blog-' + Date.now();
+
+      // 2. Generate SEO-optimized Meta Description
+      // We combine the title + lead paragraph to form a keyword-rich description
+      let generatedMeta = `Read ${title}. ` + lead.replace(/[\n\r]+/g, ' ').trim();
+      if (generatedMeta.length > 155) {
+         generatedMeta = generatedMeta.substring(0, 153).replace(/\s+\S*$/, '') + '...';
+      }
+
+      const loadingMsgs = [
+        { id: 'ls-branch',   text: 'Saving your content…' },
+        { id: 'ls-commit',   text: 'Uploading your blog post…' },
+        { id: 'ls-sitemap',  text: 'Registering your blog…' },
+        { id: 'ls-pr',       text: 'Sending for review…' },
+        { id: 'ls-reviewer', text: 'Notifying the MeritSeat team…' },
+      ];
+
+      goToStep('loading');
+
+      let msgIdx = 0;
+      const msgEl = document.getElementById('loading-msg');
+      const interval = setInterval(() => {
+        if (msgIdx < loadingMsgs.length) {
+          if (msgIdx > 0) {
+            const prev = document.getElementById(loadingMsgs[msgIdx - 1].id);
+            if (prev) { prev.textContent = '✅ ' + prev.textContent.replace(/^⬜ /, ''); prev.classList.add('done'); }
+          }
+          const cur = document.getElementById(loadingMsgs[msgIdx].id);
+          if (cur) { cur.textContent = '⏳ ' + loadingMsgs[msgIdx].text; cur.classList.add('active'); }
+          if (msgEl) msgEl.textContent = loadingMsgs[msgIdx].text;
+          msgIdx++;
+        }
+      }, 1400);
+
+      try {
+        const res = await fetch(`${VERCEL_API_URL}/api/submit-blog`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: appState.token,
+            category: appState.category,
+            title, slug, author, email,
+            metaDescription: generatedMeta,
+            leadText: lead,
+            sections: sections.map(s => ({
+              heading: s.heading,
+              body: s.body,
+              highlight: s.highlight,
+            })),
+            images,
+            readingTime: appState.readingTime,
+          }),
+        });
+
+        clearInterval(interval);
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: res.statusText }));
+          throw new Error(err.error || 'Submission failed. Please try again.');
+        }
+
+        const data = await res.json();
+
+        // Clear session
+        ['ms_token', 'ms_google_name', 'ms_google_email', 'ms_category'].forEach(k => sessionStorage.removeItem(k));
+
+        // Mark all loading steps done
+        loadingMsgs.forEach(m => {
+          const el = document.getElementById(m.id);
+          if (el) { el.textContent = '✅ Done'; el.classList.add('done'); el.classList.remove('active'); }
+        });
+
+        // Show success
+        setTimeout(() => goToStep('success'), 600);
+
+      } catch (err) {
+        clearInterval(interval);
+        alert(`Submission failed:\n${err.message}\n\nPlease try again.`);
+        goToStep('write');
+      }
+    }
+
+    // ── Reset ──────────────────────────────────────────────────────
+    function resetWizard() {
+      appState = { step: 'welcome', category: null, token: null, googleEmail: null, googleName: null, readingTime: 1 };
+      sections = [{ id: 1, heading: '', body: '', highlight: '' }];
+      images = [];
+      ['inp-title', 'inp-author', 'inp-email', 'inp-lead'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      goToStep('welcome');
+    }
+
+    // ── Burger menu ────────────────────────────────────────────────
+    function initBurger() {
+      const burger = document.getElementById('burger');
+      const navLinks = document.getElementById('nav-links');
+      if (burger && navLinks) {
+        burger.addEventListener('click', () => navLinks.classList.toggle('show'));
+        document.addEventListener('click', e => {
+          if (navLinks.classList.contains('show') && !navLinks.contains(e.target) && !burger.contains(e.target)) {
+            navLinks.classList.remove('show');
+          }
+        });
+      }
+    }
+
+    // ── HTML Formatting ───────────────────────────────
+    function esc(s) { return String(s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    
+    function parseLinks(text) {
+      // Matches [Text](URL) OR bare URLs (http://... or https://...)
+      const regex = /\[([^\]]+)\]\(([^)]+)\)|(https?:\/\/[^\s<]+)/g;
+      return text.replace(regex, function(match, mdText, mdUrl, rawUrl) {
+        if (rawUrl) {
+          let url = rawUrl;
+          let suffix = '';
+          if (/[.,;!?]$/.test(url)) {
+            suffix = url.slice(-1);
+            url = url.slice(0, -1);
+          }
+          return '<a href="' + url + '" target="_blank" style="color:#2196f3;text-decoration:underline;">' + url + '</a>' + suffix;
+        } else {
+          return '<a href="' + mdUrl + '" target="_blank" style="color:#2196f3;text-decoration:underline;">' + mdText + '</a>';
+        }
+      });
+    }
+
+  </script>
+</body>
+
+</html>

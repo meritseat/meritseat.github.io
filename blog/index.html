@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="canonical" href="https://meritseat.in/blog/" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH4LF10RKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VH4LF10RKB');
+  </script>
+  <meta charset="UTF-8">
+  <title>Blog | College, Study & Career Articles | MeritSeat.in</title>
+  <meta name="description" content="Explore MeritSeat blogs on Tamil Nadu colleges, engineering exam preparation, and career guidance — written for students, by students.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="/fevicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/favicon-180x180.png">
+  <!-- Styles -->
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6236248589959486"
+     crossorigin="anonymous"></script>
+  <style>
+    .blog-category-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .blog-category-card .category-icon {
+      font-size: 2.5rem;
+      min-width: 60px;
+      text-align: center;
+    }
+    .blog-category-card .category-info {
+      flex: 1;
+      margin-left: 1rem;
+    }
+    .blog-category-card .category-info h2 {
+      text-align: left;
+      margin: 0 0 0.3rem 0;
+    }
+    .blog-category-card .category-info p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .badge-blue  { background: rgba(33,150,243,0.18); color: #2196f3; border: 1px solid #2196f3; }
+    .badge-green { background: rgba(76,175,80,0.18);  color: #4caf50; border: 1px solid #4caf50; }
+    .badge-purple{ background: rgba(156,39,176,0.18); color: #b366d4; border: 1px solid #9c27b0; }
+
+    .college-card:hover  { background-color: #1565c0; transform: scale(1.01); transition: all 0.3s ease; }
+    .study-card:hover    { background-color: #2e7d32; transform: scale(1.01); transition: all 0.3s ease; }
+    .career-card:hover   { background-color: #6a1b9a; transform: scale(1.01); transition: all 0.3s ease; }
+
+    /* ── Latest Posts section ──────────────────────────────── */
+    .latest-section {
+      max-width: 50rem;
+      margin: 0 auto 0.5rem;
+      padding: 0 1rem;
+    }
+    .latest-section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .latest-section-title span { color: #aaa; font-size: 0.8rem; font-weight: 400; }
+    .latest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.9rem;
+    }
+    .latest-tile {
+      background: #1f1f1f;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .latest-tile::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+    }
+    .latest-tile.cat-college::before { background: #2196f3; }
+    .latest-tile.cat-study::before   { background: #4caf50; }
+    .latest-tile.cat-career::before  { background: #9c27b0; }
+    .latest-tile:hover {
+      background: #252525;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    .latest-tile .tile-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .latest-tile.cat-college .tile-badge { background: rgba(33,150,243,0.15); color: #2196f3; border: 1px solid #2196f3; }
+    .latest-tile.cat-study   .tile-badge { background: rgba(76,175,80,0.15);  color: #4caf50; border: 1px solid #4caf50; }
+    .latest-tile.cat-career  .tile-badge { background: rgba(156,39,176,0.15); color: #b366d4; border: 1px solid #9c27b0; }
+    .latest-tile .tile-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #e0e0e0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-clamp: 3;
+      overflow: hidden;
+    }
+    .latest-tile .tile-meta {
+      font-size: 0.72rem;
+      color: #666;
+      margin-top: auto;
+    }
+    .latest-loading {
+      text-align: center;
+      padding: 1.5rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 600px) {
+      .latest-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .latest-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo" class="nav-logo">
+      <span class="site-title">Merit Seat</span>
+    </div>
+    <!-- Burger toggle button -->
+    <div class="burger" id="burger">&#9776;</div>
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/tnea-seat-prediction/cutoff-search">Cutoff-Predictor</a>
+      <a href="/tnea-seat-prediction/rank-search">Rank-Predictor</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1><img src="/resources/meritseat-logo.png" height="50" width="50" alt="Merit Seat Logo"/> MeritSeat Blog</h1>
+  </header>
+
+  <div class="container">
+    <h2>📝 Explore Our Blogs</h2>
+    <p>Insightful articles written for Tamil Nadu engineering students — covering college life, exam preparation, and career planning. Choose a category to get started.</p>
+  </div>
+
+  <!-- ── Latest Posts across all categories ───────────────── -->
+  <div class="latest-section">
+    <div class="latest-section-title">
+      🕐 Latest Posts <span>across all categories</span>
+    </div>
+    <div id="latest-loading" class="latest-loading">
+      <div style="width:30px;height:30px;border-radius:50%;border:3px solid #2a2a2a;border-top-color:#2196f3;animation:spin 1s linear infinite;margin:0 auto 0.6rem;"></div>
+      Loading latest posts…
+    </div>
+    <div id="latest-grid" class="latest-grid" style="display:none;"></div>
+    <div id="latest-empty" style="display:none;text-align:center;padding:1.5rem;color:#666;font-size:0.9rem;">
+      No posts yet — <a href="/blog/write/" style="color:#f09347;">be the first to write one!</a>
+    </div>
+  </div>
+
+  <!-- College Blogs Card -->
+
+  <a href="/blog/college/" style="text-decoration:none;">
+    <div class="container blog-category-card college-card">
+      <div class="category-icon">🏫</div>
+      <div class="category-info">
+        <span class="badge badge-blue">College Blogs</span>
+        <h2>College Blogs</h2>
+        <p>College reviews, campus life, hostel experiences, placement stories, and how to choose the right engineering college in Tamil Nadu.</p>
+      </div>
+      <button style="width:9rem;"><i data-lucide="book-open"></i> Read</button>
+    </div>
+  </a>
+
+  <!-- Study Blogs Card -->
+  <a href="/blog/study/" style="text-decoration:none;">
+    <div class="container blog-category-card study-card">
+      <div class="category-icon">📖</div>
+      <div class="category-info">
+        <span class="badge badge-green">Study Blogs</span>
+        <h2>Study Blogs</h2>
+        <p>TNEA preparation tips, study timetables, subject guides, important topics, and how to score high in your +2 board exams.</p>
+      </div>
+      <button style="width:9rem; background-color:#4caf50;"><i data-lucide="graduation-cap"></i> Read</button>
+    </div>
+  </a>
+
+  <!-- Career Blogs Card -->
+  <a href="/blog/career/" style="text-decoration:none;">
+    <div class="container blog-category-card career-card">
+      <div class="category-icon">💼</div>
+      <div class="category-info">
+        <span class="badge badge-purple">Career Blogs</span>
+        <h2>Career Blogs</h2>
+        <p>Career paths after engineering, highest-paying branches, government jobs, higher studies options, and industry insights for Tamil Nadu students.</p>
+      </div>
+      <button style="width:9rem; background-color:#9c27b0;"><i data-lucide="briefcase"></i> Read</button>
+    </div>
+  </a>
+
+  <!-- Write a Blog CTA -->
+  <a href="/blog/write/" style="text-decoration:none;">
+    <div class="container blog-category-card" style="border:2px dashed #f09347;background:#1a1510;cursor:pointer;transition:all 0.3s ease;" onmouseover="this.style.background='#261e10'" onmouseout="this.style.background='#1a1510'">
+      <div class="category-icon">✍️</div>
+      <div class="category-info">
+        <span class="badge" style="background:rgba(240,147,71,0.15);color:#f09347;border-color:#f09347;">Write a Blog</span>
+        <h2>Share Your Knowledge</h2>
+        <p>Have a college story, study tip, or career insight? Submit your blog — once approved it will be listed here with full credit to you.</p>
+      </div>
+      <button style="width:9rem;"><i data-lucide="pen-line"></i> Write Now</button>
+    </div>
+  </a>
+
+  <script>
+    lucide.createIcons();
+
+    // Navigation Burger Button
+    document.addEventListener("DOMContentLoaded", function () {
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+      if (burger && navLinks) {
+        burger.addEventListener("click", () => { navLinks.classList.toggle("show"); });
+        document.addEventListener("click", function (event) {
+          if (navLinks.classList.contains("show") && !navLinks.contains(event.target) && !burger.contains(event.target)) {
+            navLinks.classList.remove("show");
+          }
+        });
+      }
+    });
+
+    // ── Latest Posts loader ────────────────────────────────────────
+    (function loadLatestPosts() {
+      var CATS = [
+        { key: 'college', label: '🏫 College', emoji: '🏫' },
+        { key: 'study',   label: '📖 Study',   emoji: '📖' },
+        { key: 'career',  label: '💼 Career',  emoji: '💼' },
+      ];
+      var ts = Date.now();
+
+      Promise.all(CATS.map(function (c) {
+        return fetch('/blog/' + c.key + '/posts.json?t=' + ts)
+          .then(function (r) { return r.ok ? r.json() : { posts: [] }; })
+          .catch(function ()  { return { posts: [] }; })
+          .then(function (data) {
+            // Tag each post with its category and original array index
+            return (data.posts || []).map(function (p, idx) {
+              return Object.assign({}, p, { _cat: c.key, _label: c.label, _emoji: c.emoji, _idx: idx });
+            });
+          });
+      })).then(function (results) {
+        // Merge: sort by array index (0 = newest within its own category),
+        // then interleave so we get a good cross-category mix.
+        // Strategy: concat all, sort by _idx ascending (newest-first within category),
+        // then stable-sort preserving original category ordering.
+        var all = [].concat.apply([], results);
+        all.sort(function (a, b) { return a._idx - b._idx; });
+
+        document.getElementById('latest-loading').style.display = 'none';
+
+        if (all.length === 0) {
+          document.getElementById('latest-empty').style.display = 'block';
+          return;
+        }
+
+        var top10 = all.slice(0, 10);
+        var grid  = document.getElementById('latest-grid');
+        grid.innerHTML = top10.map(function (p) {
+          var href = '/blog/' + p._cat + '/' + _esc(p.slug) + '/';
+          return '<a class="latest-tile cat-' + p._cat + '" href="' + href + '">' +
+            '<span class="tile-badge">' + p._emoji + ' ' + p._cat.charAt(0).toUpperCase() + p._cat.slice(1) + ' Blog</span>' +
+            '<div class="tile-title">' + _esc(p.title) + '</div>' +
+            '<div class="tile-meta">' +
+              '✍️ ' + _esc(p.author || '') + ' &nbsp;·&nbsp; ⏱️ ' + (p.readingTime || 5) + ' min' +
+            '</div>' +
+            '</a>';
+        }).join('');
+        grid.style.display = 'grid';
+        lucide.createIcons();
+      });
+
+      function _esc(s) {
+        return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,5 @@
+{
+  "name": "meritseat-blog-api",
+  "version": "2.0.0",
+  "description": "Python serverless backend for MeritSeat blog submissions (Vercel)"
+}
