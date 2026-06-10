@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "slug": "blog2",
+      "title": "blog2",
+      "author": "dhileep appu",
+      "date": "10 June 2026",
+      "excerpt": "Read blog2. blog2 intro",
+      "readingTime": 1
+    },
+    {
       "slug": "documents-required-for-tnea-counselling-tamil",
       "title": "📄 TNEA Counsellingக்கு தேவையான ஆவணங்கள் (முழு பட்டியல் 2026) 🎯",
       "author": "Meena Saravanan",
