@@ -48,7 +48,46 @@
         <h1><img src="/favicon-180x180.png" height="50" width="50"/></i>Cutoff Calculator</h1>
     </header>
     
-    <div class="container">
+      <div class="layout-wrapper">
+    <!-- Left Sidebar Ads -->
+    <div class="sidebar-ads-left">
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+<div class="container">
         <h2>Engineering Cutoff Calculator</h2>
         <div class="input-group">
             <label for="engg_math">Maths (100):</label>
@@ -62,7 +101,7 @@
             <label for="engg_chemistry">Chemistry (100):</label>
             <input type="number" id="engg_chemistry" placeholder="e.g. 85"  min="35" max="100" step="1"/>
         </div>
-        <button class="calculate-btn" onclick="calculateEngineeringCutoff()">Calculate Cutoff</button>
+        <button class="calculate-btn" onclick="handleEngineeringClick()">Calculate Cutoff</button>
         <!--  <button onclick="calculateEngineeringCutoff()">Calculate Cutoff</button> -->
         <div class="cutoff-box">
             <p>Cutoff: <span id="engg_result">0</span></p>
@@ -83,14 +122,52 @@
             <label for="med_chemistry">Chemistry (100):</label>
             <input type="number" id="med_chemistry" placeholder="e.g. 70" min="35" max="100" step="1"/>
         </div>
-        <button class="calculate-btn" onclick="calculateMedicalCutoff()">Calculate Cutoff</button> 
+        <button class="calculate-btn" onclick="handleMedicalClick()">Calculate Cutoff</button> 
         <!-- <button onclick="calculateMedicalCutoff()">Calculate Cutoff</button>   -->
         <div class="cutoff-box">
             <p>Cutoff: <span id="med_result">0</span></p>
         </div>
     </div>
 
-  <script>
+      </div> <!-- closing main-content -->
+
+    <!-- Right Sidebar Ads -->
+    <div class="sidebar-ads-right">
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div> <!-- closing layout-wrapper -->
+<script>
 
     //Navigation Burger Button 
     document.addEventListener("DOMContentLoaded", function () {
@@ -158,9 +235,86 @@
         document.getElementById('med_result').textContent = `${Cutoff.toFixed(2)}`;
     } 
 
+    function handleEngineeringClick() {
+        const math = parseFloat(document.getElementById('engg_math').value);
+        const phy = parseFloat(document.getElementById('engg_physics').value);
+        const chem = parseFloat(document.getElementById('engg_chemistry').value);
+        
+        if(isNaN(math) || math < 35 || math > 100){
+            alert("Please enter valid Maths mark between 35 to 100");
+            return;
+        }
+        if(isNaN(phy) || phy < 35 || phy > 100){
+            alert("Please enter a valid Physics mark between 35 to 100");
+            return;
+        }
+        if(isNaN(chem) || chem < 35 || chem > 100){
+            alert("Please enter a valid Chemistry mark between 35 to 100");
+            return;
+        }
 
+        const url = new URL(window.location.href);
+        url.searchParams.set('type', 'engg');
+        url.searchParams.set('math', math);
+        url.searchParams.set('phy', phy);
+        url.searchParams.set('chem', chem);
+        url.searchParams.delete('bio');
+        window.location.href = url.toString();
+    }
 
+    function handleMedicalClick() {
+        const bio = parseFloat(document.getElementById('med_biology').value);
+        const phy = parseFloat(document.getElementById('med_physics').value);
+        const chem = parseFloat(document.getElementById('med_chemistry').value);
 
+        if(isNaN(bio) || bio < 35 || bio > 100){
+            alert("Please enter valid Biology mark between 35 to 100");
+            return;
+        }
+        if(isNaN(phy) || phy < 35 || phy > 100){
+            alert("Please enter a valid Physics mark between 35 to 100");
+            return;
+        }
+        if(isNaN(chem) || chem < 35 || chem > 100){
+            alert("Please enter a valid Chemistry mark between 35 to 100");
+            return;
+        }
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('type', 'med');
+        url.searchParams.set('bio', bio);
+        url.searchParams.set('phy', phy);
+        url.searchParams.set('chem', chem);
+        url.searchParams.delete('math');
+        window.location.href = url.toString();
+    }
+
+    // Auto-calculate on load if query params are present
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');
+        if (type === 'engg') {
+            const math = urlParams.get('math');
+            const phy = urlParams.get('phy');
+            const chem = urlParams.get('chem');
+            if (math && phy && chem) {
+                document.getElementById('engg_math').value = math;
+                document.getElementById('engg_physics').value = phy;
+                document.getElementById('engg_chemistry').value = chem;
+                calculateEngineeringCutoff();
+            }
+        } else if (type === 'med') {
+            const bio = urlParams.get('bio');
+            const phy = urlParams.get('phy');
+            const chem = urlParams.get('chem');
+            if (bio && phy && chem) {
+                document.getElementById('med_biology').value = bio;
+                document.getElementById('med_physics').value = phy;
+                document.getElementById('med_chemistry').value = chem;
+                calculateMedicalCutoff();
+            }
+        }
+    });
   </script>
 </body>
 </html>

@@ -48,7 +48,46 @@
     <h1><img src="/favicon-180x180.png" height="50" width="50"/></i>TNEA Counselling Seat Predictor</h1>
   </header>
 
-  <div class="container">
+    <div class="layout-wrapper">
+    <!-- Left Sidebar Ads -->
+    <div class="sidebar-ads-left">
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+<div class="container">
   <header>
     <h1><i data-lucide="list-ordered"></i> Rank - Seat Prediction</h1>
   </header>
@@ -104,13 +143,55 @@
       All Branches will be listed for the above selected College.
     </p>
 
-    <button onclick="findCollegesByRank()"><i data-lucide="search"></i> Find Colleges</button>
+    <button onclick="triggerRankSearch()"><i data-lucide="search"></i> Find Colleges</button>
 
     <p>First 100 Results will only be shown.</p>
+
+    <div id="share-container" style="display: none;">
+      <button id="shareButton" class="share-btn" onclick="shareResult()"><i data-lucide="share-2"></i> Share this result</button>
+    </div>
     
     <div id="results"></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+      </div> <!-- closing main-content -->
+
+    <!-- Right Sidebar Ads -->
+    <div class="sidebar-ads-right">
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-box-container">
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6236248589959486" data-ad-slot="6990423938"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div> <!-- closing layout-wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="/script.js"></script>
   <script>
     lucide.createIcons();
